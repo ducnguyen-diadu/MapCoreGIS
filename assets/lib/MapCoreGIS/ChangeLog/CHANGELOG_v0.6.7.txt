@@ -1,0 +1,11 @@
+WaterMapCore v0.6.7 — Unified Topology Repair
+
+- Added tools/topology-repair.js.
+- Unified the old topology-check/snap-edit entry points into one toolbar button: Topology Repair.
+- Scan is non-destructive.
+- Meter -> Service: preserves meter location and can move a nearby service endpoint to the meter.
+- Service -> Main: can snap the closest service endpoint exactly to the main-pipe segment.
+- Main -> Main: repairs only near-miss endpoints; legitimate dead ends are not treated as errors.
+- Safe small gaps are Auto Fix; ambiguous/large gaps are Review only.
+- Apply performs one Undo snapshot, rerenders touched layers, marks the project dirty, then re-scans.
+- Existing topology-validator and topology-snap-editor APIs remain in source for compatibility, but their separate toolbar buttons are removed.

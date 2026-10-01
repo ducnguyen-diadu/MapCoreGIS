@@ -1,0 +1,9 @@
+WaterMapCore v0.6.4 — Aggregate Junction Generator
+
+- Added standalone tools/aggregate-junction-generator.js.
+- Creates a separate w_junctions_auto layer; original imported Junction layers are untouched.
+- Reads meter demand, matches service-pipe customer endpoint to a meter, snaps the opposite endpoint to the main-pipe network, and aggregates demand at common main connection points.
+- Generated features include id, elevation, demand, baseDemand, source_count, service_count, main_id, generated_by and is_auto.
+- Generated layer is added through LayerManager like an imported layer and is saved/exported with the project.
+- If the generated layer already exists, the tool asks before deleting it and rebuilding from scratch.
+- If the requested output name belongs to a non-generated layer, generation is blocked to prevent overwrite.

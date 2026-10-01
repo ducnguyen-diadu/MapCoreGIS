@@ -1,0 +1,8 @@
+WaterMapCore v0.5.3 - Exact Snap Commit Fix
+
+- Fix Topology Snap Editor: visual snap now commits the exact snapped coordinate into the source geometry.
+- Listen to Geoman pm:snap / pm:unsnap / pm:markerdragend.
+- On mouseup after a visible snap, force the snapped LatLng into the edited marker and source geometry before persisting.
+- Save/re-render now keeps the endpoint exactly on the target segment instead of protruding past it.
+- Emits topology:snap-committed after exact commit.
+- Topology Checker remains a separate module and is not modified by the Snap Editor fix.

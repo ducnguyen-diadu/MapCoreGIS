@@ -1,0 +1,7 @@
+WaterMapCore v0.6.7.2 - Topology Repair idempotence fix
+
+- Prevents Auto Fix from oscillating between two states on repeated runs.
+- Detects multiple safe fixes that target the same source endpoint with different destinations and moves them to Review.
+- Detects reciprocal Main->Main fixes (A->B and B->A) and moves both to Review.
+- Recalculates Safe/Review counters after stabilization.
+- Scan remains non-mutating; Apply only commits stable safe fixes.

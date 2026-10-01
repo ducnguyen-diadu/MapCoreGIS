@@ -1,0 +1,24 @@
+WaterMapCore v0.5.0 - Selection + Topology Check
+
+- Select / Unselect moved to main toolbar.
+- Persistent Select mode:
+  * click feature = select
+  * drag on map = rectangle select
+  * no modifier = replace selection
+  * Shift = add
+  * Ctrl/Cmd = toggle
+  * Esc = clear selection
+- Multi-selection property panel:
+  * tree Layer -> Feature ID
+  * full tree until a feature is chosen
+  * feature click opens lower attribute detail with slide animation
+  * draggable vertical splitter
+- Added larger invisible hit-area for line features so direction arrows do not make line selection difficult.
+- Added Topology Check tool:
+  * user chooses source layer + target layer + tolerance (m)
+  * Point: checks point-to-target distance
+  * Line: checks start/end endpoint-to-target distance
+  * no auto-fix
+  * errors shown in a bottom result table
+  * click result row -> zoom/flash source and related target feature
+- Topology Check does not block Auto Junction. It is an inspection step only.

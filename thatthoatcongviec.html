@@ -1,0 +1,813 @@
+<html lang="en" data-sidenav-size="fullscreen">
+<!-- Mirrored from coderthemes.com/hyper/layouts/layouts-horizontal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:52 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .asset-detail-section {
+            display: none;
+        }
+
+        .asset-detail-section.active {
+            display: block;
+        }
+
+        .asset-table {
+            min-width: 900px;
+        }
+
+        @media (max-width: 575.98px) {
+            .asset-table {
+                min-width: 760px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="thatthoatcongviec.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                                    Tổng quan </span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#"  class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary dropdown-toggle" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                                <i class="mdi mdi-format-list-bulleted fs-4"></i> 
+                                <span data-vi="Công việc" data-en="Category">Công việc</span>
+                            </a>
+                            <ul class="dropdown-menu shadow-sm">
+                                <li>
+                                    <a class="dropdown-item" href="quanlysuco.html">
+                                        <span data-vi="Tiếp nhận sự cố" data-en="Incident Management">Quản lý sự cố</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        <span data-vi="Quản lý đội hiện trường" data-en="Field Team Manager">Quản lý đội hiện trường</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span data-vi="Quản lý công việc" data-en="Task management">Quản lý công việc</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                                    data-en="Statistical report">
+                                    Thống kê báo cáo </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng
+                                Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h5 class="my-0 text-center text-uppercase " style="line-height: 2">
+                        Software Water GIS</h5>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="quanlytaisan.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                            Tổng quan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanbando.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisandanhmuc.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục" data-en="Category">
+                            Danh
+                            mục </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanthongke.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                            data-en="Statistical report">
+                            Thống kê báo cáo </span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside>
+        <!-- ========== Topbar End ========== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid" style="position: relative; z-index: 1;">
+
+                    <!-- Bộ lọc và Công cụ xuất dữ liệu -->
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-sm-4">
+                            <h4 class="page-title mb-0" data-vi="Tổng quan thất thoát nước" data-en="NRW Overview">Tổng quan thất thoát nước</h4>
+                        </div>
+                        <div class="col-sm-8 text-sm-end mt-2 mt-sm-0 d-flex justify-content-sm-end gap-2">
+                            <!-- Tìm kiếm dữ liệu theo tháng/năm -->
+                            <input type="month" class="form-control form-control-sm w-auto d-inline-block" value="2026-09" />
+                            
+                            <!-- Filter theo hệ thống / DMA -->
+                            <select class="form-select form-select-sm w-auto d-inline-block">
+                                <option value="all" selected>Toàn mạng lưới</option>
+                                <option value="dma1">Khu vực DMA-01</option>
+                                <option value="dma2">Khu vực DMA-02</option>
+                            </select>
+                            
+                            <!-- Nút Xuất PDF/Excel -->
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-file-pdf-box me-1"></i>PDF</button>
+                                <button type="button" class="btn btn-sm btn-outline-success"><i class="mdi mdi-file-excel me-1"></i>Excel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 1: Tính toán tỷ lệ thất thoát (NRW Calculation) -->
+                    <!-- Thiết kế 3 khối liên kết thể hiện logic: Nước cấp -> Tiêu thụ = Thất thoát -->
+                    <div class="row mb-3">
+                    <!-- Nguồn nước cấp -->
+                    <div class="col-md-4">
+                        <div class="card border-primary border bg-primary-subtle text-primary mb-2">
+                            <div class="card-body p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase mb-1" style="font-size: 0.75rem;">Nguồn nước cấp (m³)</h6>
+                                        <h3 class="mb-0 fw-bold">1.250.400</h3> <!-- Hạ từ h2 xuống h3 -->
+                                    </div>
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-primary rounded-circle fs-4">
+                                            <i class="mdi mdi-water-pump"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nước tiêu thụ hợp lệ -->
+                    <div class="col-md-4">
+                        <div class="card border-success border bg-success-subtle text-success mb-2">
+                            <div class="card-body p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase mb-1" style="font-size: 0.75rem;">Tiêu thụ hợp lệ (m³)</h6>
+                                        <h3 class="mb-0 fw-bold">985.200</h3>
+                                    </div>
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-success rounded-circle fs-4">
+                                            <i class="mdi mdi-water-check"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Khối lượng & Tỷ lệ Thất thoát -->
+                    <div class="col-md-4">
+                        <div class="card border-danger border bg-danger text-white mb-2">
+                            <div class="card-body p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase text-white-50 mb-1" style="font-size: 0.75rem;">Thất thoát (NRW)</h6>
+                                        <h3 class="mb-0 fw-bold text-white">265.200 <span class="fs-5">m³</span></h3>
+                                    </div>
+                                    <div class="text-end">
+                                        <h3 class="mb-0 fw-bold text-white">21,21%</h3>
+                                        <span class="badge bg-white text-danger mt-1" style="font-size: 0.65rem;">Vượt mục tiêu 20%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Phân tích & Xếp hạng -->
+                <div class="row mb-3">
+                    <!-- Phân tích lưu lượng tối thiểu ban đêm (MNF) & Xu hướng NRW -->
+                    <div class="col-lg-8">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <h5 class="header-title mb-0">Phân tích Lưu lượng tối thiểu ban đêm (MNF) & Xu hướng</h5>
+                                <!-- Nút toggle để đổi chart nếu cần -->
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-secondary active">MNF (1h-4h sáng)</button>
+                                    <button class="btn btn-outline-secondary">Xu hướng NRW</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info py-2 mb-3" role="alert">
+                                    <i class="mdi mdi-information me-1"></i> Lưu lượng MNF trung bình toàn hệ thống: <strong>45 m³/h</strong>. 
+                                </div>
+                                <!-- Div chứa biểu đồ Line Chart thể hiện Flow từ 1h-4h sáng -->
+                                <div id="mnfAnalysisChart" style="height: 280px; width: 100%; background-color: #f8f9fa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center;">
+                                    <span class="text-muted">[Khu vực render Biểu đồ Line Chart]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danh sách DMA/DMZ có tỷ lệ thất thoát cao nhất -->
+                    <div class="col-lg-4">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header bg-transparent border-bottom">
+                                <h5 class="header-title mb-0 text-danger"><i class="mdi mdi-alert-octagram-outline me-1"></i> Top DMA thất thoát cao nhất</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-centered table-sm table-nowrap mb-0">
+                                        <thead class="bg-light bg-opacity-50 thead-sm">
+                                            <tr>
+                                                <th>Khu vực (DMA)</th>
+                                                <th class="text-end">Tỷ lệ (%)</th>
+                                                <th class="text-end">Khối lượng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span >DMA-03</span></td>
+                                                <td class="text-end text-danger fw-bold">34,5%</td>
+                                                <td class="text-end">12.450 m³</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span >DMA-05</span></td>
+                                                <td class="text-end text-danger fw-bold">28,2%</td>
+                                                <td class="text-end">8.200 m³</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span >DMA-01</span></td>
+                                                <td class="text-end text-warning fw-bold">25,1%</td>
+                                                <td class="text-end">15.100 m³</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span >DMA-08</span></td>
+                                                <td class="text-end text-warning fw-bold">23,8%</td>
+                                                <td class="text-end">6.350 m³</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Danh sách Cảnh báo -->
+                <div class="card">
+                    <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center">
+                        <h5 class="header-title mb-0">Nhật ký Cảnh báo Bất thường</h5>
+                        <span class="badge bg-danger rounded-pill">3 Cảnh báo mới</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-centered table-sm table-nowrap mb-0">
+                            <thead class="bg-light bg-opacity-50 thead-sm">
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Nguồn cảnh báo / Khu vực</th>
+                                    <th>Loại cảnh báo</th>
+                                    <th>Chi tiết</th>
+                                    <th>Trạng thái</th>
+                                    <th class="text-end">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Cảnh báo DMA vượt ngưỡng -->
+                                <tr>
+                                    <td>16/09/2026 04:15</td>
+                                    <td><span >DMA-03</span></td>
+                                    <td><span class="badge bg-danger-subtle text-danger">Lưu lượng MNF tăng</span></td>
+                                    <td>Lưu lượng lúc 2h sáng đạt 65 m³/h (Vượt ngưỡng 20%)</td>
+                                    <td><span class="text-danger"><i class="mdi mdi-circle-small"></i> Chưa xử lý</span></td>
+                                    <td class="text-end"><button class="btn btn-sm btn-light">Phân tích</button></td>
+                                </tr>
+                                <!-- Cảnh báo PRV (Van giảm áp) -->
+                                <tr>
+                                    <td>16/09/2026 02:30</td>
+                                    <td><span >Van V1</span></td>
+                                    <td><span class="badge bg-warning-subtle text-warning">Áp lực bất thường</span></td>
+                                    <td>Áp lực sau van giảm đột ngột dưới 1.5 bar</td>
+                                    <td><span class="text-danger"><i class="mdi mdi-circle-small"></i> Chưa xử lý</span></td>
+                                    <td class="text-end"><button class="btn btn-sm btn-light">Phân tích</button></td>
+                                </tr>
+                                <!-- Cảnh báo DMA tổng quát -->
+                                <tr>
+                                    <td>15/09/2026 14:00</td>
+                                    <td><span >DMA-01</span></td>
+                                    <td><span class="badge bg-info-subtle text-info">Tỷ lệ NRW tăng</span></td>
+                                    <td>Tỷ lệ thất thoát tuần qua tăng nhẹ 2% so với tháng trước</td>
+                                    <td><span class="text-success"><i class="mdi mdi-check-circle-outline"></i> Đã ghi nhận</span></td>
+                                    <td class="text-end"><button class="btn btn-sm btn-light">Phân tích</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+        <!-- End Page content -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+
+    <!-- Dashboard App js -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            renderMnfChart();
+
+
+            // ==============================
+            // 2. LANGUAGE
+            // ==============================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) el.textContent = text;
+                });
+
+                document.querySelectorAll('[data-placeholder-vi][data-placeholder-en]').forEach(el => {
+                    el.placeholder = el.getAttribute(
+                        lang === 'en' ? 'data-placeholder-en' : 'data-placeholder-vi'
+                    );
+                });
+
+                document.querySelectorAll('option[data-vi][data-en]').forEach(el => {
+                    el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                });
+
+                const activeOption = document.querySelector(
+                    `.language-option[data-lang="${lang}"]`
+                );
+
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.src = activeOption.getAttribute('data-flag');
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+
+                updateConditionChart(lang);
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            // ==============================
+            // 3. CONDITION CHART
+            // ==============================
+            let conditionChart = null;
+
+            function chartTextColor() {
+                return getComputedStyle(document.documentElement)
+                    .getPropertyValue('--bs-body-color').trim() || '#6c757d';
+            }
+
+            function updateConditionChart(lang) {
+                if (!conditionChart) return;
+
+                conditionChart.updateOptions({
+                    labels: lang === 'en'
+                        ? ['Good', 'Warning', 'Damaged', 'Other']
+                        : ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                    chart: { foreColor: chartTextColor() },
+                    legend: { labels: { colors: chartTextColor() } } // Cập nhật màu ghi chú khi đổi ngôn ngữ/theme
+                });
+            }
+
+            if (window.ApexCharts) {
+                const chartEl = document.querySelector('#assetConditionChart');
+
+                if (chartEl) {
+                    conditionChart = new ApexCharts(chartEl, {
+                        series: [82, 9, 5, 4],
+                        labels: ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                        chart: {
+                            type: 'donut',
+                            height: 250,
+                            toolbar: { show: false },
+                            foreColor: chartTextColor()
+                        },
+                        plotOptions: {
+                            pie: {
+                                donut: {
+                                    size: '70%',
+                                    labels: {
+                                        show: true,
+                                        total: {
+                                            show: true,
+                                            label: 'Tổng',
+                                            formatter: function () {
+                                                return '100%';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        dataLabels: { enabled: false },
+                        // THAY ĐỔI Ở ĐÂY: Hiển thị ghi chú và đặt ở bên phải
+                        legend: {
+                            show: true,
+                            position: 'right', // Đặt vị trí bên phải
+                            offsetY: 0,        // Căn chỉnh chiều dọc (tùy chọn)
+                            labels: {
+                                colors: chartTextColor() // Màu chữ theo theme
+                            }
+                        },
+                        stroke: { width: 2 },
+                        tooltip: {
+                            y: {
+                                formatter: value => value + '%'
+                            }
+                        }
+                    });
+
+                    conditionChart.render();
+                }
+            }
+
+            // ==========================================
+            // 1. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+            // ==========================================
+            // 3. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';
+                if (segments[0] === 'index') return 'home';
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+            // ==============================
+            // 4. FOOTER / THEME
+            // ==============================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop =
+                    '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+
+                if (conditionChart) {
+                    conditionChart.updateOptions({
+                        chart: { foreColor: chartTextColor() }
+                    });
+                }
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+            // ==============================
+            // 5. INIT
+            // ==============================
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+        });
+    
+        function renderMnfChart() {
+            // 1. Cấu hình options cho biểu đồ
+            var mnfChartOptions = {
+                series: [{
+                    name: 'Lưu lượng',
+                    data: [85, 52, 48, 45, 46, 55, 82, 115] // Dữ liệu giả lập m³/h
+                }],
+                chart: {
+                    type: 'area',
+                    height: 280,
+                    toolbar: {
+                        show: false
+                    },
+                    fontFamily: 'inherit'
+                },
+                colors: ['#3e60d5'], // Mã màu xanh lam tùy chỉnh theo theme
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.05,
+                        stops: [50, 100]
+                    }
+                },
+                xaxis: {
+                    categories: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00'],
+                    tooltip: {
+                        enabled: false
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (val) {
+                            return val + " m³/h";
+                        }
+                    }
+                },
+                // Đánh dấu (Highlight) vùng MNF từ 1h đến 4h sáng
+                annotations: {
+                    xaxis: [
+                        {
+                            x: '01:00',
+                            x2: '04:00',
+                            fillColor: '#fa5c7c', // Màu đỏ cảnh báo nhẹ
+                            opacity: 0.15,
+                            label: {
+                                borderColor: '#fa5c7c',
+                                style: {
+                                    color: '#fff',
+                                    background: '#fa5c7c',
+                                },
+                                text: 'Khung giờ MNF (1h-4h)'
+                            }
+                        }
+                    ]
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            // Định dạng số chuẩn VN, ví dụ: 28.000,00 (nếu có số thập phân)
+                            return val.toLocaleString('vi-VN') + " m³/h";
+                        }
+                    }
+                }
+            };
+
+            // 2. Khởi tạo và render biểu đồ
+            var mnfChartElement = document.querySelector("#mnfAnalysisChart");
+            if (mnfChartElement) {
+                mnfChartElement.innerHTML = ""; // Xóa nội dung thừa bên trong div nếu có
+                mnfChartElement.style.border = "none"; // Bỏ border dashed css nội tuyến (nếu có)
+                mnfChartElement.style.backgroundColor = "transparent";
+                
+                var mnfChart = new ApexCharts(mnfChartElement, mnfChartOptions);
+                mnfChart.render();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

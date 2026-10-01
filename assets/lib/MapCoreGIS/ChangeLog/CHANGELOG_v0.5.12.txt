@@ -1,0 +1,19 @@
+WaterMapCore v0.5.12
+
+Focused fixes only:
+1) Add New snap lock/commit
+   - Once preview has snapped, click/finish uses the snapped coordinate, not raw mouse coordinates.
+   - Adds snap hysteresis so a small cursor drift does not immediately lose the snap.
+   - Clicking directly on a configured snap target forwards a real map-container click, allowing drawing to start on Junction/Line/Point targets.
+
+2) Panel focus manager
+   - All .ddc_meko-panel windows are promoted when clicked.
+   - A panel that becomes visible is promoted automatically.
+   - z-index remains below modal/context/toast layers.
+
+3) Persistent Add New session
+   - Snapping settings/layer/tolerance are remembered after saving a created feature.
+   - After Save (or cancel current staged feature), drawing restarts with the same configuration.
+   - Press Esc to end the current Add New series.
+
+No topology checker, topology snap editor, selection, style, recent, i18n, or layer-order logic was changed.

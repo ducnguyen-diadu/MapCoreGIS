@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin tức & kỹ thuật — Commercial GIS Software</title>
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+    <!-- Google Fonts: Nhập phông Nunito bao gồm cả kiểu nghiêng (Italic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="nav fixed-top w-100" id="siteNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a href="trangchu.html" class="navbar-brand d-flex align-items-center gap-2 text-dark text-decoration-none">
+                <span class="logo-lg">
+                    <img src="assets/images/logo.webp" alt="logo">
+                </span>
+                Commercial GIS Software
+            </a>
+
+            <nav class="d-none d-md-flex gap-4">
+                <a href="trangchu.html#features" class="text-decoration-none text-secondary fw-medium">Tính năng</a>
+                <a href="trangchu.html#workflow" class="text-decoration-none text-secondary fw-medium">Quy trình</a>
+                <a href="trangchu.html#analysis" class="text-decoration-none text-secondary fw-medium">Phân tích</a>
+                <a href="trangchu.html#gis" class="text-decoration-none text-secondary fw-medium">Bản đồ GIS</a>
+
+                <a href="trangchu.html#pricing" class="text-decoration-none text-secondary fw-medium">Bảng giá</a>
+                <a href="tintuc.html" class="text-decoration-none fw-bold" style="color: var(--flow-deep);">Tin tức</a>
+            </nav>
+
+            <div class="d-flex align-items-center gap-2">
+                <a href="#" class="btn btn-outline-secondary border-1 d-none d-lg-block" data-bs-toggle="modal"
+                    data-bs-target="#authModal">Đăng nhập</a>
+                <a href="EPANET_builder.html" class="btn btn-dark text-white">Dùng thử miễn phí</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- HEADER TRANG -->
+        <section class="page-header">
+            <div class="container">
+                <div class="row justify-content-between align-items-end gy-4 reveal in">
+                    <div class="col-lg-7">
+                        <div class="eyebrow">Tin tức</div>
+                        <h1 class="display-5 fw-bold mb-3">Kiến thức thủy lực, cập nhật sản phẩm và câu chuyện triển
+                            khai</h1>
+                        <p class="lead text-secondary mb-0">Bài viết kỹ thuật về mô phỏng EPANET, ghi chú phát hành
+                            tính năng mới và các case study triển khai thực tế tại các đơn vị cấp nước.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="search-pill">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" aria-hidden="true">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="M21 21l-4.3-4.3" />
+                            </svg>
+                            <input type="search" id="searchInput" placeholder="Tìm bài viết…" aria-label="Tìm bài viết">
+                            <button type="button" class="search-clear d-none" id="searchClear"
+                                aria-label="Xóa tìm kiếm">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.4">
+                                    <path d="M6 6l12 12M18 6L6 18" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FILTER CHIPS -->
+                <div class="d-flex flex-wrap gap-2 mt-5 reveal in" id="catFilters">
+                    <a href="#" class="chip active" data-cat="all">Tất cả</a>
+                    <a href="#" class="chip" data-cat="ky-thuat">Kỹ thuật</a>
+                    <a href="#" class="chip" data-cat="san-pham">Cập nhật sản phẩm</a>
+                    <a href="#" class="chip" data-cat="case-study">Case study</a>
+                    <a href="#" class="chip" data-cat="su-kien">Sự kiện</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BÀI VIẾT NỔI BẬT -->
+        <section class="py-4">
+            <div class="container">
+                <a href="baiviet.html" class="text-decoration-none text-dark">
+                    <div class="row g-0 news-card reveal in overflow-hidden">
+                        <div class="col-lg-6">
+                            <div class="news-cover cv-1 h-100" style="aspect-ratio: auto; min-height: 320px;">
+                                <svg width="220" height="160" viewBox="0 0 220 160" fill="none">
+                                    <path class="pipe" d="M10 120 H80 V60 H140 V100 H210" stroke="#B9CBCE" />
+                                    <path d="M10 120 H80 V60 H140 V100 H210" fill="none" stroke="#0891A8"
+                                        stroke-width="3" stroke-linecap="round" stroke-dasharray="9 11">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1.6s"
+                                            repeatCount="indefinite" />
+                                    </path>
+                                    <circle cx="10" cy="120" r="6" fill="#0891A8" stroke="#fff" stroke-width="2.5" />
+                                    <circle cx="80" cy="60" r="6" fill="#FF6B4A" stroke="#fff" stroke-width="2.5" />
+                                    <circle cx="140" cy="100" r="6" fill="#0891A8" stroke="#fff" stroke-width="2.5" />
+                                    <circle cx="210" cy="100" r="6" fill="#0891A8" stroke="#fff" stroke-width="2.5" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-4 p-lg-5 h-100 d-flex flex-column justify-content-center">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span class="cat-badge">Kỹ thuật</span>
+                                    <span class="text-secondary small">Bài viết nổi bật</span>
+                                </div>
+                                <h2 class="fs-2 fw-bold mb-3">Vì sao mô phỏng EPS quan trọng hơn mô phỏng tĩnh khi
+                                    đánh giá mạng cấp nước đô thị</h2>
+                                <p class="text-secondary mb-4">So sánh kết quả giữa mô phỏng thủy lực tĩnh (steady
+                                    state) và mô phỏng mở rộng theo thời gian (EPS) trên cùng một mạng lưới thực tế,
+                                    và lý do các đội vận hành nên chuyển sang EPS cho báo cáo áp lực giờ cao điểm.</p>
+                                <div class="news-meta">
+                                    <div class="author-avatar">NT</div>
+                                    <div>
+                                        <div class="fw-semibold text-dark small">Nguyễn Thảo</div>
+                                        <div class="d-flex gap-0">
+                                            <span>12 Th09, 2026</span>
+                                            <span class="dotsep">7 phút đọc</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- LƯỚI BÀI VIẾT -->
+        <section class="py-4 my-3">
+            <div class="container">
+                <div class="row g-4" id="articleGrid">
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="san-pham">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-4">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <rect x="18" y="18" width="104" height="74" rx="8" fill="#fff" stroke="#B9CBCE"
+                                            stroke-width="2" />
+                                        <path d="M30 78 L52 52 L68 66 L92 32 L110 54" fill="none" stroke="#0891A8"
+                                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                                        <circle cx="92" cy="32" r="4" fill="#FF6B4A" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge cat-product mb-3">Cập nhật sản phẩm</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">Ra mắt Trình dựng mạng lưới tương tác thế hệ
+                                        mới</h3>
+                                    <p class="text-secondary small mb-3">Vẽ ống, nút và trạm bơm trực tiếp trên bản đồ
+                                        Leaflet, tự động kiểm tra tính liên thông trước khi chạy mô phỏng EPANET.</p>
+                                    <div class="news-meta">
+                                        <span>08 Th09, 2026</span>
+                                        <span class="dotsep">4 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="case-study">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-2">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <circle cx="70" cy="55" r="34" fill="none" stroke="#FF6B4A" stroke-width="3" />
+                                        <path d="M70 30v25l18 12" stroke="#0891A8" stroke-width="3"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge cat-case mb-3">Case study</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">BIWASE giảm 18% thất thoát nước sau 6 tháng
+                                        triển khai giám sát GIS</h3>
+                                    <p class="text-secondary small mb-3">Cách đội vận hành chia mạng lưới thành các
+                                        khu vực đo đếm (DMA) và dùng cảnh báo áp lực bất thường để khoanh vùng rò rỉ.
+                                    </p>
+                                    <div class="news-meta">
+                                        <span>02 Th09, 2026</span>
+                                        <span class="dotsep">6 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="ky-thuat">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-3">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <path
+                                            d="M20 90 L20 40 L45 40 L45 60 L70 60 L70 25 L95 25 L95 70 L120 70 L120 90 Z"
+                                            fill="none" stroke="#FFB238" stroke-width="3" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge mb-3">Kỹ thuật</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">Hiểu đúng hệ số nhám Hazen-Williams khi hiệu
+                                        chỉnh mô hình EPANET</h3>
+                                    <p class="text-secondary small mb-3">Hướng dẫn chọn và hiệu chỉnh hệ số C theo tuổi
+                                        ống, vật liệu, và cách đối chiếu với số liệu đo áp lực thực địa.</p>
+                                    <div class="news-meta">
+                                        <span>28 Th08, 2026</span>
+                                        <span class="dotsep">9 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="ky-thuat">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-1">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <path class="pipe" d="M15 55 H60 V25 H100 V80 H125" stroke="#B9CBCE" />
+                                        <circle cx="15" cy="55" r="5" fill="#0891A8" stroke="#fff" stroke-width="2" />
+                                        <circle cx="60" cy="25" r="5" fill="#0891A8" stroke="#fff" stroke-width="2" />
+                                        <circle cx="100" cy="80" r="5" fill="#FF6B4A" stroke="#fff" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge mb-3">Kỹ thuật</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">Mô phỏng chất lượng nước: theo dõi Clo dư và
+                                        thời gian lưu nước trong mạng vòng</h3>
+                                    <p class="text-secondary small mb-3">Thiết lập bài toán chất lượng nước trong
+                                        EPANET và cách đọc kết quả nồng độ Clo dư tại các điểm tiêu thụ xa nguồn.</p>
+                                    <div class="news-meta">
+                                        <span>21 Th08, 2026</span>
+                                        <span class="dotsep">8 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="su-kien">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-4">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <rect x="30" y="25" width="80" height="60" rx="6" fill="#fff" stroke="#0B1F3A"
+                                            stroke-width="2.5" />
+                                        <path d="M30 42 H110" stroke="#0B1F3A" stroke-width="2.5" />
+                                        <circle cx="48" cy="18" r="3" fill="#FF6B4A" />
+                                        <circle cx="92" cy="18" r="3" fill="#FF6B4A" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge cat-event mb-3">Sự kiện</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">Hội thảo trực tuyến: Chuyển đổi số ngành nước
+                                        với nền tảng GIS-EPANET</h3>
+                                    <p class="text-secondary small mb-3">Đăng ký tham dự buổi giới thiệu trực tuyến
+                                        cùng đội ngũ kỹ sư sản phẩm, có phiên hỏi đáp trực tiếp cuối chương trình.</p>
+                                    <div class="news-meta">
+                                        <span>15 Th08, 2026</span>
+                                        <span class="dotsep">3 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 reveal in" data-cat="san-pham">
+                        <a href="baiviet.html" class="text-decoration-none text-dark">
+                            <div class="news-card">
+                                <div class="news-cover cv-2">
+                                    <svg width="140" height="110" viewBox="0 0 140 110" fill="none">
+                                        <path d="M25 85 L45 45 L65 65 L85 30 L115 55" fill="none" stroke="#0891A8"
+                                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="20" y="85" width="100" height="2" fill="#B9CBCE" />
+                                    </svg>
+                                </div>
+                                <div class="p-4">
+                                    <span class="cat-badge cat-product mb-3">Cập nhật sản phẩm</span>
+                                    <h3 class="fs-5 fw-bold mt-3 mb-2">Ghi chú phát hành v3.4: xuất báo cáo Excel theo
+                                        mẫu và phân quyền theo vai trò</h3>
+                                    <p class="text-secondary small mb-3">Tổng hợp các cải tiến hiệu năng, sửa lỗi và
+                                        tính năng mới trong bản cập nhật tháng 8, bao gồm xuất báo cáo tùy chỉnh.</p>
+                                    <div class="news-meta">
+                                        <span>05 Th08, 2026</span>
+                                        <span class="dotsep">5 phút đọc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- PHÂN TRANG -->
+                <div class="d-flex justify-content-center gap-2 mt-5 reveal in">
+                    <a href="#" class="pagi-btn" aria-label="Trang trước">&larr;</a>
+                    <a href="#" class="pagi-btn active">1</a>
+                    <a href="#" class="pagi-btn">2</a>
+                    <a href="#" class="pagi-btn">3</a>
+                    <a href="#" class="pagi-btn" aria-label="Trang sau">&rarr;</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="pt-5 pb-4 border-top bg-white">
+        <div class="container">
+            <div class="row mb-2 gy-4">
+                <div class="col-lg-4 pe-lg-5">
+                    <a href="#top" class="navbar-brand d-flex align-items-center gap-2 font-mono">
+                        <span class="logo-lg">
+                            <img src="assets/images/logo.webp" alt="logo">
+                        </span>
+                        Commercial GIS Software
+                    </a>
+                    <p class="font-mono text-secondary">Nền tảng SaaS mô phỏng thủy lực mạng cấp nước, tích hợp lõi
+                        EPANET
+                        và bản đồ Leaflet cho kỹ sư cấp nước.</p>
+                </div>
+                <div class="col-lg-8 pe-lg-5">
+                    <div class="row mb-2 gy-4">
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono  mb-3">
+                                Sản phẩm</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="#features" class="text-decoration-none text-secondary ">Tính năng</a></li>
+                                <li><a href="#workflow" class="text-decoration-none text-secondary ">Quy trình</a></li>
+                                <li><a href="#analysis" class="text-decoration-none text-secondary ">Phân tích</a></li>
+                                <li><a href="#pricing" class="text-decoration-none text-secondary ">Bảng giá</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono mb-3">
+                                Tài nguyên</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="tintuc.html" class="text-decoration-none text-secondary ">Tin tức</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Tài liệu hướng dẫn</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Thư viện mẫu .inp</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Ghi chú bản phát hành</a>
+                                </li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Trung tâm hỗ trợ</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono mb-3">
+                                Công ty</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="#" class="text-decoration-none text-secondary ">Về Commercial GIS
+                                        Software</a>
+                                </li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Tuyển dụng</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 pt-4 border-top">
+                <p class="mb-0 text-secondary small">© 2026 Commercial GIS Software. Đã đăng ký bản quyền.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none text-secondary small">Điều khoản dịch vụ</a>
+                    <a href="#" class="text-decoration-none text-secondary small">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== AUTH MODAL (2 tab: Đăng nhập / Đăng ký) ===== -->
+    <div class="modal fade auth-modal" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content auth-card">
+
+                <button type="button" class="btn-close auth-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+
+                <div class="auth-body">
+                    <div class="auth-logo">
+                        <img src="assets/images/logo.webp" alt="logo">
+                        <span>Commercial GIS Software</span>
+                    </div>
+
+                    <div class="tab-content" id="authTabContent">
+                        <div class="tab-pane fade show active" id="pane-login" role="tabpanel"
+                            aria-labelledby="tab-login">
+                            <h5 class="auth-title">Đăng nhập tài khoản</h5>
+                            <p class="auth-sub">Chào mừng trở lại! Vui lòng đăng nhập để tiếp tục.</p>
+
+                            <div class="auth-oauth">
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                                        <path fill="#EA4335"
+                                            d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.8l7.8 6.1C12.3 13.7 17.6 9.5 24 9.5z" />
+                                        <path fill="#4285F4"
+                                            d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z" />
+                                        <path fill="#FBBC05"
+                                            d="M10.4 28.1c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.8-6.1C1 16.1 0 19.9 0 23.5s1 7.4 2.6 10.7l7.8-6.1z" />
+                                        <path fill="#34A853"
+                                            d="M24 47c6.2 0 11.5-2 15.4-5.6l-7.5-5.8c-2.1 1.4-4.8 2.2-7.9 2.2-6.4 0-11.7-4.2-13.6-10.1l-7.8 6.1C6.5 41.6 14.6 47 24 47z" />
+                                    </svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 23 23" width="16" height="16" aria-hidden="true">
+                                        <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                                        <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                                        <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                                        <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+                                    </svg>
+                                    <span>Microsoft</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-divider"><span>hoặc</span></div>
+
+                            <form id="loginForm" novalidate>
+                                <div class="auth-field">
+                                    <label class="auth-label" for="logEmail">Địa chỉ email</label>
+                                    <input type="email" id="logEmail" class="auth-input"
+                                        placeholder="Nhập địa chỉ email của bạn" required>
+                                </div>
+                                <div class="auth-field">
+                                    <div class="auth-label-row">
+                                        <label class="auth-label" for="logPass">Mật khẩu</label>
+                                        <a href="#" class="auth-link-sm">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="auth-input-wrap">
+                                        <input type="password" id="logPass" class="auth-input"
+                                            placeholder="Nhập mật khẩu" required>
+                                        <button type="button" class="auth-eye" data-toggle-pass="logPass"
+                                            aria-label="Hiện mật khẩu">
+                                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
+                                                stroke="currentColor" stroke-width="1.8">
+                                                <path
+                                                    d="M1.8 12S5.4 5.4 12 5.4 22.2 12 22.2 12 18.6 18.6 12 18.6 1.8 12 1.8 12z" />
+                                                <circle cx="12" cy="12" r="3.1" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="auth-submit">Đăng nhập</button>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-register" role="tabpanel" aria-labelledby="tab-register">
+                            <h5 class="auth-title">Tạo tài khoản của bạn</h5>
+                            <p class="auth-sub">Xin chào! Vui lòng điền thông tin để bắt đầu.</p>
+
+                            <div class="auth-oauth">
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                                        <path fill="#EA4335"
+                                            d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.8l7.8 6.1C12.3 13.7 17.6 9.5 24 9.5z" />
+                                        <path fill="#4285F4"
+                                            d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z" />
+                                        <path fill="#FBBC05"
+                                            d="M10.4 28.1c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.8-6.1C1 16.1 0 19.9 0 23.5s1 7.4 2.6 10.7l7.8-6.1z" />
+                                        <path fill="#34A853"
+                                            d="M24 47c6.2 0 11.5-2 15.4-5.6l-7.5-5.8c-2.1 1.4-4.8 2.2-7.9 2.2-6.4 0-11.7-4.2-13.6-10.1l-7.8 6.1C6.5 41.6 14.6 47 24 47z" />
+                                    </svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 23 23" width="16" height="16" aria-hidden="true">
+                                        <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                                        <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                                        <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                                        <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+                                    </svg>
+                                    <span>Microsoft</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-divider"><span>hoặc</span></div>
+
+                            <form id="registerForm" novalidate>
+                                <div class="auth-row">
+                                    <div class="auth-field">
+                                        <div class="auth-label-row">
+                                            <label class="auth-label" for="regFirst">Họ</label>
+                                        </div>
+                                        <input type="text" id="regFirst" class="auth-input" placeholder="Họ">
+                                    </div>
+                                    <div class="auth-field">
+                                        <div class="auth-label-row">
+                                            <label class="auth-label" for="regLast">Tên</label>
+                                        </div>
+                                        <input type="text" id="regLast" class="auth-input" placeholder="Tên">
+                                    </div>
+                                </div>
+
+                                <div class="auth-field">
+                                    <label class="auth-label" for="regEmail">Địa chỉ email</label>
+                                    <input type="email" id="regEmail" class="auth-input"
+                                        placeholder="Nhập địa chỉ email của bạn" required>
+                                </div>
+
+                                <div class="auth-field">
+                                    <label class="auth-label" for="regPass">Mật khẩu</label>
+                                    <div class="auth-input-wrap">
+                                        <input type="password" id="regPass" class="auth-input"
+                                            placeholder="Nhập mật khẩu" required>
+                                        <button type="button" class="auth-eye" data-toggle-pass="regPass"
+                                            aria-label="Hiện mật khẩu">
+                                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
+                                                stroke="currentColor" stroke-width="1.8">
+                                                <path
+                                                    d="M1.8 12S5.4 5.4 12 5.4 22.2 12 22.2 12 18.6 18.6 12 18.6 1.8 12 1.8 12z" />
+                                                <circle cx="12" cy="12" r="3.1" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="auth-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label for="agreeTerms">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a
+                                            href="#">Chính sách bảo mật</a></label>
+                                </div>
+
+                                <button type="submit" class="auth-submit">Tiếp tục <span>&#9654;</span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-foot">
+                    <span class="auth-foot-item" data-pane="login">Chưa có tài khoản?
+                        <button type="button" class="auth-switch" id="tab-register" data-auth-tab="register">Đăng
+                            ký</button>
+                    </span>
+                    <span class="auth-foot-item d-none" data-pane="register">Đã có tài khoản?
+                        <button type="button" class="auth-switch" id="tab-login" data-auth-tab="login">Đăng
+                            nhập</button>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const nav = document.getElementById('siteNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 24) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            revealEls.forEach(el => io.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('in'));
+        }
+
+        /* ===== LỌC BÀI VIẾT THEO DANH MỤC ===== */
+        const chips = document.querySelectorAll('#catFilters .chip');
+        const cards = document.querySelectorAll('#articleGrid > [data-cat]');
+        chips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.preventDefault();
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                const cat = chip.dataset.cat;
+                cards.forEach(card => {
+                    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+                });
+            });
+        });
+
+        /* ===== AUTH MODAL: chuyển tab + hiện/ẩn mật khẩu ===== */
+        function showAuthTab(name) {
+            document.querySelectorAll('#authTabContent .tab-pane').forEach(p => {
+                const on = p.id === 'pane-' + name;
+                p.classList.toggle('show', on);
+                p.classList.toggle('active', on);
+            });
+            document.querySelectorAll('.auth-foot-item').forEach(el => {
+                el.classList.toggle('d-none', el.dataset.pane !== name);
+            });
+        }
+
+        document.querySelectorAll('[data-auth-tab]').forEach(btn => {
+            btn.addEventListener('click', () => showAuthTab(btn.dataset.authTab));
+        });
+
+        document.querySelectorAll('[data-toggle-pass]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.togglePass);
+                const show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                btn.classList.toggle('is-on', show);
+            });
+        });
+
+        const authModalEl = document.getElementById('authModal');
+        if (authModalEl) {
+            authModalEl.addEventListener('hidden.bs.modal', () => showAuthTab('login'));
+        }
+    </script>
+</body>
+
+</html>

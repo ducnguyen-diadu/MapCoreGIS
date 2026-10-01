@@ -1,0 +1,968 @@
+<html lang="en" data-sidenav-size="fullscreen">
+<!-- Mirrored from coderthemes.com/hyper/layouts/layouts-horizontal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:52 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .asset-detail-section {
+            display: none;
+        }
+
+        .asset-detail-section.active {
+            display: block;
+        }
+
+        .asset-table {
+            min-width: 900px;
+        }
+
+        @media (max-width: 575.98px) {
+            .asset-table {
+                min-width: 760px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="quanlytaisan.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                                    Tổng quan </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisanbando.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisandanhmuc.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục"
+                                    data-en="Category"> Danh
+                                    mục </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisanthongke.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                                    data-en="Statistical report">
+                                    Thống kê báo cáo </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng
+                                Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h5 class="my-0 text-center text-uppercase " style="line-height: 2">
+                        Software Water GIS</h5>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="quanlytaisan.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                            Tổng quan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanbando.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisandanhmuc.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục" data-en="Category">
+                            Danh
+                            mục </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanthongke.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                            data-en="Statistical report">
+                            Thống kê báo cáo </span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside>
+        <!-- ========== Topbar End ========== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid" style="position: relative; z-index: 1;">
+                    <!-- ==============================
+                         DỮ LIỆU & TÀI SẢN - OVERVIEW
+                         ============================== -->
+
+
+
+                    <!-- ==========================================
+                             VIEW 1: TỔNG QUAN
+                             ========================================== -->
+
+                    <div class="row mb-2">
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card h-100 mb-0">
+                                <div class="card-body">
+                                    <div class="text-muted small mb-1" data-vi="Tổng tài sản" data-en="Total assets">
+                                        Tổng tài sản</div>
+                                    <h3 class="mb-1">25,842</h3>
+                                    <span class="text-success small">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card h-100 mb-0">
+                                <div class="card-body">
+                                    <div class="text-muted small mb-1" data-vi="Đang hoạt động" data-en="Operational">
+                                        Đang hoạt động</div>
+                                    <h3 class="mb-1">23,510</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card h-100 mb-0">
+                                <div class="card-body">
+                                    <div class="text-muted small mb-1" data-vi="Cần xử lý" data-en="Needs attention">Cần
+                                        xử lý</div>
+                                    <h3 class="mb-1">506</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card h-100 mb-0">
+                                <div class="card-body">
+                                    <div class="text-muted small mb-1" data-vi="Thiếu dữ liệu"
+                                        data-en="Incomplete data">Thiếu dữ liệu</div>
+                                    <h3 class="mb-1">324</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-12 col-lg-7">
+                            <div class="card h-100 mb-0">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="mb-1" data-vi="Phân loại tài sản" data-en="Asset classification">
+                                        Phân loại tài sản</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group list-group-flush">
+                                        <div
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <span><i class="mdi mdi-pipe text-primary me-2"></i>
+                                                <span data-vi="Đường ống" data-en="Pipelines">Đường ống</span>
+                                            </span>
+                                            <strong>7,085 km</strong>
+                                        </div>
+                                        <div
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <span><i class="mdi mdi-valve text-warning me-2"></i>
+                                                <span data-vi="Van" data-en="Valves">Van</span>
+                                            </span>
+                                            <strong>25,084</strong>
+                                        </div>
+                                        <div
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <span><i class="mdi mdi-gauge text-info me-2"></i>
+                                                <span data-vi="Đồng hồ" data-en="Meters">Đồng hồ</span>
+                                            </span>
+                                            <strong>403,247</strong>
+                                        </div>
+                                        <div
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <span><i class="mdi mdi-fire-hydrant text-danger me-2"></i>
+                                                <span data-vi="Trụ cứu hỏa" data-en="Fire hydrants">Trụ cứu
+                                                    hỏa</span>
+                                            </span>
+                                            <strong>5,031</strong>
+                                        </div>
+                                        <div
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <span><i class="mdi mdi-engine-outline text-success me-2"></i>
+                                                <span data-vi="Thiết bị & công trình"
+                                                    data-en="Equipment & facilities">Thiết bị & công
+                                                    trình</span>
+                                            </span>
+                                            <strong>2,642</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-5">
+                            <div class="card h-100 mb-0">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="mb-1" data-vi="Tình trạng tài sản" data-en="Asset condition">Tình
+                                        trạng tài sản</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="assetConditionChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card ">
+                        <div
+                            class="card-header bg-transparent d-flex flex-column flex-md-row justify-content-between gap-2">
+                            <div>
+                                <h5 class="mb-1" data-vi="Tài sản cần xử lý" data-en="Assets requiring attention">
+                                    Tài sản cần xử lý</h5>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" data-view-target="catalog">
+                                <span data-vi="Xem tất cả" data-en="View all">Xem tất cả</span>
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 asset-table">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-3">ID</th>
+                                        <th data-vi="Tên tài sản" data-en="Asset name">Tên tài sản</th>
+                                        <th data-vi="Nhóm" data-en="Group">Nhóm</th>
+                                        <th data-vi="Trạng thái" data-en="Status">Trạng thái</th>
+                                        <th data-vi="Cập nhật" data-en="Updated">Cập nhật</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-3 font-monospace">VAN-024</td>
+                                        <td>Van DN200</td>
+                                        <td data-vi="Van" data-en="Valve">Van</td>
+                                        <td><span class="badge bg-warning-subtle text-warning" data-vi="Cảnh báo"
+                                                data-en="Warning">Cảnh báo</span></td>
+                                        <td>15/09/2026</td>
+                                        <td class="text-end pe-3">
+                                            <button class="btn btn-sm btn-link" data-detail-id="VAN-024">
+                                                <i class="mdi mdi-eye-outline"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-3 font-monospace">ONG-452</td>
+                                        <td>Ống DN100</td>
+                                        <td data-vi="Đường ống" data-en="Pipeline">Đường ống</td>
+                                        <td><span class="badge bg-danger-subtle text-danger" data-vi="Hỏng"
+                                                data-en="Damaged">Hỏng</span></td>
+                                        <td>14/09/2026</td>
+                                        <td class="text-end pe-3">
+                                            <button class="btn btn-sm btn-link" data-detail-id="ONG-452">
+                                                <i class="mdi mdi-eye-outline"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-3 font-monospace">BOM-003</td>
+                                        <td>Bơm số 03</td>
+                                        <td data-vi="Thiết bị" data-en="Equipment">Thiết bị</td>
+                                        <td><span class="badge bg-info-subtle text-info" data-vi="Bảo trì"
+                                                data-en="Maintenance">Bảo trì</span></td>
+                                        <td>13/09/2026</td>
+                                        <td class="text-end pe-3">
+                                            <button class="btn btn-sm btn-link" data-detail-id="BOM-003">
+                                                <i class="mdi mdi-eye-outline"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <!-- ==========================================
+                             VIEW 3: CHI TIẾT TÀI SẢN
+                             ========================================== -->
+                    <!-- <div class="asset-detail-section" data-section="detail">
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                                        <div>
+                                            <div class="d-flex align-items-center gap-2 mb-1">
+                                                <button class="btn btn-sm btn-outline-secondary"
+                                                    data-view-target="catalog">
+                                                    <i class="mdi mdi-arrow-left"></i>
+                                                </button>
+                                                <h4 class="mb-0">VAN-024</h4>
+                                                <span class="badge bg-warning-subtle text-warning" data-vi="Cảnh báo"
+                                                    data-en="Warning">Cảnh báo</span>
+                                            </div>
+                                            <div class="text-muted">
+                                                <span data-vi="Van DN200" data-en="DN200 Valve">Van DN200</span>
+                                                · <span data-vi="Van mạng lưới" data-en="Network valve">Van mạng
+                                                    lưới</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="mdi mdi-pencil-outline me-1"></i>
+                                                <span data-vi="Chỉnh sửa" data-en="Edit">Chỉnh sửa</span>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="mdi mdi-content-save-outline me-1"></i>
+                                                <span data-vi="Lưu" data-en="Save">Lưu</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+
+                                <div class="col-12 col-xl-8">
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Thông tin cơ bản" data-en="Basic information">
+                                                Thông tin cơ bản</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Mã tài sản"
+                                                        data-en="Asset ID">Mã tài sản</label>
+                                                    <input class="form-control" value="VAN-024">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Tên tài sản"
+                                                        data-en="Asset name">Tên tài sản</label>
+                                                    <input class="form-control" value="Van DN200">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Nhóm tài sản"
+                                                        data-en="Asset group">Nhóm tài sản</label>
+                                                    <select class="form-select">
+                                                        <option selected>Van</option>
+                                                        <option data-vi="Đường ống" data-en="Pipeline">Đường ống
+                                                        </option>
+                                                        <option data-vi="Đồng hồ" data-en="Meter">Đồng hồ</option>
+                                                        <option data-vi="Thiết bị" data-en="Equipment">Thiết bị</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Trạng thái"
+                                                        data-en="Status">Trạng thái</label>
+                                                    <select class="form-select">
+                                                        <option selected data-vi="Cảnh báo" data-en="Warning">Cảnh báo
+                                                        </option>
+                                                        <option data-vi="Hoạt động" data-en="Operational">Hoạt động
+                                                        </option>
+                                                        <option data-vi="Hỏng" data-en="Damaged">Hỏng</option>
+                                                        <option data-vi="Bảo trì" data-en="Maintenance">Bảo trì</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Vật liệu"
+                                                        data-en="Material">Vật liệu</label>
+                                                    <input class="form-control" value="Gang">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Kích thước"
+                                                        data-en="Size">Kích thước</label>
+                                                    <input class="form-control" value="DN200">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Ngày lắp đặt"
+                                                        data-en="Installation date">Ngày lắp đặt</label>
+                                                    <input type="date" class="form-control" value="2021-06-15">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label text-muted small" data-vi="Khu vực"
+                                                        data-en="Area">Khu vực</label>
+                                                    <input class="form-control" value="DMA-05">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label text-muted small" data-vi="Mô tả"
+                                                        data-en="Description">Mô tả</label>
+                                                    <textarea class="form-control"
+                                                        rows="3">Van điều tiết trên tuyến ống chính.</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Vị trí & GIS" data-en="Location & GIS">Vị trí &
+                                                GIS</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-4">
+                                                    <label class="form-label text-muted small">X / Longitude</label>
+                                                    <input class="form-control" value="108.206230">
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <label class="form-label text-muted small">Y / Latitude</label>
+                                                    <input class="form-control" value="16.047079">
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <label class="form-label text-muted small" data-vi="Hệ tọa độ"
+                                                        data-en="Coordinate system">Hệ tọa độ</label>
+                                                    <input class="form-control" value="WGS84">
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="border rounded p-4 text-center text-muted">
+                                                        <i class="mdi mdi-map-outline fs-1 d-block mb-2"></i>
+                                                        <span data-vi="Khu vực bản đồ tài sản — kết nối GIS sau"
+                                                            data-en="Asset map area — connect GIS later">
+                                                            Khu vực bản đồ tài sản — kết nối GIS sau
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Bảo trì & sự cố"
+                                                data-en="Maintenance & incidents">Bảo
+                                                trì & sự cố</h5>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-vi="Ngày" data-en="Date">Ngày</th>
+                                                        <th data-vi="Loại" data-en="Type">Loại</th>
+                                                        <th data-vi="Nội dung" data-en="Description">Nội dung</th>
+                                                        <th data-vi="Trạng thái" data-en="Status">Trạng thái</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>15/09/2026</td>
+                                                        <td data-vi="Cảnh báo" data-en="Warning">Cảnh báo</td>
+                                                        <td data-vi="Phát hiện bất thường khi vận hành"
+                                                            data-en="Abnormal operating condition detected">
+                                                            Phát hiện bất thường khi vận hành
+                                                        </td>
+                                                        <td><span class="badge bg-warning-subtle text-warning"
+                                                                data-vi="Đang xử lý" data-en="Processing">Đang xử
+                                                                lý</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10/05/2026</td>
+                                                        <td data-vi="Bảo trì" data-en="Maintenance">Bảo trì</td>
+                                                        <td data-vi="Kiểm tra và vệ sinh van"
+                                                            data-en="Valve inspection and cleaning">
+                                                            Kiểm tra và vệ sinh van
+                                                        </td>
+                                                        <td><span class="badge bg-success-subtle text-success"
+                                                                data-vi="Hoàn thành" data-en="Completed">Hoàn
+                                                                thành</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-xl-4">
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Tóm tắt tài sản" data-en="Asset summary">Tóm tắt
+                                                tài sản</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <dl class="row mb-0 small">
+                                                <dt class="col-6 text-muted" data-vi="Mã tài sản" data-en="Asset ID">Mã
+                                                    tài sản</dt>
+                                                <dd class="col-6 text-end font-monospace">VAN-024</dd>
+
+                                                <dt class="col-6 text-muted" data-vi="Nhóm" data-en="Group">Nhóm</dt>
+                                                <dd class="col-6 text-end">Van</dd>
+
+                                                <dt class="col-6 text-muted" data-vi="Trạng thái" data-en="Status">Trạng
+                                                    thái</dt>
+                                                <dd class="col-6 text-end text-warning" data-vi="Cảnh báo"
+                                                    data-en="Warning">Cảnh báo</dd>
+
+                                                <dt class="col-6 text-muted" data-vi="Tuổi tài sản" data-en="Asset age">
+                                                    Tuổi tài sản</dt>
+                                                <dd class="col-6 text-end">5 năm</dd>
+
+                                                <dt class="col-6 text-muted" data-vi="Cập nhật" data-en="Updated">Cập
+                                                    nhật</dt>
+                                                <dd class="col-6 text-end">15/09/2026</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Vòng đời tài sản" data-en="Asset lifecycle">Vòng
+                                                đời tài sản</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="list-group list-group-flush">
+                                                <div class="list-group-item px-0">
+                                                    <div class="fw-semibold small">2021</div>
+                                                    <div class="text-muted small" data-vi="Lắp đặt" data-en="Installed">
+                                                        Lắp đặt</div>
+                                                </div>
+                                                <div class="list-group-item px-0">
+                                                    <div class="fw-semibold small">2024</div>
+                                                    <div class="text-muted small" data-vi="Kiểm tra định kỳ"
+                                                        data-en="Periodic inspection">Kiểm tra định kỳ</div>
+                                                </div>
+                                                <div class="list-group-item px-0">
+                                                    <div class="fw-semibold small">2026</div>
+                                                    <div class="text-muted small" data-vi="Ghi nhận cảnh báo"
+                                                        data-en="Warning recorded">Ghi nhận cảnh báo</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-transparent">
+                                            <h5 class="mb-0" data-vi="Tài liệu" data-en="Documents">Tài liệu</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="list-group list-group-flush">
+                                                <a href="#" class="list-group-item list-group-item-action px-0">
+                                                    <i class="mdi mdi-file-pdf-box text-danger me-2"></i>
+                                                    Hồ sơ lắp đặt.pdf
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action px-0">
+                                                    <i class="mdi mdi-image-outline text-info me-2"></i>
+                                                    Ảnh hiện trạng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div> -->
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+        <!-- End Page content -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+
+    <!-- Dashboard App js -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+
+            // ==============================
+            // 2. LANGUAGE
+            // ==============================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) el.textContent = text;
+                });
+
+                document.querySelectorAll('[data-placeholder-vi][data-placeholder-en]').forEach(el => {
+                    el.placeholder = el.getAttribute(
+                        lang === 'en' ? 'data-placeholder-en' : 'data-placeholder-vi'
+                    );
+                });
+
+                document.querySelectorAll('option[data-vi][data-en]').forEach(el => {
+                    el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                });
+
+                const activeOption = document.querySelector(
+                    `.language-option[data-lang="${lang}"]`
+                );
+
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.src = activeOption.getAttribute('data-flag');
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+
+                updateConditionChart(lang);
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            // ==============================
+            // 3. CONDITION CHART
+            // ==============================
+            let conditionChart = null;
+
+            function chartTextColor() {
+                return getComputedStyle(document.documentElement)
+                    .getPropertyValue('--bs-body-color').trim() || '#6c757d';
+            }
+
+            function updateConditionChart(lang) {
+                if (!conditionChart) return;
+
+                conditionChart.updateOptions({
+                    labels: lang === 'en'
+                        ? ['Good', 'Warning', 'Damaged', 'Other']
+                        : ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                    chart: { foreColor: chartTextColor() },
+                    legend: { labels: { colors: chartTextColor() } } // Cập nhật màu ghi chú khi đổi ngôn ngữ/theme
+                });
+            }
+
+            if (window.ApexCharts) {
+                const chartEl = document.querySelector('#assetConditionChart');
+
+                if (chartEl) {
+                    conditionChart = new ApexCharts(chartEl, {
+                        series: [82, 9, 5, 4],
+                        labels: ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                        chart: {
+                            type: 'donut',
+                            height: 250,
+                            toolbar: { show: false },
+                            foreColor: chartTextColor()
+                        },
+                        plotOptions: {
+                            pie: {
+                                donut: {
+                                    size: '70%',
+                                    labels: {
+                                        show: true,
+                                        total: {
+                                            show: true,
+                                            label: 'Tổng',
+                                            formatter: function () {
+                                                return '100%';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        dataLabels: { enabled: false },
+                        // THAY ĐỔI Ở ĐÂY: Hiển thị ghi chú và đặt ở bên phải
+                        legend: {
+                            show: true,
+                            position: 'right', // Đặt vị trí bên phải
+                            offsetY: 0,        // Căn chỉnh chiều dọc (tùy chọn)
+                            labels: {
+                                colors: chartTextColor() // Màu chữ theo theme
+                            }
+                        },
+                        stroke: { width: 2 },
+                        tooltip: {
+                            y: {
+                                formatter: value => value + '%'
+                            }
+                        }
+                    });
+
+                    conditionChart.render();
+                }
+            }
+
+            // ==========================================
+            // 1. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+            // ==========================================
+            // 3. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';
+                if (segments[0] === 'index') return 'home';
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+            // ==============================
+            // 4. FOOTER / THEME
+            // ==============================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop =
+                    '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+
+                if (conditionChart) {
+                    conditionChart.updateOptions({
+                        chart: { foreColor: chartTextColor() }
+                    });
+                }
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+            // ==============================
+            // 5. INIT
+            // ==============================
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+        });
+    </script>
+
+</body>
+
+</html>

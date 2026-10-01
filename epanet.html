@@ -1,0 +1,2778 @@
+<html lang="en" data-sidenav-size="fullscreen">
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Tổng quan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+    <style>
+        :root {
+            --paper: #F5F8F7;
+            --panel: #FFFFFF;
+            --ink: #0B1F3A;
+            --ink-soft: #51637A;
+            --ink-faint: #8496AB;
+            --flow: #0891A8;
+            --flow-deep: #066476;
+            --flow-tint: #E4F4F3;
+            --pressure: #FF6B4A;
+            --pressure-tint: #FFE9E2;
+            --amber: #FFB238;
+            --line: #DDE5E4;
+            --deep: #0B1F3A;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'IBM Plex Sans', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* ==============================================================
+       1. VÙNG CHỨA EPANET: Giữ layout không ảnh hưởng đến body ngoài 
+       ============================================================== */
+        .epa-container {
+            display: flex;
+            flex-direction: column;
+            font-family: var(--font-body);
+            color: var(--ink);
+            background: var(--paper);
+            font-size: 15px;
+            /* Tự động lấp đầy khoảng trống trừ đi Topbar(~70px) và Footer(~60px) */
+            height: calc(100vh - 145px);
+            min-height: 600px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+            z-index: 1;
+        }
+
+        /* Đảm bảo leaflet map không đè lên thanh navbar của theme */
+        .epa-container #map {
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: #EEF4F3;
+        }
+
+        /* ==============================================================
+       2. CÔ LẬP CSS (SCOPING): Chỉ tác động vào bên trong .epa-container 
+       ============================================================== */
+
+        /* Ghi đè xung đột Bootstrap/Hyper Theme */
+        .epa-container .modal {
+            position: static !important;
+            height: auto !important;
+            z-index: auto !important;
+            display: flex;
+            overflow: visible !important;
+            width: 100%;
+            background: #fff;
+            border-radius: 14px;
+            max-width: 660px;
+            max-height: 86vh;
+            flex-direction: column;
+            box-shadow: 0 40px 100px -30px rgba(11, 31, 58, 0.5);
+        }
+
+        .epa-container .topbar {
+            position: static !important;
+            height: auto !important;
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 22px;
+            border-bottom: 1px solid var(--line);
+            background: #fff;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .epa-container .list-group {
+            display: block !important;
+            margin-bottom: 18px;
+        }
+
+        /* Các thành phần cơ bản */
+        .epa-container h3 {
+            font-family: var(--font-display);
+            margin: 0;
+        }
+
+        .epa-container button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .epa-container :focus-visible {
+            outline: 2px solid var(--flow);
+            outline-offset: 2px;
+        }
+
+        .epa-container .btn {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 9px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            transition: all .15s;
+            white-space: nowrap;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        .epa-container .btn:hover {
+            border-color: var(--ink);
+        }
+
+        .epa-container .btn-flow {
+            background: var(--flow);
+            color: #fff;
+            border-color: var(--flow);
+        }
+
+        .epa-container .btn-flow:hover {
+            background: var(--flow-deep);
+            border-color: var(--flow-deep);
+        }
+
+        .epa-container .btn.sm {
+            padding: 7px 12px;
+            font-size: 0.78rem;
+        }
+
+        .epa-container .tb-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .epa-container .brand-mini {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--ink);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .epa-container .tb-title {
+            font-size: 0.85rem;
+            color: var(--ink-faint);
+            border-left: 1px solid var(--line);
+            padding-left: 14px;
+        }
+
+        .epa-container .tb-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .epa-container .tb-count {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--ink-soft);
+            background: var(--flow-tint);
+            padding: 7px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .epa-container .phase-banner {
+            flex: none;
+            background: var(--flow-tint);
+            color: var(--flow-deep);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            padding: 8px 22px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .epa-container .app-shell {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+        }
+
+        .epa-container .toolbar {
+            width: 72px;
+            flex: none;
+            background: #fff;
+            border-right: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .epa-container .tool-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink-soft);
+            border-color: var(--line);
+            margin: 0;
+            padding: 0;
+        }
+
+        .epa-container .tool-btn.active {
+            background: var(--ink);
+            color: #fff;
+            border-color: var(--ink);
+        }
+
+        .epa-container .tool-btn:hover {
+            border-color: var(--flow);
+            color: var(--flow-deep);
+        }
+
+        .epa-container .tool-btn.active:hover {
+            color: #fff;
+        }
+
+        .epa-container .tool-sep {
+            width: 30px;
+            height: 1px;
+            background: var(--line);
+            margin: 6px 0;
+        }
+
+        .epa-container .map-wrap {
+            flex: 1;
+            min-width: 0;
+            position: relative;
+        }
+
+        .epa-container .map-hint {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            max-width: 320px;
+            box-shadow: 0 10px 24px -16px rgba(11, 31, 58, 0.35);
+        }
+
+        .epa-container .map-hint b {
+            color: var(--ink);
+        }
+
+        .epa-container .map-layers {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 12px;
+            box-shadow: 0 10px 24px -16px rgba(11, 31, 58, 0.35);
+            font-size: 0.78rem;
+        }
+
+        .epa-container .map-layers label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 0;
+            color: var(--ink-soft);
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .epa-container .map-layers input {
+            accent-color: var(--flow);
+        }
+
+        .epa-container .map-legend {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 14px;
+            box-shadow: 0 10px 24px -16px rgba(11, 31, 58, 0.35);
+            font-size: 0.78rem;
+            max-width: 230px;
+        }
+
+        .epa-container .legend-title {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-faint);
+            margin-bottom: 6px;
+        }
+
+        .epa-container .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 2px 0;
+            color: var(--ink-soft);
+        }
+
+        .epa-container .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex: none;
+        }
+
+        .epa-container .leaflet-popup-content {
+            font-family: var(--font-body);
+            font-size: 0.83rem;
+            color: var(--ink);
+            line-height: 1.5;
+            margin: 13px 19px;
+        }
+
+        .epa-container .leaflet-control-layers {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            border-radius: 8px !important;
+        }
+
+        .epa-container .panel {
+            width: 380px;
+            flex: none;
+            background: #fff;
+            border-left: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .epa-container .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--line);
+            flex: none;
+        }
+
+        .epa-container .tab-btn {
+            flex: 1;
+            padding: 12px 2px;
+            border: none;
+            background: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--ink-faint);
+            border-bottom: 2px solid transparent;
+        }
+
+        .epa-container .tab-btn.active {
+            color: var(--ink);
+            border-color: var(--flow);
+        }
+
+        .epa-container .tab-pane {
+            display: none;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .epa-container .tab-pane.active {
+            display: block;
+        }
+
+        .epa-container .prop-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .epa-container .prop-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex: none;
+        }
+
+        .epa-container .prop-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-faint);
+            font-family: var(--font-mono);
+        }
+
+        .epa-container .prop-id {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .epa-container .prop-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .epa-container .prop-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+
+        .epa-container .prop-field input,
+        .epa-container .prop-field select {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            color: var(--ink);
+            background: #FBFDFC;
+            width: 100%;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .epa-container .prop-field input:focus,
+        .epa-container .prop-field select:focus {
+            border-color: var(--flow);
+        }
+
+        .epa-container .prop-endpoints {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            background: var(--flow-tint);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+        }
+
+        .epa-container .prop-delete {
+            width: 100%;
+            justify-content: center;
+            border-color: var(--pressure);
+            color: var(--pressure);
+        }
+
+        .epa-container .prop-delete:hover {
+            background: var(--pressure-tint);
+            border-color: var(--pressure);
+        }
+
+        .epa-container .prop-empty p {
+            color: var(--ink-soft);
+            font-size: 0.87rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .epa-container .list-group-title {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-faint);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .epa-container .list-row {
+            padding: 8px 10px;
+            border-radius: 7px;
+            font-size: 0.86rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .epa-container .list-row:hover {
+            background: var(--flow-tint);
+        }
+
+        .epa-container .list-sub {
+            color: var(--ink-faint);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+        }
+
+        .epa-container .list-empty {
+            color: var(--ink-faint);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+        }
+
+        .epa-container .json-note {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .epa-container .json-pre {
+            background: #0B1F3A;
+            color: #BFE3E6;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            padding: 14px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 60vh;
+            overflow: auto;
+            margin: 0;
+        }
+
+        .epa-container .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 31, 58, 0.55);
+            z-index: 2000 !important;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .epa-container .modal-overlay.open {
+            display: flex;
+        }
+
+        .epa-container .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--line);
+            flex: none;
+        }
+
+        .epa-container .modal-head h3 {
+            font-size: 1.05rem;
+        }
+
+        .epa-container .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--ink-faint);
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .epa-container .modal-close:hover {
+            background: var(--flow-tint);
+            color: var(--ink);
+        }
+
+        .epa-container .modal-body {
+            padding: 20px 22px !important;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            position: static !important;
+        }
+
+        .epa-container .modal-body p {
+            color: var(--ink-soft);
+            font-size: 0.87rem;
+            margin-bottom: 14px;
+            line-height: 1.55;
+        }
+
+        .epa-container .modal-body code {
+            font-family: var(--font-mono);
+            background: var(--flow-tint);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .epa-container .modal-foot {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 16px 22px;
+            border-top: 1px solid var(--line);
+            flex: none;
+        }
+
+        .epa-container .file-input-row {
+            border: 1.5px dashed var(--line);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 8px;
+        }
+
+        .epa-container .file-input-row input {
+            font-size: 0.84rem;
+        }
+
+        .epa-container .import-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.83rem;
+            margin-top: 14px;
+        }
+
+        .epa-container .import-table th {
+            text-align: left;
+            color: var(--ink-faint);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .epa-container .import-table td {
+            padding: 7px 8px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+        }
+
+        .epa-container .import-table select {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            padding: 5px 7px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .epa-container .import-warn {
+            background: var(--pressure-tint);
+            color: #B34428;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+
+        .epa-container .import-ok {
+            background: var(--flow-tint);
+            color: var(--flow-deep);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            margin-top: 14px;
+        }
+
+        .epa-container .sim-controls {
+            margin-bottom: 16px;
+        }
+
+        .epa-container .scenario-desc {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            background: #FBFDFC;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .epa-container .sim-status-ok {
+            background: var(--flow-tint);
+            color: var(--flow-deep);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            font-family: var(--font-mono);
+            margin-bottom: 14px;
+        }
+
+        .epa-container .sim-status-warn {
+            background: var(--pressure-tint);
+            color: #B34428;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            font-family: var(--font-mono);
+            margin-bottom: 14px;
+        }
+
+        .epa-container .sim-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .epa-container .sim-card {
+            background: #FBFDFC;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 11px 12px;
+        }
+
+        .epa-container .sim-card .sc-label {
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-faint);
+            margin-bottom: 4px;
+        }
+
+        .epa-container .sim-card .sc-value {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .epa-container .sim-card .sc-value.warn {
+            color: var(--pressure);
+        }
+
+        .epa-container .sim-table-wrap {
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .epa-container .sim-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .epa-container .sim-table th {
+            position: sticky;
+            top: 0;
+            background: #FBFDFC;
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .epa-container .sim-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--line);
+            font-family: var(--font-mono);
+        }
+
+        .epa-container .sim-table tr.low-pressure td {
+            background: var(--pressure-tint);
+        }
+
+        .epa-container .sim-section-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-faint);
+            margin: 16px 0 8px;
+        }
+
+        .epa-container .export-btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .epa-container .export-btn-row .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        @media (max-width:820px) {
+            .epa-container .panel {
+                position: fixed;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 900;
+                box-shadow: -20px 0 40px -20px rgba(11, 31, 58, 0.4);
+            }
+
+            .epa-container .tb-title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <!-- <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="index.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="map.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-map fs-4"></i> Bản đồ
+                            </a>
+                        </li>
+
+                    </ul> -->
+                    <!-- <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button> -->
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+
+                        </div>
+                    </li>
+
+                    <li class=" d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- ========== Topbar End ========== -->
+
+        <!-- <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div> -->
+
+        <!-- <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h6 class="my-0 text-center text-uppercase fw-normal" style="font-size: 10px;line-height: 2">
+                        Software Water GIS</h6>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="index.html">
+                        <i class=""></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="map.html">
+                        <i class=""></i>
+                        <span>Bản đồ</span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside> -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- Bọc toàn bộ nội dung vào một khối flex để căn giữa theo chiều dọc -->
+                    <div class="epa-container ">
+                        <div class="topbar">
+                            <div class="tb-right">
+                                <span class="tb-count" id="countBadge">0 nguồn · 0 bể · 0 nút · 0 ống · 0 bơm · 0
+                                    van</span>
+                                <div style="position:relative;display:inline-block;">
+                                    <button class="btn sm" id="btnUnitsToggle">⚙ Đơn vị</button>
+                                    <div id="unitsPanel"
+                                        style="display:none;position:absolute;right:0;top:110%;background:#fff;color:#0B1F3A;border:1px solid #d8dde3;border-radius:10px;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:1000;width:260px;">
+                                        <div id="unitsPanelBody"></div>
+                                        <button class="btn btn-flow sm" id="btnUnitsApply"
+                                            style="width:100%;margin-top:8px;">Áp dụng</button>
+                                    </div>
+                                </div>
+                                <button class="btn sm" id="btnSample">Mạng nhỏ (5 nút)</button>
+                                <button class="btn btn-flow sm" id="btnDemo50">Tải CSDL demo (50 nút)</button>
+                                <button class="btn btn-flow sm" id="btnImportShp">Nhập Shapefile…</button>
+                                <a class="btn sm" href="hydracore-demo-network-50nodes.zip" download>Tải file Shapefile
+                                    gốc (.zip)</a>
+                                <button class="btn sm" id="btnClear">Xóa hết</button>
+                                <button class="btn sm" id="btnExportJSON">Xuất .json</button>
+                                <button class="btn btn-flow sm" id="btnExportINP">Xuất EPANET .inp</button>
+                            </div>
+                        </div>
+
+                        <div class="phase-banner">Bước 4/6 trong lộ trình — Chạy nhiều kịch bản song song &amp; lưu kết
+                            quả. Mở tab <b>"So
+                                sánh"</b> và bấm <b>"Chạy tất cả kịch bản song song"</b> — mỗi kịch bản chạy trên một
+                            Web Worker (luồng trình
+                            duyệt) riêng, kết quả được lưu lại trong phiên làm việc để đối chiếu.</div>
+
+                        <div class="app-shell">
+                            <aside class="toolbar">
+                                <button class="tool-btn active" data-mode="select" title="Chọn / Sửa phần tử">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <path d="M4 4l7 16 2-7 7-2z" />
+                                    </svg>
+                                </button>
+                                <button class="tool-btn" data-mode="add-reservoir" title="Thêm Nguồn nước (Reservoir)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <circle cx="12" cy="12" r="8" />
+                                        <path d="M8 12h8M13 8l4 4-4 4" />
+                                    </svg>
+                                </button>
+                                <button class="tool-btn" data-mode="add-tank" title="Thêm Bể chứa (Tank)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <ellipse cx="12" cy="5" rx="7" ry="2.5" />
+                                        <path d="M5 5v14c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V5" />
+                                    </svg>
+                                </button>
+                                <button class="tool-btn" data-mode="add-junction" title="Thêm Nút tiêu thụ (Junction)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path d="M12 4v5M12 15v5M4 12h5M15 12h5" />
+                                    </svg>
+                                </button>
+                                <div class="tool-sep"></div>
+                                <button class="tool-btn" data-mode="connect-pipe" title="Nối Ống (Pipe)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <path d="M4 12h16" />
+                                        <path d="M4 8v8M20 8v8" />
+                                    </svg>
+                                </button>
+                                <button class="tool-btn" data-mode="connect-pump" title="Nối Máy bơm (Pump)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <circle cx="12" cy="12" r="8" />
+                                        <path d="M13 7l-4 6h3l-1 5 5-7h-3z" fill="currentColor" stroke="none" />
+                                    </svg>
+                                </button>
+                                <button class="tool-btn" data-mode="connect-valve" title="Nối Van (Valve)">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <path d="M3 12l7-5v10z" />
+                                        <path d="M21 12l-7-5v10z" />
+                                    </svg>
+                                </button>
+                                <div class="tool-sep"></div>
+                                <button class="tool-btn" data-mode="delete" title="Xóa phần tử">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-width="1.6">
+                                        <path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13" />
+                                    </svg>
+                                </button>
+                            </aside>
+
+                            <div class="map-wrap">
+                                <div id="map"></div>
+                                <div class="map-hint" id="mapHint">Chế độ <b>Chọn</b> — nhấp vào một phần tử trên bản đồ
+                                    để xem/sửa thuộc tính,
+                                    hoặc dùng công cụ bên trái để thêm mới.</div>
+                                <div class="map-layers" id="mapLayers"></div>
+                                <div class="map-legend" id="mapLegend" style="display:none;">
+                                    <div class="legend-title">Chú giải kết quả mô phỏng</div>
+                                    <div class="legend-row"><span class="legend-dot"
+                                            style="background:#0891A8"></span>Áp lực ổn định (≥20m) / vận
+                                        tốc thấp</div>
+                                    <div class="legend-row"><span class="legend-dot"
+                                            style="background:#FFB238"></span>Cảnh báo (10–20m) / vận tốc
+                                        trung bình</div>
+                                    <div class="legend-row"><span class="legend-dot"
+                                            style="background:#FF6B4A"></span>Áp lực thấp (&lt;10m) / vận
+                                        tốc &gt;2.5 m/s</div>
+                                </div>
+                            </div>
+
+                            <aside class="panel">
+                                <div class="tabs">
+                                    <button class="tab-btn active" data-tab="props">Thuộc tính</button>
+                                    <button class="tab-btn" data-tab="list">Danh sách</button>
+                                    <button class="tab-btn" data-tab="sim">Mô phỏng</button>
+                                    <button class="tab-btn" data-tab="compare">So sánh</button>
+                                    <button class="tab-btn" data-tab="json">JSON</button>
+                                </div>
+                                <div class="tab-pane active" id="tab-props">
+                                    <div id="propContent"></div>
+                                </div>
+                                <div class="tab-pane" id="tab-list">
+                                    <div id="listContent"></div>
+                                </div>
+                                <div class="tab-pane" id="tab-sim">
+                                    <p class="json-note">Lõi tính toán thủy lực (phương pháp tuyến tính hóa liên tiếp,
+                                        tương tự thuật toán nền tảng
+                                        của EPANET) chạy trực tiếp trong trình duyệt trên chính mạng lưới hiện tại.</p>
+                                    <div class="sim-controls">
+                                        <label class="prop-field"><span>Kịch bản vận hành</span>
+                                            <select id="scenarioSelect"></select>
+                                        </label>
+                                        <div id="scenarioDesc" class="scenario-desc"></div>
+                                        <button class="btn btn-flow" id="btnRunSim"
+                                            style="width:100%;margin-top:10px;">Chạy mô phỏng</button>
+                                    </div>
+                                    <div id="simStatus"></div>
+                                    <div id="simResults"></div>
+                                    <div id="simExportBtns" class="export-btn-row"></div>
+                                </div>
+                                <div class="tab-pane" id="tab-compare">
+                                    <p class="json-note">Chạy đồng thời cả 4 kịch bản, mỗi kịch bản trên một <b>Web
+                                            Worker</b> riêng (đa luồng thật
+                                        của trình duyệt, không phải giả lập tuần tự) — rồi so sánh kết quả cạnh nhau.
+                                        Kết quả mỗi lượt chạy được lưu
+                                        lại trong phiên làm việc này để đối chiếu.</p>
+                                    <button class="btn btn-flow" id="btnRunAllSim"
+                                        style="width:100%;margin-bottom:14px;">Chạy tất cả kịch bản song
+                                        song</button>
+                                    <div id="compareStatus"></div>
+                                    <div id="compareResults"></div>
+                                    <div id="compareExportBtns" class="export-btn-row"></div>
+                                    <div class="sim-section-title">Lịch sử các lượt chạy (phiên làm việc này)</div>
+                                    <div id="runHistoryList"></div>
+                                </div>
+                                <div class="tab-pane" id="tab-json">
+                                    <p class="json-note">Đây là mô hình dữ liệu (schema) của mạng lưới hiện tại — cấu
+                                        trúc này sẽ được dùng làm đích
+                                        ánh xạ khi nhập Shapefile ở bước tiếp theo.</p>
+                                    <pre class="json-pre" id="jsonPre"></pre>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <div class="modal-overlay" id="importOverlay">
+                            <div class="modal">
+                                <div class="modal-head">
+                                    <h3>Nhập dữ liệu từ Shapefile</h3>
+                                    <button class="modal-close" id="importClose" aria-label="Đóng">✕</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Chọn toàn bộ file <code>.shp</code>, <code>.dbf</code> (và <code>.prj</code> nếu
+                                        có) của các lớp bạn muốn
+                                        nhập — có thể chọn nhiều file cùng lúc, ví dụ toàn bộ nội dung thư mục
+                                        <code>shapefile/</code> trong CSDL demo
+                                        50 nút. Công cụ tự nhận diện vai trò từng lớp theo tên file, bạn có thể chỉnh
+                                        lại nếu chưa đúng.
+                                    </p>
+                                    <div class="file-input-row">
+                                        <input type="file" id="shpFileInput" multiple accept=".shp,.dbf,.shx,.prj">
+                                    </div>
+                                    <div id="importPreview"></div>
+                                </div>
+                                <div class="modal-foot">
+                                    <button class="btn" id="importCancel">Hủy</button>
+                                    <button class="btn btn-flow" id="importConfirm">Nhập vào mạng lưới</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end flex container -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+    <script type="application/json"
+        id="demoNetwork50">{"junctions":[{"id":"J1","lat":16.463512257215502,"lng":107.59250304867176,"elevation":4.76,"baseDemand":2.2,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J2","lat":16.463590597129702,"lng":107.59389844339285,"elevation":4.22,"baseDemand":2.1,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J3","lat":16.46376984169463,"lng":107.59563421236011,"elevation":4.42,"baseDemand":1.63,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J4","lat":16.463536734716453,"lng":107.59724397156445,"elevation":4.95,"baseDemand":4.84,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J5","lat":16.463514149098593,"lng":107.5985957353932,"elevation":4.11,"baseDemand":2.78,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J6","lat":16.463702116714664,"lng":107.6000575339862,"elevation":4.26,"baseDemand":4.19,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J7","lat":16.46506317693703,"lng":107.59070485919283,"elevation":4.63,"baseDemand":2.41,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J8","lat":16.465199976869805,"lng":107.5925073588454,"elevation":5.38,"baseDemand":1.83,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J9","lat":16.465217496317738,"lng":107.59387594436107,"elevation":4.84,"baseDemand":0.55,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J10","lat":16.46498715365995,"lng":107.59566428291366,"elevation":5.5,"baseDemand":8.82,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J11","lat":16.465260529405132,"lng":107.59720837768472,"elevation":4.52,"baseDemand":2.7,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J12","lat":16.465046039327987,"lng":107.59856207411589,"elevation":4.55,"baseDemand":6.4,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J13","lat":16.465117626302415,"lng":107.6003619417795,"elevation":5.36,"baseDemand":2.41,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J14","lat":16.465022812797166,"lng":107.60155123000006,"elevation":5.02,"baseDemand":1.87,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J15","lat":16.46670542530884,"lng":107.59104322171655,"elevation":6.05,"baseDemand":1.56,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J16","lat":16.466755229955215,"lng":107.59257216775804,"elevation":5.65,"baseDemand":2.32,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J17","lat":16.466684996296944,"lng":107.59548668672181,"elevation":5.37,"baseDemand":2.99,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J18","lat":16.466711272629393,"lng":107.59721809854233,"elevation":5.53,"baseDemand":1.79,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J19","lat":16.466695000847928,"lng":107.59877699523582,"elevation":5.27,"baseDemand":1.35,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J20","lat":16.466484910823578,"lng":107.60025781430294,"elevation":5.28,"baseDemand":1.05,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J21","lat":16.466581181013282,"lng":107.60160693381921,"elevation":5.76,"baseDemand":1.07,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J22","lat":16.468041024065755,"lng":107.59072680894946,"elevation":6.58,"baseDemand":3.5,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J23","lat":16.468058882847078,"lng":107.59228113369112,"elevation":6.35,"baseDemand":1.04,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J24","lat":16.468093214299987,"lng":107.5940470893889,"elevation":6.67,"baseDemand":1.93,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J25","lat":16.46803182096078,"lng":107.59857441011592,"elevation":6.49,"baseDemand":2.52,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J26","lat":16.468319231062335,"lng":107.60007745752043,"elevation":5.67,"baseDemand":1.58,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J27","lat":16.468189775101052,"lng":107.60178009564238,"elevation":6.11,"baseDemand":2.32,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J28","lat":16.4697194177067,"lng":107.59076445798301,"elevation":7.28,"baseDemand":0.75,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J29","lat":16.469581207684488,"lng":107.5923068526334,"elevation":6.51,"baseDemand":2.65,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J30","lat":16.4696841896284,"lng":107.59419292604254,"elevation":6.33,"baseDemand":1.62,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J31","lat":16.46970182381462,"lng":107.59556022159758,"elevation":6.43,"baseDemand":1.12,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J32","lat":16.46973794462907,"lng":107.59722364090291,"elevation":6.63,"baseDemand":9.03,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J33","lat":16.469443913139884,"lng":107.59851624141604,"elevation":6.16,"baseDemand":3.0,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J34","lat":16.469537051729635,"lng":107.60009743685174,"elevation":7.26,"baseDemand":5.63,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J35","lat":16.469803916883137,"lng":107.60159996203075,"elevation":6.3,"baseDemand":3.43,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J36","lat":16.47103781734419,"lng":107.59105512198968,"elevation":7.13,"baseDemand":0.65,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J37","lat":16.471069814980655,"lng":107.59250964805085,"elevation":7.83,"baseDemand":1.16,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J38","lat":16.47109480310379,"lng":107.59416202436984,"elevation":7.2,"baseDemand":3.12,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J39","lat":16.471010919963515,"lng":107.59543984351305,"elevation":7.84,"baseDemand":6.89,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J40","lat":16.47101728917333,"lng":107.59710762581054,"elevation":6.84,"baseDemand":2.48,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J41","lat":16.47126830944016,"lng":107.59866277832678,"elevation":7.35,"baseDemand":6.8,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J42","lat":16.471000126782275,"lng":107.60013203625843,"elevation":6.72,"baseDemand":3.92,"sector":"commercial","pattern":"PAT_COMMERCIAL"},{"id":"J43","lat":16.471114832527146,"lng":107.60192414490737,"elevation":7.67,"baseDemand":0.89,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J44","lat":16.47264365456194,"lng":107.59383028103771,"elevation":7.3,"baseDemand":4.3,"sector":"industrial","pattern":"PAT_INDUSTRIAL"},{"id":"J45","lat":16.47256251382087,"lng":107.59565713156542,"elevation":8.01,"baseDemand":1.09,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J46","lat":16.472604788278694,"lng":107.59883239490387,"elevation":8.27,"baseDemand":1.12,"sector":"residential","pattern":"PAT_RESIDENTIAL"},{"id":"J47","lat":16.47273588130523,"lng":107.60036765644146,"elevation":7.94,"baseDemand":1.55,"sector":"residential","pattern":"PAT_RESIDENTIAL"}],"reservoirs":[{"id":"R1","lat":16.472414275247203,"lng":107.59227697421065,"head":28}],"tanks":[{"id":"T1","lat":16.46685142915572,"lng":107.59400609790545,"elevation":18,"initLevel":3.5,"minLevel":1.0,"maxLevel":6.0,"diameter":14},{"id":"T2","lat":16.472546489836564,"lng":107.59690243813682,"elevation":16,"initLevel":3.5,"minLevel":1.0,"maxLevel":6.0,"diameter":11}],"pipes":[{"id":"P1","node1":"J1","node2":"J2","length":149.2,"diameter":110,"roughness":120,"status":"Open"},{"id":"P2","node1":"J1","node2":"J8","length":187.9,"diameter":110,"roughness":90,"status":"Open"},{"id":"P3","node1":"J2","node2":"J3","length":186.4,"diameter":110,"roughness":120,"status":"Open"},{"id":"P4","node1":"J2","node2":"J9","length":181.1,"diameter":110,"roughness":120,"status":"Open"},{"id":"P5","node1":"J3","node2":"J4","length":173.8,"diameter":110,"roughness":110,"status":"Open"},{"id":"P6","node1":"J3","node2":"J10","length":135.5,"diameter":110,"roughness":100,"status":"Open"},{"id":"P7","node1":"J4","node2":"J5","length":144.3,"diameter":110,"roughness":110,"status":"Open"},{"id":"P8","node1":"J4","node2":"J11","length":191.9,"diameter":110,"roughness":100,"status":"Open"},{"id":"P9","node1":"J5","node2":"J6","length":157.5,"diameter":110,"roughness":120,"status":"Open"},{"id":"P10","node1":"J5","node2":"J12","length":170.6,"diameter":110,"roughness":110,"status":"Open"},{"id":"P11","node1":"J6","node2":"J13","length":160.9,"diameter":110,"roughness":100,"status":"Open"},{"id":"P12","node1":"J7","node2":"J8","length":193.0,"diameter":110,"roughness":100,"status":"Open"},{"id":"P13","node1":"J7","node2":"J15","length":186.3,"diameter":110,"roughness":110,"status":"Open"},{"id":"P14","node1":"J8","node2":"J9","length":146.1,"diameter":110,"roughness":90,"status":"Open"},{"id":"P15","node1":"J9","node2":"J10","length":192.6,"diameter":110,"roughness":100,"status":"Open"},{"id":"P16","node1":"J9","node2":"T1","length":182.4,"diameter":110,"roughness":120,"status":"Open"},{"id":"P17","node1":"J10","node2":"J11","length":167.6,"diameter":110,"roughness":100,"status":"Open"},{"id":"P18","node1":"J10","node2":"J17","length":190.0,"diameter":110,"roughness":120,"status":"Open"},{"id":"P19","node1":"J11","node2":"J12","length":146.5,"diameter":110,"roughness":110,"status":"Open"},{"id":"P20","node1":"J11","node2":"J18","length":161.5,"diameter":110,"roughness":100,"status":"Open"},{"id":"P21","node1":"J12","node2":"J13","length":192.3,"diameter":110,"roughness":120,"status":"Open"},{"id":"P22","node1":"J12","node2":"J19","length":185.0,"diameter":110,"roughness":120,"status":"Open"},{"id":"P23","node1":"J13","node2":"J14","length":127.4,"diameter":110,"roughness":110,"status":"Open"},{"id":"P24","node1":"J13","node2":"J20","length":152.6,"diameter":110,"roughness":100,"status":"Open"},{"id":"P25","node1":"J14","node2":"J21","length":173.6,"diameter":110,"roughness":100,"status":"Open"},{"id":"P26","node1":"J15","node2":"J16","length":163.3,"diameter":110,"roughness":110,"status":"Open"},{"id":"P27","node1":"J16","node2":"T1","length":153.5,"diameter":110,"roughness":110,"status":"Open"},{"id":"P28","node1":"J16","node2":"J23","length":148.4,"diameter":200,"roughness":120,"status":"Open"},{"id":"P29","node1":"T1","node2":"J17","length":159.1,"diameter":110,"roughness":100,"status":"Open"},{"id":"P30","node1":"T1","node2":"J24","length":138.3,"diameter":110,"roughness":90,"status":"Open"},{"id":"P31","node1":"J17","node2":"J18","length":184.9,"diameter":110,"roughness":100,"status":"Open"},{"id":"P32","node1":"J18","node2":"J19","length":166.4,"diameter":110,"roughness":120,"status":"Open"},{"id":"P33","node1":"J19","node2":"J20","length":159.8,"diameter":110,"roughness":120,"status":"Open"},{"id":"P34","node1":"J19","node2":"J25","length":150.4,"diameter":110,"roughness":90,"status":"Open"},{"id":"P35","node1":"J20","node2":"J21","length":144.4,"diameter":110,"roughness":100,"status":"Open"},{"id":"P36","node1":"J20","node2":"J26","length":205.1,"diameter":110,"roughness":120,"status":"Open"},{"id":"P37","node1":"J21","node2":"J27","length":180.0,"diameter":110,"roughness":120,"status":"Open"},{"id":"P38","node1":"J22","node2":"J23","length":165.9,"diameter":200,"roughness":125,"status":"Open"},{"id":"P39","node1":"J22","node2":"J28","length":186.9,"diameter":200,"roughness":130,"status":"Open"},{"id":"P40","node1":"J23","node2":"J24","length":188.6,"diameter":200,"roughness":120,"status":"Open"},{"id":"P41","node1":"J23","node2":"J29","length":169.5,"diameter":200,"roughness":125,"status":"Open"},{"id":"P42","node1":"J24","node2":"J30","length":177.8,"diameter":200,"roughness":130,"status":"Open"},{"id":"P43","node1":"J25","node2":"J26","length":163.6,"diameter":110,"roughness":90,"status":"Open"},{"id":"P44","node1":"J25","node2":"J33","length":157.3,"diameter":110,"roughness":90,"status":"Open"},{"id":"P45","node1":"J26","node2":"J27","length":182.3,"diameter":110,"roughness":120,"status":"Open"},{"id":"P46","node1":"J26","node2":"J34","length":135.6,"diameter":110,"roughness":120,"status":"Open"},{"id":"P47","node1":"J27","node2":"J35","length":180.7,"diameter":110,"roughness":120,"status":"Open"},{"id":"P48","node1":"J28","node2":"J29","length":165.4,"diameter":200,"roughness":120,"status":"Open"},{"id":"P49","node1":"J28","node2":"J36","length":150.0,"diameter":200,"roughness":130,"status":"Open"},{"id":"P50","node1":"J29","node2":"J30","length":201.7,"diameter":200,"roughness":120,"status":"Open"},{"id":"P51","node1":"J29","node2":"J37","length":167.1,"diameter":300,"roughness":140,"status":"Open"},{"id":"P52","node1":"J30","node2":"J38","length":157.1,"diameter":200,"roughness":120,"status":"Open"},{"id":"P53","node1":"J31","node2":"J32","length":177.6,"diameter":110,"roughness":110,"status":"Open"},{"id":"P54","node1":"J31","node2":"J39","length":146.3,"diameter":200,"roughness":125,"status":"Open"},{"id":"P55","node1":"J32","node2":"J33","length":141.8,"diameter":110,"roughness":110,"status":"Open"},{"id":"P56","node1":"J33","node2":"J34","length":169.1,"diameter":110,"roughness":100,"status":"Open"},{"id":"P57","node1":"J33","node2":"J41","length":203.7,"diameter":110,"roughness":120,"status":"Open"},{"id":"P58","node1":"J34","node2":"J35","length":163.1,"diameter":110,"roughness":100,"status":"Open"},{"id":"P59","node1":"J34","node2":"J42","length":162.9,"diameter":110,"roughness":110,"status":"Open"},{"id":"P60","node1":"J35","node2":"J43","length":150.0,"diameter":110,"roughness":110,"status":"Open"},{"id":"P61","node1":"J36","node2":"J37","length":155.3,"diameter":300,"roughness":130,"status":"Open"},{"id":"P62","node1":"J37","node2":"J38","length":176.4,"diameter":300,"roughness":140,"status":"Open"},{"id":"P63","node1":"J38","node2":"J39","length":136.7,"diameter":200,"roughness":120,"status":"Open"},{"id":"P64","node1":"J38","node2":"J44","length":176.0,"diameter":300,"roughness":140,"status":"Open"},{"id":"P65","node1":"J39","node2":"J40","length":178.0,"diameter":200,"roughness":120,"status":"Open"},{"id":"P66","node1":"J39","node2":"J45","length":174.3,"diameter":200,"roughness":120,"status":"Open"},{"id":"P67","node1":"J40","node2":"J41","length":168.4,"diameter":110,"roughness":110,"status":"Open"},{"id":"P68","node1":"J41","node2":"J42","length":159.7,"diameter":110,"roughness":110,"status":"Open"},{"id":"P69","node1":"J41","node2":"J46","length":149.9,"diameter":110,"roughness":110,"status":"Open"},{"id":"P70","node1":"J42","node2":"J43","length":191.7,"diameter":110,"roughness":110,"status":"Open"},{"id":"P71","node1":"J42","node2":"J47","length":194.9,"diameter":110,"roughness":90,"status":"Open"},{"id":"P72","node1":"R1","node2":"J44","length":167.8,"diameter":300,"roughness":140,"status":"Open"},{"id":"P73","node1":"J44","node2":"J45","length":195.2,"diameter":300,"roughness":140,"status":"Open"},{"id":"P74","node1":"J45","node2":"T2","length":133.0,"diameter":200,"roughness":120,"status":"Open"},{"id":"P75","node1":"T2","node2":"J46","length":206.1,"diameter":200,"roughness":125,"status":"Open"},{"id":"P76","node1":"J46","node2":"J47","length":164.5,"diameter":110,"roughness":90,"status":"Open"}],"pumps":[{"id":"PU1","node1":"R1","node2":"J37","power":11.1},{"id":"PU2","node1":"T2","node2":"J40","power":14.6}],"valves":[{"id":"V1","node1":"J8","node2":"J16","diameter":200,"type":"PRV","setting":22.3},{"id":"V2","node1":"J15","node2":"J22","diameter":200,"type":"PRV","setting":21.2},{"id":"V3","node1":"J30","node2":"J31","diameter":200,"type":"PRV","setting":22.3},{"id":"V4","node1":"J32","node2":"J40","diameter":200,"type":"PRV","setting":14.4}]}</script>
+    <script type="application/json"
+        id="demoPatterns">{"PAT_RESIDENTIAL":[0.4,0.35,0.3,0.3,0.35,0.6,1.3,1.6,1.2,0.9,0.8,0.85,0.9,0.85,0.8,0.85,0.95,1.2,1.55,1.5,1.1,0.8,0.6,0.45],"PAT_COMMERCIAL":[0.2,0.2,0.2,0.2,0.25,0.4,0.7,1.1,1.4,1.5,1.5,1.55,1.5,1.5,1.45,1.4,1.35,1.2,0.9,0.6,0.4,0.3,0.25,0.2],"PAT_INDUSTRIAL":[0.3,0.3,0.3,0.3,0.35,0.5,0.9,1.2,1.3,1.3,1.3,1.25,1.1,1.25,1.3,1.3,1.25,1.1,0.8,0.6,0.45,0.35,0.3,0.3]}</script>
+    <script type="application/json"
+        id="demoScenarios">[{"id":"SC1","name":"Kịch bản bình thường","description":"Vận hành tiêu chuẩn theo mẫu tiêu thụ 24h, toàn bộ bơm và van hoạt động bình thường.","overrides":{}},{"id":"SC2","name":"Giờ cao điểm (18:00)","description":"Áp dụng hệ số nhân của mẫu tiêu thụ tại giờ 18h cho toàn mạng để kiểm tra áp lực thấp nhất trong ngày.","overrides":{"hour":18}},{"id":"SC3","name":"Sự cố mất nguồn","description":"Bơm PU1 (trạm bơm chính từ nguồn) ngừng hoạt động; mạng lưới vận hành tạm thời nhờ dung tích dự trữ trong bể chứa.","overrides":{"pumps":{"PU1":{"status":"Closed"}}}},{"id":"SC4","name":"Rò rỉ trên tuyến ống","description":"Giả lập rò rỉ bổ sung 5 L/s tại nút J24 để kiểm tra khả năng phát hiện sụt áp bất thường.","overrides":{"leakAt":"J24","leakFlow":5.0}}]</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        (function () {
+            "use strict";
+
+            /* ---------- Field definitions per element type (EPANET-aligned schema) ---------- */
+            var FIELD_DEFS = {
+                junction: {
+                    label: 'Nút tiêu thụ (Junction)', color: '#0891A8', fields: [
+                        { key: 'elevation', label: 'Cao độ', qty: 'length', step: 0.1 },
+                        { key: 'baseDemand', label: 'Nhu cầu cơ bản', qty: 'flow', step: 0.1 }
+                    ]
+                },
+                reservoir: {
+                    label: 'Nguồn nước (Reservoir)', color: '#FF6B4A', fields: [
+                        { key: 'head', label: 'Tổng cột nước / Head', qty: 'length', step: 0.1 }
+                    ]
+                },
+                tank: {
+                    label: 'Bể chứa (Tank)', color: '#FFB238', fields: [
+                        { key: 'elevation', label: 'Cao độ đáy bể', qty: 'length', step: 0.1 },
+                        { key: 'initLevel', label: 'Mực nước ban đầu', qty: 'length', step: 0.1 },
+                        { key: 'minLevel', label: 'Mực nước tối thiểu', qty: 'length', step: 0.1 },
+                        { key: 'maxLevel', label: 'Mực nước tối đa', qty: 'length', step: 0.1 },
+                        { key: 'diameter', label: 'Đường kính bể', qty: 'length', step: 0.1 }
+                    ]
+                },
+                pipe: {
+                    label: 'Ống dẫn (Pipe)', color: '#0891A8', fields: [
+                        { key: 'length', label: 'Chiều dài', qty: 'length', step: 0.1 },
+                        { key: 'diameter', label: 'Đường kính', qty: 'diameter', step: 1 },
+                        { key: 'roughness', label: 'Hệ số nhám Hazen-Williams (C)', step: 1 },
+                        { key: 'status', label: 'Trạng thái', select: ['Open', 'Closed'] }
+                    ]
+                },
+                pump: {
+                    label: 'Máy bơm (Pump)', color: '#0B1F3A', fields: [
+                        { key: 'power', label: 'Công suất bơm (kW)', step: 0.1 }
+                    ]
+                },
+                valve: {
+                    label: 'Van điều tiết (Valve)', color: '#FFB238', fields: [
+                        { key: 'diameter', label: 'Đường kính', qty: 'diameter', step: 1 },
+                        { key: 'type', label: 'Loại van', select: ['PRV', 'PSV', 'FCV', 'TCV', 'GPV', 'PBV'] },
+                        { key: 'setting', label: 'Giá trị cài đặt', qty: function (obj) { return (obj.type === 'PRV' || obj.type === 'PSV') ? 'pressure' : (obj.type === 'FCV' ? 'flow' : null); }, step: 0.1 }
+                    ]
+                }
+            };
+
+            /* =========================================================================
+               BỘ CHUYỂN ĐỔI ĐƠN VỊ (Units engine) — Hướng A: chỉ đổi HIỂN THỊ/NHẬP LIỆU
+               trong app. Dữ liệu gốc luôn lưu theo hệ mét/SI cố định (m, mm, L/s,
+               mH2O, m/s) và file .INP xuất ra LUÔN theo "Units LPS" như EPANET yêu
+               cầu — không phụ thuộc đơn vị người dùng đang xem trên màn hình.
+               ========================================================================= */
+            var UNIT_DEFS = {
+                length: {
+                    base: 'm', label: 'Chiều dài / Cao độ', options: {
+                        m: { label: 'm', factor: 1 },
+                        km: { label: 'km', factor: 1000 },
+                        ft: { label: 'ft', factor: 0.3048 }
+                    }
+                },
+                diameter: {
+                    base: 'mm', label: 'Đường kính ống/van', options: {
+                        mm: { label: 'mm', factor: 1 },
+                        inch: { label: 'inch (in)', factor: 25.4 }
+                    }
+                },
+                flow: {
+                    base: 'Ls', label: 'Lưu lượng', options: {
+                        Ls: { label: 'L/s', factor: 1 },
+                        m3h: { label: 'm³/h', factor: 1 / 3.6 },
+                        m3d: { label: 'm³/ngày', factor: 1 / 86.4 },
+                        gpm: { label: 'gpm (US)', factor: 0.0630902 }
+                    }
+                },
+                pressure: {
+                    base: 'mH2O', label: 'Áp lực / cột nước', options: {
+                        mH2O: { label: 'm cột nước (mH₂O)', factor: 1 },
+                        bar: { label: 'bar', factor: 10.19716 },
+                        kPa: { label: 'kPa', factor: 0.101972 },
+                        psi: { label: 'psi', factor: 0.70307 }
+                    }
+                },
+                velocity: {
+                    base: 'ms', label: 'Vận tốc', options: {
+                        ms: { label: 'm/s', factor: 1 },
+                        fts: { label: 'ft/s', factor: 0.3048 }
+                    }
+                }
+            };
+            function unitOpt(qty, unit) { return UNIT_DEFS[qty].options[unit || state.units[qty]]; }
+            function unitToBase(value, qty) { if (!qty || !UNIT_DEFS[qty]) return value; return value * unitOpt(qty).factor; }
+            function unitFromBase(value, qty) { if (!qty || !UNIT_DEFS[qty]) return value; return value / unitOpt(qty).factor; }
+            function unitLabel(qty, unit) { return UNIT_DEFS[qty] ? UNIT_DEFS[qty].options[unit || state.units[qty]].label : ''; }
+            function fmtQty(valueBase, qty, decimals) {
+                if (valueBase == null || !isFinite(valueBase)) return '—';
+                var d = (decimals == null) ? 1 : decimals;
+                return unitFromBase(valueBase, qty).toFixed(d) + ' ' + unitLabel(qty);
+            }
+            function renderUnitsPanel() {
+                var body = document.getElementById('unitsPanelBody');
+                if (!body) return;
+                var rows = ['length', 'diameter', 'flow', 'pressure', 'velocity'].map(function (qty) {
+                    var def = UNIT_DEFS[qty];
+                    var opts = Object.keys(def.options).map(function (u) {
+                        return '<option value="' + u + '"' + (state.units[qty] === u ? ' selected' : '') + '>' + def.options[u].label + '</option>';
+                    }).join('');
+                    return '<label class="prop-field"><span>' + def.label + '</span><select data-qty="' + qty + '">' + opts + '</select></label>';
+                }).join('');
+                body.innerHTML = rows + '<p class="json-note" style="margin:8px 0 0;">Chỉ đổi cách nhập/hiển thị — file .INP xuất ra vẫn luôn theo hệ mét chuẩn (Units LPS) để dùng đúng với EPANET.</p>';
+            }
+            function applyUnitsPanel() {
+                var body = document.getElementById('unitsPanelBody');
+                if (!body) return;
+                body.querySelectorAll('select[data-qty]').forEach(function (sel) { state.units[sel.dataset.qty] = sel.value; });
+                refreshUnitDependentUI();
+            }
+            function refreshUnitDependentUI() {
+                renderPropertyPanel();
+                if (state.lastSim) { renderSimResults(state.lastSim.res, state.lastSim.sc, state.lastSim.demand, state.lastSim.ms); }
+                if (state.lastCompare) { renderComparison(state.lastCompare.results, state.lastCompare.wallMs, state.lastCompare.net); }
+            }
+
+            var HINTS = {
+                'select': 'Chế độ <b>Chọn</b> — nhấp vào một phần tử trên bản đồ để xem/sửa thuộc tính, hoặc dùng công cụ bên trái để thêm mới.',
+                'add-reservoir': 'Nhấp vào bản đồ để thêm <b>Nguồn nước</b> (Reservoir) — điểm cấp nước đầu vào của mạng lưới.',
+                'add-tank': 'Nhấp vào bản đồ để thêm <b>Bể chứa</b> (Tank).',
+                'add-junction': 'Nhấp vào bản đồ để thêm <b>Nút tiêu thụ</b> (Junction).',
+                'connect-pipe': 'Nhấp chọn nút thứ nhất, sau đó nút thứ hai để nối <b>Ống dẫn</b>.',
+                'connect-pump': 'Nhấp chọn nút thứ nhất, sau đó nút thứ hai để nối <b>Máy bơm</b>.',
+                'connect-valve': 'Nhấp chọn nút thứ nhất, sau đó nút thứ hai để nối <b>Van điều tiết</b>.',
+                'delete': 'Nhấp vào một phần tử để <b>xóa</b> — các liên kết đi kèm nút sẽ được xóa theo.'
+            };
+
+            var KIND_OF = { junction: 'node', reservoir: 'node', tank: 'node', pipe: 'link', pump: 'link', valve: 'link' };
+            var COLL_OF = { junction: 'junctions', reservoir: 'reservoirs', tank: 'tanks', pipe: 'pipes', pump: 'pumps', valve: 'valves' };
+            var PREFIX_OF = { junction: 'J', reservoir: 'R', tank: 'T', pipe: 'P', pump: 'PU', valve: 'V' };
+
+            /* ---------- State ---------- */
+            var state = {
+                network: { junctions: [], reservoirs: [], tanks: [], pipes: [], pumps: [], valves: [] },
+                counters: {},
+                mode: 'select',
+                pendingConnectFrom: null,
+                selected: null,
+                markers: {},
+                links: {},
+                nodeIndex: {},
+                units: { length: 'm', diameter: 'mm', flow: 'Ls', pressure: 'mH2O', velocity: 'ms' }
+            };
+
+            /* ---------- Map ---------- */
+            var map = L.map('map', { zoomControl: true }).setView([16.4637, 107.5909], 14);
+            var baseOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            var baseSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 19, attribution: 'Tiles &copy; Esri'
+            });
+            L.control.layers({ 'Bản đồ nền (OSM)': baseOSM, 'Ảnh vệ tinh': baseSat }, null, { position: 'topright', collapsed: true }).addTo(map);
+            setTimeout(function () { map.invalidateSize(); }, 150);
+
+            var layerGroups = {
+                reservoir: L.layerGroup().addTo(map),
+                tank: L.layerGroup().addTo(map),
+                junction: L.layerGroup().addTo(map),
+                pipe: L.layerGroup().addTo(map),
+                pump: L.layerGroup().addTo(map),
+                valve: L.layerGroup().addTo(map)
+            };
+            var LAYER_LABELS = { reservoir: 'Nguồn nước', tank: 'Bể chứa', junction: 'Nút tiêu thụ', pipe: 'Ống dẫn', pump: 'Máy bơm', valve: 'Van điều tiết' };
+
+            map.on('click', function (e) {
+                var m = state.mode;
+                if (m === 'add-junction') addNode('junction', e.latlng.lat, e.latlng.lng);
+                else if (m === 'add-reservoir') addNode('reservoir', e.latlng.lat, e.latlng.lng);
+                else if (m === 'add-tank') addNode('tank', e.latlng.lat, e.latlng.lng);
+                else if (m === 'select') clearSelection();
+            });
+
+            /* ---------- DOM refs ---------- */
+            var countBadge = document.getElementById('countBadge');
+            var mapHint = document.getElementById('mapHint');
+            var propContent = document.getElementById('propContent');
+            var listContent = document.getElementById('listContent');
+            var jsonPre = document.getElementById('jsonPre');
+
+            /* ---------- Toolbar ---------- */
+            document.querySelectorAll('.tool-btn[data-mode]').forEach(function (btn) {
+                btn.addEventListener('click', function () { setMode(btn.dataset.mode); });
+            });
+            function setMode(mode) {
+                state.mode = mode;
+                resetPending();
+                document.querySelectorAll('.tool-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.mode === mode); });
+                setHint(HINTS[mode] || '');
+            }
+            function setHint(html) { mapHint.innerHTML = html; }
+
+            /* ---------- Tabs ---------- */
+            document.querySelectorAll('.tab-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
+            });
+            function switchTab(name) {
+                document.querySelectorAll('.tab-btn').forEach(function (t) { t.classList.toggle('active', t.dataset.tab === name); });
+                document.querySelectorAll('.tab-pane').forEach(function (p) { p.classList.toggle('active', p.id === 'tab-' + name); });
+                if (name === 'list') renderList();
+                if (name === 'json') renderJSON();
+            }
+
+            /* ---------- Node / Link creation ---------- */
+            function nodePopupHTML(type, obj, sim) {
+                var title = type === 'reservoir' ? 'Nguồn nước' : (type === 'tank' ? 'Bể chứa' : 'Nút tiêu thụ');
+                var html = '<b>' + title + ' ' + obj.id + '</b><br>';
+                if (type === 'junction') {
+                    html += 'Cao độ: ' + fmtQty(obj.elevation, 'length') + ' · Nhu cầu: ' + fmtQty(obj.baseDemand, 'flow', 2);
+                    if (sim && sim.heads[obj.id] != null) {
+                        var p = sim.heads[obj.id] - obj.elevation;
+                        html += '<br>Cột nước: ' + fmtQty(sim.heads[obj.id], 'length') + ' · <b style="color:' + (p < 10 ? '#FF6B4A' : p < 20 ? '#FFB238' : '#066476') + '">Áp lực: ' + fmtQty(p, 'pressure') + '</b>';
+                    }
+                } else if (type === 'reservoir') {
+                    html += 'Cột nước cấp: ' + fmtQty(obj.head, 'length');
+                } else {
+                    html += 'Cao độ: ' + fmtQty(obj.elevation, 'length') + ' · Mực nước: ' + fmtQty(obj.initLevel, 'length') + ' (min ' + fmtQty(obj.minLevel, 'length') + ' – max ' + fmtQty(obj.maxLevel, 'length') + ')';
+                    if (sim && sim.heads[obj.id] != null) html += '<br>Cột nước hiện tại: ' + fmtQty(sim.heads[obj.id], 'length');
+                }
+                return html;
+            }
+            function linkPopupHTML(kind, obj, sim) {
+                var title = kind === 'pipe' ? 'Ống dẫn' : (kind === 'pump' ? 'Máy bơm' : 'Van ' + obj.type);
+                var html = '<b>' + title + ' ' + obj.id + '</b><br>' + obj.node1 + ' → ' + obj.node2;
+                if (kind === 'pipe') html += '<br>Dài ' + fmtQty(obj.length, 'length') + ' · Ø' + fmtQty(obj.diameter, 'diameter', 0) + ' · C=' + obj.roughness + ' · ' + obj.status;
+                if (kind === 'pump') html += '<br>Công suất: ' + obj.power + ' kW';
+                if (kind === 'valve') {
+                    var settingQty = (obj.type === 'PRV' || obj.type === 'PSV') ? 'pressure' : (obj.type === 'FCV' ? 'flow' : null);
+                    html += '<br>Ø' + fmtQty(obj.diameter, 'diameter', 0) + ' · Cài đặt: ' + (settingQty ? fmtQty(obj.setting, settingQty, 2) : obj.setting);
+                }
+                if (sim && sim.flows[obj.id] != null) {
+                    var q = sim.flows[obj.id] * 1000;
+                    html += '<br>Lưu lượng: ' + fmtQty(q, 'flow', 2);
+                    if (kind === 'pipe') {
+                        var D = obj.diameter / 1000;
+                        var v = Math.abs(sim.flows[obj.id]) / (Math.PI / 4 * D * D);
+                        html += ' · Vận tốc: <b style="color:' + (v > 2.5 ? '#FF6B4A' : v > 1.5 ? '#FFB238' : '#066476') + '">' + fmtQty(v, 'velocity', 2) + '</b>';
+                    }
+                }
+                return html;
+            }
+
+            function placeNodeObj(type, obj) {
+                state.network[COLL_OF[type]].push(obj);
+                state.nodeIndex[obj.id] = { type: type, obj: obj };
+                var color = type === 'reservoir' ? '#FF6B4A' : (type === 'tank' ? '#FFB238' : '#0891A8');
+                var marker = L.circleMarker([obj.lat, obj.lng], { radius: 8, color: '#fff', weight: 2, fillColor: color, fillOpacity: 1, bubblingMouseEvents: false }).addTo(layerGroups[type]);
+                marker.bindTooltip(obj.id, { direction: 'top', offset: [0, -8] });
+                marker.bindPopup(nodePopupHTML(type, obj, null));
+                marker.on('click', function () { onNodeClick(type, obj.id); });
+                state.markers[obj.id] = marker;
+            }
+
+            function placeLinkObj(kind, obj) {
+                var a = state.nodeIndex[obj.node1].obj, b = state.nodeIndex[obj.node2].obj;
+                var color, dash;
+                if (kind === 'pipe') { color = '#0891A8'; dash = obj.status === 'Closed' ? '4 4' : null; }
+                else if (kind === 'pump') { color = '#0B1F3A'; dash = '6 4'; }
+                else { color = '#FFB238'; dash = '2 5'; }
+                state.network[COLL_OF[kind]].push(obj);
+                var line = L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: color, weight: kind === 'pipe' ? Math.min(12, Math.max(2, obj.diameter / 30)) : 4, dashArray: dash, bubblingMouseEvents: false }).addTo(layerGroups[kind]);
+                line.bindPopup(linkPopupHTML(kind, obj, null));
+                line.on('click', function () { onLinkClick(kind, obj.id); });
+                state.links[obj.id] = line;
+            }
+
+            function addNode(type, lat, lng, overrides) {
+                overrides = overrides || {};
+                var prefix = PREFIX_OF[type];
+                state.counters[prefix] = (state.counters[prefix] || 0) + 1;
+                var id = prefix + state.counters[prefix];
+                var obj;
+                if (type === 'junction') obj = Object.assign({ id: id, lat: lat, lng: lng, elevation: 10, baseDemand: 5 }, overrides, { id: id });
+                else if (type === 'reservoir') obj = Object.assign({ id: id, lat: lat, lng: lng, head: 40 }, overrides, { id: id });
+                else obj = Object.assign({ id: id, lat: lat, lng: lng, elevation: 15, initLevel: 3, minLevel: 0.5, maxLevel: 6, diameter: 10 }, overrides, { id: id });
+                placeNodeObj(type, obj);
+                syncAll();
+                return id;
+            }
+
+            function addLink(kind, fromId, toId, overrides) {
+                overrides = overrides || {};
+                var prefix = PREFIX_OF[kind];
+                state.counters[prefix] = (state.counters[prefix] || 0) + 1;
+                var id = prefix + state.counters[prefix];
+                var a = state.nodeIndex[fromId].obj, b = state.nodeIndex[toId].obj;
+                var length = L.latLng(a.lat, a.lng).distanceTo([b.lat, b.lng]);
+                var obj;
+                if (kind === 'pipe') { obj = Object.assign({ id: id, node1: fromId, node2: toId, length: Math.round(length * 10) / 10, diameter: 150, roughness: 130, status: 'Open' }, overrides, { id: id, node1: fromId, node2: toId }); }
+                else if (kind === 'pump') { obj = Object.assign({ id: id, node1: fromId, node2: toId, power: 15 }, overrides, { id: id, node1: fromId, node2: toId }); }
+                else { obj = Object.assign({ id: id, node1: fromId, node2: toId, diameter: 150, type: 'PRV', setting: 20 }, overrides, { id: id, node1: fromId, node2: toId }); }
+                placeLinkObj(kind, obj);
+                syncAll();
+                return id;
+            }
+
+            /* ---------- Bulk load (used for the 50-node demo CSDL) ---------- */
+            function loadNetworkData(net) {
+                clearAll(false);
+                net.reservoirs.forEach(function (o) { placeNodeObj('reservoir', o); });
+                net.tanks.forEach(function (o) { placeNodeObj('tank', o); });
+                net.junctions.forEach(function (o) { placeNodeObj('junction', o); });
+                net.pipes.forEach(function (o) { placeLinkObj('pipe', o); });
+                net.pumps.forEach(function (o) { placeLinkObj('pump', o); });
+                net.valves.forEach(function (o) { placeLinkObj('valve', o); });
+                recalcCounters();
+                syncAll();
+            }
+
+            function recalcCounters() {
+                state.counters = {};
+                Object.keys(PREFIX_OF).forEach(function (type) {
+                    var prefix = PREFIX_OF[type];
+                    var re = new RegExp('^' + prefix + '(\\d+)$');
+                    var maxN = 0;
+                    state.network[COLL_OF[type]].forEach(function (o) {
+                        var m = String(o.id).match(re);
+                        if (m) maxN = Math.max(maxN, parseInt(m[1], 10));
+                    });
+                    state.counters[prefix] = Math.max(state.counters[prefix] || 0, maxN);
+                });
+            }
+
+            /* ---------- Click handling ---------- */
+            function onNodeClick(type, id) {
+                if (state.mode.indexOf('connect-') === 0) {
+                    var kind = state.mode.replace('connect-', '');
+                    if (!state.pendingConnectFrom) {
+                        state.pendingConnectFrom = { type: type, id: id };
+                        state.markers[id].setStyle({ weight: 4, color: '#0B1F3A' });
+                        setHint('Đã chọn <b>' + id + '</b> — nhấp nút thứ hai để hoàn tất kết nối.');
+                    } else if (state.pendingConnectFrom.id === id) {
+                        resetPending();
+                        setHint(HINTS[state.mode]);
+                    } else {
+                        var fromId = state.pendingConnectFrom.id;
+                        resetPending();
+                        var newId = addLink(kind, fromId, id);
+                        selectElement('link', kind, newId);
+                        switchTab('props');
+                        setHint('Đã tạo phần tử <b>' + newId + '</b>. Điền thông số ở bảng bên phải.');
+                    }
+                } else if (state.mode === 'delete') {
+                    deleteNode(type, id);
+                } else {
+                    selectElement('node', type, id);
+                    switchTab('props');
+                }
+            }
+
+            function onLinkClick(kind, id) {
+                if (state.mode === 'delete') {
+                    deleteLink(kind, id);
+                } else {
+                    selectElement('link', kind, id);
+                    switchTab('props');
+                }
+            }
+
+            function resetPending() {
+                if (state.pendingConnectFrom) {
+                    var p = state.pendingConnectFrom;
+                    var color = p.type === 'reservoir' ? '#FF6B4A' : (p.type === 'tank' ? '#FFB238' : '#0891A8');
+                    if (state.markers[p.id]) state.markers[p.id].setStyle({ weight: 2, color: '#fff', fillColor: color });
+                }
+                state.pendingConnectFrom = null;
+            }
+
+            /* ---------- Delete ---------- */
+            function deleteNode(type, id) {
+                state.network[COLL_OF[type]] = state.network[COLL_OF[type]].filter(function (n) { return n.id !== id; });
+                delete state.nodeIndex[id];
+                if (state.markers[id]) { layerGroups[type].removeLayer(state.markers[id]); delete state.markers[id]; }
+                ['pipe', 'pump', 'valve'].forEach(function (kind) {
+                    state.network[COLL_OF[kind]] = state.network[COLL_OF[kind]].filter(function (l) {
+                        if (l.node1 === id || l.node2 === id) {
+                            if (state.links[l.id]) { layerGroups[kind].removeLayer(state.links[l.id]); delete state.links[l.id]; }
+                            return false;
+                        }
+                        return true;
+                    });
+                });
+                if (state.selected && state.selected.id === id) clearSelection();
+                syncAll();
+            }
+
+            function deleteLink(kind, id) {
+                state.network[COLL_OF[kind]] = state.network[COLL_OF[kind]].filter(function (l) { return l.id !== id; });
+                if (state.links[id]) { layerGroups[kind].removeLayer(state.links[id]); delete state.links[id]; }
+                if (state.selected && state.selected.id === id) clearSelection();
+                syncAll();
+            }
+
+            /* ---------- Selection & property panel ---------- */
+            function getObj(kind, type, id) {
+                var coll = state.network[COLL_OF[type]];
+                return coll.find(function (o) { return o.id === id; });
+            }
+
+            function selectElement(kind, type, id) {
+                state.selected = { kind: kind, type: type, id: id };
+                renderPropertyPanel();
+            }
+            function clearSelection() {
+                state.selected = null;
+                renderPropertyPanel();
+            }
+
+            function renderPropertyPanel() {
+                if (!state.selected) {
+                    propContent.innerHTML = '<div class="prop-empty"><p>Chưa chọn phần tử nào.</p>' +
+                        '<p>Dùng công cụ bên trái để thêm Nguồn nước, Bể chứa, Nút tiêu thụ — rồi nối Ống, Bơm, Van giữa các nút. Nhấp vào một phần tử có sẵn trên bản đồ để chỉnh sửa thuộc tính.</p></div>';
+                    return;
+                }
+                var sel = state.selected;
+                var obj = getObj(sel.kind, sel.type, sel.id);
+                if (!obj) { clearSelection(); return; }
+                var def = FIELD_DEFS[sel.type];
+
+                var html = '<div class="prop-header"><span class="prop-dot" style="background:' + def.color + '"></span>' +
+                    '<div><div class="prop-type">' + def.label + '</div><div class="prop-id">' + obj.id + '</div></div></div>';
+                html += '<div class="prop-fields">';
+                def.fields.forEach(function (f) { html += fieldHTML(f, obj); });
+                html += '</div>';
+                if (sel.kind === 'link') {
+                    html += '<div class="prop-endpoints">Nối từ <b>' + obj.node1 + '</b> → <b>' + obj.node2 + '</b></div>';
+                }
+                html += '<button class="btn prop-delete" id="propDeleteBtn">Xóa phần tử</button>';
+                propContent.innerHTML = html;
+            }
+
+            function fieldHTML(f, obj) {
+                if (f.select) {
+                    var opts = f.select.map(function (o) { return '<option value="' + o + '"' + (obj[f.key] === o ? ' selected' : '') + '>' + o + '</option>'; }).join('');
+                    return '<label class="prop-field"><span>' + f.label + '</span><select data-key="' + f.key + '">' + opts + '</select></label>';
+                }
+                var qty = (typeof f.qty === 'function') ? f.qty(obj) : (f.qty || null);
+                var unitSuffix = qty ? (' (' + unitLabel(qty) + ')') : '';
+                var dispVal = qty ? unitFromBase(obj[f.key], qty) : obj[f.key];
+                var step = f.step || 1;
+                if (qty && UNIT_DEFS[qty] && state.units[qty] !== UNIT_DEFS[qty].base) { step = step >= 1 ? step / 10 : step; }
+                dispVal = Math.round(dispVal * 1e6) / 1e6;
+                return '<label class="prop-field"><span>' + f.label + unitSuffix + '</span><input type="number" step="' + step + '" value="' + dispVal + '" data-key="' + f.key + '"' + (qty ? (' data-qty="' + qty + '"') : '') + ' data-numeric="1"></label>';
+            }
+
+            propContent.addEventListener('input', handlePropChange);
+            propContent.addEventListener('change', handlePropChange);
+            propContent.addEventListener('click', function (e) {
+                if (e.target && e.target.id === 'propDeleteBtn' && state.selected) {
+                    var sel = state.selected;
+                    if (sel.kind === 'node') deleteNode(sel.type, sel.id); else deleteLink(sel.type, sel.id);
+                }
+            });
+
+            function handlePropChange(e) {
+                var key = e.target.dataset ? e.target.dataset.key : null;
+                if (!key || !state.selected) return;
+                var sel = state.selected;
+                var obj = getObj(sel.kind, sel.type, sel.id);
+                if (!obj) return;
+                var val = e.target.value;
+                if (e.target.dataset.numeric) {
+                    val = parseFloat(val) || 0;
+                    var qty = e.target.dataset.qty || null;
+                    if (qty) val = unitToBase(val, qty);
+                }
+                obj[key] = val;
+
+                if (sel.kind === 'link') {
+                    var line = state.links[obj.id];
+                    if (line && sel.type === 'pipe') {
+                        if (key === 'diameter') line.setStyle({ weight: Math.min(12, Math.max(2, obj.diameter / 30)) });
+                        if (key === 'status') line.setStyle({ opacity: obj.status === 'Closed' ? 0.35 : 1, dashArray: obj.status === 'Closed' ? '4 4' : null });
+                    }
+                }
+                syncAll();
+            }
+
+            /* ---------- List tab ---------- */
+            function renderList() {
+                var groups = [
+                    { title: 'Nguồn nước', kind: 'node', type: 'reservoir', items: state.network.reservoirs },
+                    { title: 'Bể chứa', kind: 'node', type: 'tank', items: state.network.tanks },
+                    { title: 'Nút tiêu thụ', kind: 'node', type: 'junction', items: state.network.junctions },
+                    { title: 'Ống dẫn', kind: 'link', type: 'pipe', items: state.network.pipes },
+                    { title: 'Máy bơm', kind: 'link', type: 'pump', items: state.network.pumps },
+                    { title: 'Van điều tiết', kind: 'link', type: 'valve', items: state.network.valves }
+                ];
+                var html = groups.map(function (g) {
+                    var rows = g.items.length
+                        ? g.items.map(function (it) {
+                            var sub = g.kind === 'link' ? ' <span class="list-sub">' + it.node1 + ' → ' + it.node2 + '</span>' : '';
+                            return '<div class="list-row" data-kind="' + g.kind + '" data-type="' + g.type + '" data-id="' + it.id + '"><span>' + it.id + '</span>' + sub + '</div>';
+                        }).join('')
+                        : '<div class="list-empty">Chưa có</div>';
+                    return '<div class="list-group"><div class="list-group-title"><span>' + g.title + '</span><span>' + g.items.length + '</span></div>' + rows + '</div>';
+                }).join('');
+                listContent.innerHTML = html;
+            }
+            listContent.addEventListener('click', function (e) {
+                var row = e.target.closest('.list-row');
+                if (!row) return;
+                selectElement(row.dataset.kind, row.dataset.type, row.dataset.id);
+                switchTab('props');
+            });
+
+            /* ---------- JSON tab ---------- */
+            function renderJSON() { jsonPre.textContent = JSON.stringify(state.network, null, 2); }
+
+            /* ---------- Counts / sync ---------- */
+            function refreshCounts() {
+                var n = state.network;
+                countBadge.textContent = n.reservoirs.length + ' nguồn · ' + n.tanks.length + ' bể · ' + n.junctions.length + ' nút · ' + n.pipes.length + ' ống · ' + n.pumps.length + ' bơm · ' + n.valves.length + ' van';
+            }
+            function syncAll() {
+                refreshCounts();
+                if (document.getElementById('tab-list').classList.contains('active')) renderList();
+                if (document.getElementById('tab-json').classList.contains('active')) renderJSON();
+            }
+
+            /* ---------- Sample network ---------- */
+            /* ---------- Bảng chọn đơn vị hiển thị ---------- */
+            document.getElementById('btnUnitsToggle').addEventListener('click', function () {
+                var panel = document.getElementById('unitsPanel');
+                var willShow = panel.style.display === 'none';
+                if (willShow) renderUnitsPanel();
+                panel.style.display = willShow ? 'block' : 'none';
+            });
+            document.getElementById('btnUnitsApply').addEventListener('click', function () {
+                applyUnitsPanel();
+                document.getElementById('unitsPanel').style.display = 'none';
+            });
+            document.addEventListener('click', function (e) {
+                var panel = document.getElementById('unitsPanel');
+                if (panel.style.display === 'none') return;
+                if (e.target.closest('#unitsPanel') || e.target.id === 'btnUnitsToggle') return;
+                panel.style.display = 'none';
+            });
+
+            document.getElementById('btnSample').addEventListener('click', function () {
+                clearAll(false);
+                var r1 = addNode('reservoir', 16.4700, 107.5850, { head: 38 });
+                var t1 = addNode('tank', 16.4658, 107.5928, { elevation: 22, initLevel: 4, minLevel: 1, maxLevel: 6, diameter: 12 });
+                var j1 = addNode('junction', 16.4652, 107.5880, { elevation: 8, baseDemand: 12 });
+                var j2 = addNode('junction', 16.4630, 107.5912, { elevation: 6, baseDemand: 9 });
+                var j3 = addNode('junction', 16.4608, 107.5942, { elevation: 5, baseDemand: 15 });
+                addLink('pipe', r1, j1, { diameter: 250, roughness: 130 });
+                addLink('pump', j1, t1, { power: 11 });
+                addLink('pipe', j1, j2, { diameter: 200, roughness: 130 });
+                addLink('pipe', j2, j3, { diameter: 150, roughness: 120 });
+                addLink('valve', t1, j2, { diameter: 150, type: 'PRV', setting: 18 });
+                map.setView([16.4645, 107.5900], 14);
+                setHint('Đã tải mạng lưới mẫu — bấm vào bất kỳ phần tử nào để xem thuộc tính, hoặc mở tab <b>Dữ liệu JSON</b>.');
+            });
+
+            document.getElementById('btnDemo50').addEventListener('click', function () {
+                var el = document.getElementById('demoNetwork50');
+                if (!el) { setHint('Không tìm thấy dữ liệu CSDL demo trong trang.'); return; }
+                var net = JSON.parse(el.textContent);
+                loadNetworkData(net);
+                map.fitBounds(L.latLngBounds(
+                    net.junctions.concat(net.reservoirs, net.tanks).map(function (n) { return [n.lat, n.lng]; })
+                ), { padding: [30, 30] });
+                setMode('select');
+                setHint('Đã nạp <b>CSDL demo 50 nút</b> (xuất từ Shapefile thật — xem file <code>.zip</code> để đối chiếu). Mở tab <b>Dữ liệu JSON</b> để xem toàn bộ schema, hoặc bấm từng phần tử để kiểm tra thuộc tính.');
+                switchTab('list');
+            });
+
+            document.getElementById('btnClear').addEventListener('click', function () { clearAll(true); });
+            function clearAll(ask) {
+                if (ask && !confirm('Xóa toàn bộ mạng lưới hiện tại?')) return;
+                Object.keys(layerGroups).forEach(function (k) { layerGroups[k].clearLayers(); });
+                state.network = { junctions: [], reservoirs: [], tanks: [], pipes: [], pumps: [], valves: [] };
+                state.markers = {}; state.links = {}; state.nodeIndex = {}; state.counters = {};
+                clearSelection();
+                hideMapLegend();
+                syncAll();
+            }
+
+            /* ---------- Export: JSON ---------- */
+            document.getElementById('btnExportJSON').addEventListener('click', function () {
+                downloadText('mang-luoi.json', JSON.stringify(state.network, null, 2));
+            });
+
+            /* ---------- Export: EPANET .inp ---------- */
+            document.getElementById('btnExportINP').addEventListener('click', function () {
+                downloadText('mang-luoi.inp', generateINP(state.network));
+            });
+
+            function generateINP(net) {
+                var L_ = [];
+                L_.push('[TITLE]');
+                L_.push('Mang luoi cap nuoc - xuat tu HydraCore Network Builder');
+                L_.push('');
+                L_.push('[JUNCTIONS]');
+                L_.push(';ID\tElev\tDemand\tPattern');
+                net.junctions.forEach(function (j) { L_.push(j.id + '\t' + j.elevation + '\t' + j.baseDemand); });
+                L_.push('');
+                L_.push('[RESERVOIRS]');
+                L_.push(';ID\tHead');
+                net.reservoirs.forEach(function (r) { L_.push(r.id + '\t' + r.head); });
+                L_.push('');
+                L_.push('[TANKS]');
+                L_.push(';ID\tElevation\tInitLevel\tMinLevel\tMaxLevel\tDiameter\tMinVol');
+                net.tanks.forEach(function (t) { L_.push(t.id + '\t' + t.elevation + '\t' + t.initLevel + '\t' + t.minLevel + '\t' + t.maxLevel + '\t' + t.diameter + '\t0'); });
+                L_.push('');
+                L_.push('[PIPES]');
+                L_.push(';ID\tNode1\tNode2\tLength\tDiameter\tRoughness\tMinorLoss\tStatus');
+                net.pipes.forEach(function (p) { L_.push(p.id + '\t' + p.node1 + '\t' + p.node2 + '\t' + p.length + '\t' + p.diameter + '\t' + p.roughness + '\t0\t' + p.status); });
+                L_.push('');
+                L_.push('[PUMPS]');
+                L_.push(';ID\tNode1\tNode2\tParameters');
+                net.pumps.forEach(function (pu) { L_.push(pu.id + '\t' + pu.node1 + '\t' + pu.node2 + '\tPOWER ' + pu.power); });
+                L_.push('');
+                L_.push('[VALVES]');
+                L_.push(';ID\tNode1\tNode2\tDiameter\tType\tSetting\tMinorLoss');
+                net.valves.forEach(function (v) { L_.push(v.id + '\t' + v.node1 + '\t' + v.node2 + '\t' + v.diameter + '\t' + v.type + '\t' + v.setting + '\t0'); });
+                L_.push('');
+                L_.push('[COORDINATES]');
+                L_.push(';Node\tX-Coord\tY-Coord');
+                net.junctions.concat(net.reservoirs, net.tanks).forEach(function (n) { L_.push(n.id + '\t' + n.lng.toFixed(6) + '\t' + n.lat.toFixed(6)); });
+                L_.push('');
+                L_.push('[OPTIONS]');
+                L_.push('Units\tLPS');
+                L_.push('Headloss\tH-W');
+                L_.push('');
+                L_.push('[END]');
+                return L_.join('\n');
+            }
+
+            function downloadText(filename, text) {
+                var blob = new Blob([text], { type: 'text/plain' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url; a.download = filename;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            /* ============================================================
+               Bước 2 — Bộ đọc Shapefile nhị phân (.shp + .dbf) chạy hoàn
+               toàn phía trình duyệt, không cần máy chủ.
+               Hỗ trợ: geometry Point + PolyLine, thuộc tính kiểu C/N.
+               Chưa hỗ trợ: Polygon, MultiPoint, chuyển đổi hệ tọa độ.
+               ============================================================ */
+            function readSHP(buffer) {
+                var view = new DataView(buffer);
+                var shapeType = view.getInt32(32, true);
+                var records = [];
+                var pos = 100;
+                while (pos + 8 <= buffer.byteLength) {
+                    pos += 4; // record number (big-endian, unused)
+                    var contentLenWords = view.getInt32(pos, false); pos += 4;
+                    var contentLen = contentLenWords * 2;
+                    var recStart = pos;
+                    var recType = view.getInt32(pos, true);
+                    if (recType === 1) {
+                        records.push({ type: 'Point', coords: [view.getFloat64(pos + 4, true), view.getFloat64(pos + 12, true)] });
+                    } else if (recType === 3 || recType === 5) {
+                        var numParts = view.getInt32(pos + 36, true);
+                        var numPoints = view.getInt32(pos + 40, true);
+                        var partsStart = pos + 44;
+                        var pointsStart = partsStart + numParts * 4;
+                        var starts = [];
+                        for (var i = 0; i < numParts; i++) starts.push(view.getInt32(partsStart + i * 4, true));
+                        var pts = [];
+                        for (var j = 0; j < numPoints; j++) {
+                            pts.push([view.getFloat64(pointsStart + j * 16, true), view.getFloat64(pointsStart + j * 16 + 8, true)]);
+                        }
+                        var parts = [];
+                        for (var k = 0; k < numParts; k++) {
+                            var s = starts[k], e2 = (k + 1 < numParts) ? starts[k + 1] : numPoints;
+                            parts.push(pts.slice(s, e2));
+                        }
+                        records.push({ type: recType === 3 ? 'PolyLine' : 'Polygon', parts: parts });
+                    } else {
+                        records.push(null); // null shape or unsupported type
+                    }
+                    pos = recStart + contentLen;
+                }
+                return { shapeType: shapeType, records: records };
+            }
+
+            function readDBF(buffer) {
+                var view = new DataView(buffer);
+                var numRecords = view.getInt32(4, true);
+                var headerLen = view.getInt16(8, true);
+                var recordLen = view.getInt16(10, true);
+                var fields = [];
+                var pos = 32;
+                while (pos < headerLen - 1 && view.getUint8(pos) !== 0x0D) {
+                    var nb = new Uint8Array(buffer, pos, 11);
+                    var name = '';
+                    for (var i = 0; i < 11; i++) { if (nb[i] === 0) break; name += String.fromCharCode(nb[i]); }
+                    fields.push({ name: name, type: String.fromCharCode(view.getUint8(pos + 11)), length: view.getUint8(pos + 16) });
+                    pos += 32;
+                }
+                var decoder = new TextDecoder('utf-8');
+                var records = [];
+                for (var r = 0; r < numRecords; r++) {
+                    var recPos = headerLen + r * recordLen;
+                    if (recPos + recordLen > buffer.byteLength) break;
+                    var deleted = view.getUint8(recPos) === 0x2A;
+                    var fpos = recPos + 1;
+                    var rec = {};
+                    fields.forEach(function (f) {
+                        var bytes = new Uint8Array(buffer, fpos, f.length);
+                        var text = decoder.decode(bytes).trim();
+                        rec[f.name] = (f.type === 'N' || f.type === 'F') ? (text === '' ? null : parseFloat(text)) : text;
+                        fpos += f.length;
+                    });
+                    if (!deleted) records.push(rec);
+                }
+                return { fields: fields, records: records };
+            }
+
+            function fget(rec, keys, fallback) {
+                for (var i = 0; i < keys.length; i++) {
+                    for (var key in rec) {
+                        if (key.toUpperCase() === keys[i].toUpperCase() && rec[key] !== null && rec[key] !== '') return rec[key];
+                    }
+                }
+                return fallback;
+            }
+            function numOr(v, fb) { var n = parseFloat(v); return isNaN(n) ? fb : n; }
+
+            function detectRole(basename) {
+                var b = basename.toLowerCase();
+                if (b.indexOf('reservoir') >= 0 || b.indexOf('nguon') >= 0) return 'reservoir';
+                if (b.indexOf('tank') >= 0 || b.indexOf('be_chua') >= 0 || b.indexOf('bechua') >= 0) return 'tank';
+                if (b.indexOf('junction') >= 0 || b.indexOf('nut') >= 0) return 'junction';
+                if (b.indexOf('pump') >= 0 || b.indexOf('bom') >= 0) return 'pump';
+                if (b.indexOf('valve') >= 0 || b.indexOf('van') >= 0) return 'valve';
+                if (b.indexOf('pipe') >= 0 || b.indexOf('ong') >= 0) return 'pipe';
+                return '';
+            }
+
+            function buildNodesFromGroup(role, shp, dbf) {
+                var out = [];
+                shp.records.forEach(function (geom, i) {
+                    if (!geom || geom.type !== 'Point') return;
+                    var rec = dbf.records[i] || {};
+                    var lng = geom.coords[0], lat = geom.coords[1];
+                    var id = String(fget(rec, ['ID'], role.toUpperCase() + (i + 1)));
+                    if (role === 'junction') {
+                        out.push({
+                            id: id, lat: lat, lng: lng, elevation: numOr(fget(rec, ['ELEV', 'ELEVATION'], 10), 10),
+                            baseDemand: numOr(fget(rec, ['DEMAND', 'BASEDEMAND'], 5), 5), sector: String(fget(rec, ['SECTOR'], '')), pattern: String(fget(rec, ['PATTERN'], ''))
+                        });
+                    } else if (role === 'reservoir') {
+                        out.push({ id: id, lat: lat, lng: lng, head: numOr(fget(rec, ['HEAD'], 40), 40) });
+                    } else if (role === 'tank') {
+                        out.push({
+                            id: id, lat: lat, lng: lng, elevation: numOr(fget(rec, ['ELEV', 'ELEVATION'], 15), 15),
+                            initLevel: numOr(fget(rec, ['INITLVL', 'INITLEVEL'], 3), 3), minLevel: numOr(fget(rec, ['MINLVL', 'MINLEVEL'], 0.5), 0.5),
+                            maxLevel: numOr(fget(rec, ['MAXLVL', 'MAXLEVEL'], 6), 6), diameter: numOr(fget(rec, ['DIAM', 'DIAMETER'], 10), 10)
+                        });
+                    }
+                });
+                return out;
+            }
+
+            function buildLinksFromGroup(role, shp, dbf) {
+                var out = [];
+                shp.records.forEach(function (geom, i) {
+                    if (!geom || geom.type !== 'PolyLine') return;
+                    var rec = dbf.records[i] || {};
+                    var endpoints = geom.parts[0];
+                    var id = String(fget(rec, ['ID'], role.toUpperCase() + (i + 1)));
+                    var node1 = String(fget(rec, ['NODE1'], ''));
+                    var node2 = String(fget(rec, ['NODE2'], ''));
+                    if (role === 'pipe') {
+                        out.push({
+                            id: id, node1: node1, node2: node2, length: numOr(fget(rec, ['LENGTH'], 100), 100),
+                            diameter: numOr(fget(rec, ['DIAM', 'DIAMETER'], 150), 150), roughness: numOr(fget(rec, ['ROUGH', 'ROUGHNESS'], 130), 130),
+                            status: String(fget(rec, ['STATUS'], 'Open')) || 'Open'
+                        });
+                    } else if (role === 'pump') {
+                        out.push({ id: id, node1: node1, node2: node2, power: numOr(fget(rec, ['POWER'], 15), 15) });
+                    } else if (role === 'valve') {
+                        out.push({
+                            id: id, node1: node1, node2: node2, diameter: numOr(fget(rec, ['DIAM', 'DIAMETER'], 150), 150),
+                            type: String(fget(rec, ['VTYPE', 'TYPE'], 'PRV')) || 'PRV', setting: numOr(fget(rec, ['SETTING'], 20), 20)
+                        });
+                    }
+                });
+                return out;
+            }
+
+            function roleOptions(sel) {
+                var opts = [['junction', 'Nút tiêu thụ'], ['reservoir', 'Nguồn nước'], ['tank', 'Bể chứa'], ['pipe', 'Ống dẫn'], ['pump', 'Máy bơm'], ['valve', 'Van điều tiết'], ['', 'Bỏ qua']];
+                return opts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === (sel || '') ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('');
+            }
+
+            /* ---------- Import modal wiring ---------- */
+            var importGroups = {};
+            var importOverlay = document.getElementById('importOverlay');
+            var importPreview = document.getElementById('importPreview');
+
+            document.getElementById('btnImportShp').addEventListener('click', function () {
+                importGroups = {};
+                importPreview.innerHTML = '';
+                document.getElementById('shpFileInput').value = '';
+                importOverlay.classList.add('open');
+            });
+            document.getElementById('importClose').addEventListener('click', closeImportModal);
+            document.getElementById('importCancel').addEventListener('click', closeImportModal);
+            importOverlay.addEventListener('click', function (e) { if (e.target === importOverlay) closeImportModal(); });
+            function closeImportModal() { importOverlay.classList.remove('open'); }
+
+            document.getElementById('shpFileInput').addEventListener('change', function (e) {
+                var files = Array.prototype.slice.call(e.target.files);
+                importGroups = {};
+                files.forEach(function (file) {
+                    var dot = file.name.lastIndexOf('.');
+                    var base = file.name.substring(0, dot).toLowerCase();
+                    var ext = file.name.substring(dot + 1).toLowerCase();
+                    if (!importGroups[base]) importGroups[base] = {};
+                    importGroups[base][ext] = file;
+                });
+                processImportGroups();
+            });
+
+            function processImportGroups() {
+                var bases = Object.keys(importGroups);
+                var pending = bases.length;
+                var prjWgs84 = false, prjOther = false;
+                if (pending === 0) { importPreview.innerHTML = ''; return; }
+                importPreview.innerHTML = '<p>Đang đọc dữ liệu…</p>';
+
+                var readers = bases.map(function (base) {
+                    var g = importGroups[base];
+                    var tasks = [];
+                    if (g.shp) tasks.push(g.shp.arrayBuffer().then(function (buf) { g.shpBuf = buf; }));
+                    if (g.dbf) tasks.push(g.dbf.arrayBuffer().then(function (buf) { g.dbfBuf = buf; }));
+                    if (g.prj) tasks.push(g.prj.text().then(function (txt) { g.prjText = txt; }));
+                    return Promise.all(tasks);
+                });
+
+                Promise.all(readers).then(function () {
+                    var rows = bases.map(function (base) {
+                        var g = importGroups[base];
+                        if (g.prjText) {
+                            if (/WGS_1984|WGS84|4326/i.test(g.prjText)) prjWgs84 = true; else prjOther = true;
+                        }
+                        if (!g.shp || !g.dbf) return { base: base, error: 'Thiếu file .shp hoặc .dbf trong nhóm này' };
+                        try {
+                            g.shpParsed = readSHP(g.shpBuf);
+                            g.dbfParsed = readDBF(g.dbfBuf);
+                        } catch (err) {
+                            return { base: base, error: 'Không đọc được: ' + err.message };
+                        }
+                        g.role = detectRole(base);
+                        return { base: base, count: g.shpParsed.records.length, role: g.role };
+                    });
+                    renderImportRows(rows, prjWgs84, prjOther);
+                });
+            }
+
+            function renderImportRows(rows, prjWgs84, prjOther) {
+                var html = '<table class="import-table"><thead><tr><th>Tệp</th><th>Vai trò</th><th>Số đối tượng</th></tr></thead><tbody>';
+                rows.forEach(function (r) {
+                    if (r.error) {
+                        html += '<tr><td>' + r.base + '</td><td colspan="2" style="color:var(--pressure)">' + r.error + '</td></tr>';
+                    } else {
+                        html += '<tr><td>' + r.base + '</td><td><select class="role-select" data-base="' + r.base + '">' + roleOptions(r.role) + '</select></td><td>' + r.count + '</td></tr>';
+                    }
+                });
+                html += '</tbody></table>';
+                if (prjOther && !prjWgs84) {
+                    html += '<div class="import-warn">Không phát hiện hệ tọa độ WGS-84 (EPSG:4326) trong file .prj — công cụ hiện chưa hỗ trợ tự động chuyển đổi hệ tọa độ, tọa độ có thể lệch vị trí thật trên bản đồ.</div>';
+                } else if (prjWgs84) {
+                    html += '<div class="import-ok">Hệ tọa độ WGS-84 hợp lệ — tọa độ sẽ hiển thị đúng vị trí.</div>';
+                }
+                importPreview.innerHTML = html;
+                importPreview.querySelectorAll('.role-select').forEach(function (sel) {
+                    sel.addEventListener('change', function () { importGroups[sel.dataset.base].role = sel.value; });
+                });
+            }
+
+            document.getElementById('importConfirm').addEventListener('click', function () {
+                var net = { junctions: [], reservoirs: [], tanks: [], pipes: [], pumps: [], valves: [] };
+                var bases = Object.keys(importGroups).filter(function (b) { return importGroups[b].shpParsed; });
+
+                bases.forEach(function (base) {
+                    var g = importGroups[base];
+                    if (g.role === 'junction' || g.role === 'reservoir' || g.role === 'tank') {
+                        net[COLL_OF[g.role]] = net[COLL_OF[g.role]].concat(buildNodesFromGroup(g.role, g.shpParsed, g.dbfParsed));
+                    }
+                });
+
+                var knownIds = {};
+                net.junctions.concat(net.reservoirs, net.tanks).forEach(function (n) { knownIds[n.id] = true; });
+
+                var skipped = 0;
+                bases.forEach(function (base) {
+                    var g = importGroups[base];
+                    if (g.role === 'pipe' || g.role === 'pump' || g.role === 'valve') {
+                        buildLinksFromGroup(g.role, g.shpParsed, g.dbfParsed).forEach(function (l) {
+                            if (knownIds[l.node1] && knownIds[l.node2]) net[COLL_OF[g.role]].push(l);
+                            else skipped++;
+                        });
+                    }
+                });
+
+                var totalNodes = net.junctions.length + net.reservoirs.length + net.tanks.length;
+                if (totalNodes === 0) {
+                    importPreview.insertAdjacentHTML('beforeend', '<div class="import-warn">Không có nút nào được nhập — kiểm tra lại vai trò của từng lớp phía trên (ít nhất cần một lớp Nút/Nguồn/Bể).</div>');
+                    return;
+                }
+
+                var currentTotal = state.network.junctions.length + state.network.reservoirs.length + state.network.tanks.length;
+                if (currentTotal > 0 && !confirm('Nhập dữ liệu mới sẽ thay thế toàn bộ mạng lưới hiện tại trên bản đồ. Tiếp tục?')) return;
+
+                loadNetworkData(net);
+                map.fitBounds(L.latLngBounds(net.junctions.concat(net.reservoirs, net.tanks).map(function (n) { return [n.lat, n.lng]; })), { padding: [30, 30] });
+                closeImportModal();
+                setMode('select');
+                var msg = 'Đã nhập từ Shapefile: ' + totalNodes + ' nút, ' + net.pipes.length + ' ống, ' + net.pumps.length + ' bơm, ' + net.valves.length + ' van.';
+                if (skipped) msg += ' (' + skipped + ' liên kết bị bỏ qua do tham chiếu tới nút không tồn tại.)';
+                setHint(msg);
+                switchTab('list');
+            });
+
+            /* ============================================================
+               Bước 3 — Lõi tính toán thủy lực chạy trực tiếp trong trình
+               duyệt (phương pháp tuyến tính hóa liên tiếp / Linear Theory
+               Method — cùng họ thuật toán với Global Gradient Algorithm mà
+               EPANET sử dụng). Giải áp lực — lưu lượng cho một thời điểm
+               (steady-state snapshot) theo từng kịch bản.
+               Đơn giản hóa đã biết: bơm/van được mô hình hoá bằng đường đặc
+               tính hằng số (không dùng đường cong bơm đầy đủ); bể chứa được
+               coi là mức cố định trong mỗi kịch bản (chưa mô phỏng theo thời
+               gian mở rộng — EPS — sẽ bổ sung ở bước sau).
+               ============================================================ */
+            var HYD = { N: 1.852, Q_MIN: 0.0003, K_PUMP: 2.0, K_VALVE: 3.0, MAX_ITER: 80, TOL: 1e-6, RELAX: 0.6 };
+
+            function hwK(lengthM, diameterMM, roughnessC) {
+                var D = diameterMM / 1000;
+                return 10.67 * lengthM / (Math.pow(roughnessC, HYD.N) * Math.pow(D, 4.8704));
+            }
+
+            function buildHydLinks(net, closedIds) {
+                var links = [];
+                net.pipes.forEach(function (p) {
+                    links.push({
+                        id: p.id, kind: 'pipe', node1: p.node1, node2: p.node2,
+                        K: hwK(p.length, p.diameter, p.roughness), offset: 0,
+                        closed: closedIds.has(p.id) || p.status === 'Closed'
+                    });
+                });
+                net.pumps.forEach(function (pu) {
+                    links.push({
+                        id: pu.id, kind: 'pump', node1: pu.node1, node2: pu.node2,
+                        K: HYD.K_PUMP, offset: +(4 + pu.power * 0.5), closed: closedIds.has(pu.id)
+                    });
+                });
+                net.valves.forEach(function (v) {
+                    links.push({
+                        id: v.id, kind: 'valve', node1: v.node1, node2: v.node2,
+                        K: HYD.K_VALVE, offset: -v.setting, closed: closedIds.has(v.id)
+                    });
+                });
+                return links;
+            }
+
+            function gaussSolveDense(Ain, bin) {
+                var n = bin.length;
+                var A = Ain.map(function (row) { return Float64Array.from(row); });
+                var b = Float64Array.from(bin);
+                for (var col = 0; col < n; col++) {
+                    var piv = col;
+                    for (var r = col + 1; r < n; r++) if (Math.abs(A[r][col]) > Math.abs(A[piv][col])) piv = r;
+                    if (piv !== col) { var tA = A[col]; A[col] = A[piv]; A[piv] = tA; var tb = b[col]; b[col] = b[piv]; b[piv] = tb; }
+                    var d = A[col][col];
+                    if (Math.abs(d) < 1e-12) continue;
+                    for (var r2 = col + 1; r2 < n; r2++) {
+                        var f = A[r2][col] / d;
+                        if (f === 0) continue;
+                        for (var c = col; c < n; c++) A[r2][c] -= f * A[col][c];
+                        b[r2] -= f * b[col];
+                    }
+                }
+                var x = new Float64Array(n);
+                for (var r3 = n - 1; r3 >= 0; r3--) {
+                    var sum = b[r3];
+                    for (var c3 = r3 + 1; c3 < n; c3++) sum -= A[r3][c3] * x[c3];
+                    x[r3] = Math.abs(A[r3][r3]) < 1e-12 ? 0 : sum / A[r3][r3];
+                }
+                return x;
+            }
+
+            function solveHydraulics(net, demandMap, closedIds) {
+                var fixedHead = {};
+                net.reservoirs.forEach(function (r) { fixedHead[r.id] = r.head; });
+                net.tanks.forEach(function (t) { fixedHead[t.id] = t.elevation + t.initLevel; });
+
+                var juncIds = net.junctions.map(function (j) { return j.id; });
+                var idx = {};
+                juncIds.forEach(function (id, i) { idx[id] = i; });
+                var n = juncIds.length;
+
+                var links = buildHydLinks(net, closedIds);
+                var Q = {};
+                links.forEach(function (l) { Q[l.id] = l.closed ? 0 : 0.01; });
+
+                function assembleAndSolve() {
+                    var A = [], b = new Float64Array(n);
+                    for (var i = 0; i < n; i++) A.push(new Float64Array(n));
+                    net.junctions.forEach(function (j) { b[idx[j.id]] = demandMap[j.id] || 0; });
+                    links.forEach(function (l) {
+                        if (l.closed) return;
+                        var qPrev = Math.max(Math.abs(Q[l.id]), HYD.Q_MIN);
+                        var g = 1 / (l.K * HYD.N * Math.pow(qPrev, HYD.N - 1));
+                        var p = l.node1, q = l.node2, s = l.offset;
+                        var pIsJ = idx.hasOwnProperty(p), qIsJ = idx.hasOwnProperty(q);
+                        if (pIsJ) {
+                            var ip = idx[p]; A[ip][ip] += g; b[ip] -= g * s;
+                            if (qIsJ) A[ip][idx[q]] -= g; else b[ip] += g * fixedHead[q];
+                        }
+                        if (qIsJ) {
+                            var iq = idx[q]; A[iq][iq] += g; b[iq] += g * s;
+                            if (pIsJ) A[iq][idx[p]] -= g; else b[iq] += g * fixedHead[p];
+                        }
+                    });
+                    return gaussSolveDense(A, b);
+                }
+
+                var converged = false, iter = 0, maxDelta = 0;
+                for (iter = 1; iter <= HYD.MAX_ITER; iter++) {
+                    var H = assembleAndSolve();
+                    var headOf = function (id) { return idx.hasOwnProperty(id) ? H[idx[id]] : fixedHead[id]; };
+                    maxDelta = 0;
+                    links.forEach(function (l) {
+                        if (l.closed) { Q[l.id] = 0; return; }
+                        var dh = headOf(l.node1) - headOf(l.node2) + l.offset;
+                        var qNew = Math.sign(dh) * Math.pow(Math.abs(dh) / l.K, 1 / HYD.N);
+                        var blended = HYD.RELAX * qNew + (1 - HYD.RELAX) * Q[l.id];
+                        maxDelta = Math.max(maxDelta, Math.abs(blended - Q[l.id]));
+                        Q[l.id] = blended;
+                    });
+                    if (maxDelta < HYD.TOL) { converged = true; break; }
+                }
+
+                var Hfinal = assembleAndSolve();
+                var heads = {};
+                net.junctions.forEach(function (j) { heads[j.id] = Hfinal[idx[j.id]]; });
+                Object.keys(fixedHead).forEach(function (id) { heads[id] = fixedHead[id]; });
+
+                return { heads: heads, flows: Q, converged: converged, iterations: iter, residual: maxDelta, links: links };
+            }
+
+            function buildDemandMap(net, patterns, scenario) {
+                var demand = {};
+                net.junctions.forEach(function (j) {
+                    var mult = (scenario.overrides.hour != null && patterns[j.pattern]) ? patterns[j.pattern][scenario.overrides.hour] : 1.0;
+                    demand[j.id] = (j.baseDemand / 1000) * mult;
+                });
+                if (scenario.overrides.leakAt) {
+                    demand[scenario.overrides.leakAt] = (demand[scenario.overrides.leakAt] || 0) + scenario.overrides.leakFlow / 1000;
+                }
+                return demand;
+            }
+            function closedSetFor(scenario) {
+                var s = new Set();
+                if (scenario.overrides.pumps) {
+                    Object.keys(scenario.overrides.pumps).forEach(function (pid) {
+                        if (scenario.overrides.pumps[pid].status === 'Closed') s.add(pid);
+                    });
+                }
+                return s;
+            }
+
+            /* ---------- Scenario/pattern data (loaded once at startup) ---------- */
+            window.__patterns = {};
+            window.__scenarios = [];
+            var runHistory = [];
+
+            function initScenarioData() {
+                var scEl = document.getElementById('demoScenarios');
+                var patEl = document.getElementById('demoPatterns');
+                window.__scenarios = scEl ? JSON.parse(scEl.textContent) : [];
+                window.__patterns = patEl ? JSON.parse(patEl.textContent) : {};
+                var sel = document.getElementById('scenarioSelect');
+                sel.innerHTML = window.__scenarios.map(function (s) { return '<option value="' + s.id + '">' + s.name + '</option>'; }).join('');
+                sel.addEventListener('change', updateScenarioDesc);
+                updateScenarioDesc();
+            }
+            function updateScenarioDesc() {
+                var sel = document.getElementById('scenarioSelect');
+                var sc = window.__scenarios.find(function (s) { return s.id === sel.value; });
+                document.getElementById('scenarioDesc').textContent = sc ? sc.description : '';
+            }
+
+            document.getElementById('btnRunSim').addEventListener('click', function () {
+                var sel = document.getElementById('scenarioSelect');
+                var sc = window.__scenarios.find(function (s) { return s.id === sel.value; });
+                if (!sc) return;
+                var totalNodes = state.network.junctions.length + state.network.reservoirs.length + state.network.tanks.length;
+                if (totalNodes < 2) {
+                    document.getElementById('simStatus').innerHTML = '<div class="sim-status-warn">Cần ít nhất một Nguồn nước và một vài Nút tiêu thụ đã kết nối để chạy mô phỏng. Tải CSDL demo 50 nút hoặc nhập Shapefile trước.</div>';
+                    return;
+                }
+                var demand = buildDemandMap(state.network, window.__patterns, sc);
+                var closed = closedSetFor(sc);
+                var t0 = performance.now();
+                var res = solveHydraulics(state.network, demand, closed);
+                var t1 = performance.now();
+                res.ms = t1 - t0;
+                state.lastSim = { res: res, sc: sc, demand: demand, ms: res.ms };
+                renderSimResults(res, sc, demand, res.ms);
+                colorMapBySimResult(res);
+                pushRunHistory(sc, demand, res, JSON.parse(JSON.stringify(state.network)));
+            });
+
+            function pushRunHistory(sc, demand, res, netSnapshot) {
+                runHistory.unshift({ scenarioId: sc.id, scenarioName: sc.name, time: new Date(), demand: demand, result: res, network: netSnapshot });
+                if (runHistory.length > 20) runHistory.length = 20;
+                renderRunHistory();
+            }
+
+            function renderRunHistory() {
+                var el = document.getElementById('runHistoryList');
+                if (!el) return;
+                if (!runHistory.length) { el.innerHTML = '<div class="list-empty">Chưa có lượt chạy nào trong phiên này.</div>'; return; }
+                el.innerHTML = runHistory.map(function (h, i) {
+                    var pressures = h.network.junctions.map(function (j) { return h.result.heads[j.id] - j.elevation; });
+                    var minP = pressures.length ? Math.min.apply(null, pressures) : 0;
+                    return '<div class="list-row" data-idx="' + i + '"><span>' + h.scenarioName + '</span>' +
+                        '<span class="list-sub">' + h.time.toLocaleTimeString('vi-VN') + ' · áp lực min ' + minP.toFixed(1) + 'm</span></div>';
+                }).join('');
+            }
+            document.getElementById('runHistoryList').addEventListener('click', function (e) {
+                var row = e.target.closest('.list-row');
+                if (!row) return;
+                var h = runHistory[parseInt(row.dataset.idx, 10)];
+                if (!h) return;
+                var scRef = { id: h.scenarioId, name: h.scenarioName };
+                state.lastSim = { res: h.result, sc: scRef, demand: h.demand, ms: h.result.ms || 0 };
+                renderSimResults(h.result, scRef, h.demand, h.result.ms || 0);
+                colorMapBySimResult(h.result);
+                switchTab('sim');
+            });
+
+            /* ---------- Bước 4 — Chạy nhiều kịch bản song song bằng Web Worker ---------- */
+            function buildWorkerBlobURL() {
+                var src = [
+                    'var HYD = ' + JSON.stringify(HYD) + ';',
+                    hwK.toString(),
+                    buildHydLinks.toString(),
+                    gaussSolveDense.toString(),
+                    solveHydraulics.toString(),
+                    'self.onmessage = function(e){',
+                    '  var d = e.data;',
+                    '  var closedIds = new Set(d.closedIds);',
+                    '  var t0 = (self.performance||Date).now();',
+                    '  var res = solveHydraulics(d.network, d.demand, closedIds);',
+                    '  var t1 = (self.performance||Date).now();',
+                    '  self.postMessage({ scenarioId:d.scenarioId, heads:res.heads, flows:res.flows, converged:res.converged, iterations:res.iterations, residual:res.residual, ms:t1-t0 });',
+                    '};'
+                ].join('\n');
+                var blob = new Blob([src], { type: 'application/javascript' });
+                return URL.createObjectURL(blob);
+            }
+
+            function runScenarioInWorker(blobUrl, network, demand, closedIdsArray, scenarioId) {
+                return new Promise(function (resolve, reject) {
+                    var worker = new Worker(blobUrl);
+                    worker.onmessage = function (e) { worker.terminate(); resolve(e.data); };
+                    worker.onerror = function (err) { worker.terminate(); reject(err); };
+                    worker.postMessage({ network: network, demand: demand, closedIds: closedIdsArray, scenarioId: scenarioId });
+                });
+            }
+
+            document.getElementById('btnRunAllSim').addEventListener('click', function () {
+                var totalNodes = state.network.junctions.length + state.network.reservoirs.length + state.network.tanks.length;
+                var statusEl = document.getElementById('compareStatus');
+                if (totalNodes < 2) {
+                    statusEl.innerHTML = '<div class="sim-status-warn">Cần một mạng lưới đã kết nối để chạy — tải CSDL demo 50 nút trước.</div>';
+                    return;
+                }
+                if (!window.Worker) {
+                    statusEl.innerHTML = '<div class="sim-status-warn">Trình duyệt này không hỗ trợ Web Worker — không thể chạy song song thật.</div>';
+                    return;
+                }
+                var scenarios = window.__scenarios;
+                if (!scenarios.length) return;
+
+                statusEl.innerHTML = '<div class="sim-status-ok">Đang chạy ' + scenarios.length + ' kịch bản song song trên ' + scenarios.length + ' luồng (Web Worker)…</div>';
+                document.getElementById('compareResults').innerHTML = '';
+
+                var netSnapshot = JSON.parse(JSON.stringify(state.network));
+                var blobUrl = buildWorkerBlobURL();
+                var tStart = performance.now();
+
+                var tasks = scenarios.map(function (sc) {
+                    var demand = buildDemandMap(netSnapshot, window.__patterns, sc);
+                    var closedArr = Array.from(closedSetFor(sc));
+                    return runScenarioInWorker(blobUrl, netSnapshot, demand, closedArr, sc.id).then(function (msg) {
+                        return { sc: sc, demand: demand, result: msg };
+                    });
+                });
+
+                Promise.all(tasks).then(function (results) {
+                    var tEnd = performance.now();
+                    URL.revokeObjectURL(blobUrl);
+                    state.lastCompare = { results: results, wallMs: tEnd - tStart, net: netSnapshot };
+                    renderComparison(results, tEnd - tStart, netSnapshot);
+                    results.forEach(function (r) { pushRunHistory(r.sc, r.demand, r.result, netSnapshot); });
+                }).catch(function (err) {
+                    statusEl.innerHTML = '<div class="sim-status-warn">Lỗi khi chạy song song: ' + (err.message || err) + '</div>';
+                });
+            });
+
+            function renderComparison(results, wallMs, net) {
+                var statusEl = document.getElementById('compareStatus');
+                var sumIndividual = results.reduce(function (s, r) { return s + (r.result.ms || 0); }, 0);
+                statusEl.innerHTML = '<div class="sim-status-ok">Hoàn tất ' + results.length + ' kịch bản trong <b>' + wallMs.toFixed(0) + 'ms</b> (wall-clock chạy song song) · tổng thời gian tính riêng lẻ nếu cộng dồn: ' + sumIndividual.toFixed(0) + 'ms. ' +
+                    'Với mạng 50 nút mỗi kịch bản chỉ mất vài mili-giây nên lợi ích tốc độ chưa rõ rệt ở quy mô này — giá trị chính là <b>không chặn luồng giao diện chính</b> và kiến trúc này mở rộng tốt cho mạng lớn hoặc mô phỏng nhiều giờ (EPS) sau này.</div>';
+
+                var html = '<div class="sim-section-title">Bảng so sánh</div>';
+                html += '<div class="sim-table-wrap"><table class="sim-table"><thead><tr><th>Kịch bản</th><th>Hội tụ</th><th>Áp lực min</th><th>Áp lực max</th><th>Tổng cấp</th><th>V.tốc max</th><th>Thời gian</th></tr></thead><tbody>';
+                results.forEach(function (r) {
+                    var pressures = net.junctions.map(function (j) { return r.result.heads[j.id] - j.elevation; });
+                    var minP = Math.min.apply(null, pressures), maxP = Math.max.apply(null, pressures);
+                    var totalDemand = 0; Object.keys(r.demand).forEach(function (k) { totalDemand += r.demand[k]; }); totalDemand *= 1000;
+                    var closedArr = Array.from(closedSetFor(r.sc));
+                    var velocities = net.pipes.filter(function (p) { return p.status !== 'Closed' && closedArr.indexOf(p.id) < 0; }).map(function (p) {
+                        var D = p.diameter / 1000; var q = r.result.flows[p.id] || 0;
+                        return Math.abs(q) / (Math.PI / 4 * D * D);
+                    });
+                    var maxV = velocities.length ? Math.max.apply(null, velocities) : 0;
+                    html += '<tr class="' + (minP < 10 ? 'low-pressure' : '') + '"><td>' + r.sc.name + '</td><td>' + (r.result.converged ? 'Có' : 'Không') + '</td><td>' + fmtQty(minP, 'pressure') + '</td><td>' + fmtQty(maxP, 'pressure') + '</td><td>' + fmtQty(totalDemand, 'flow') + '</td><td>' + fmtQty(maxV, 'velocity', 2) + '</td><td>' + (r.result.ms || 0).toFixed(0) + 'ms</td></tr>';
+                });
+                html += '</tbody></table></div>';
+
+                html += '<div class="sim-section-title">So sánh áp lực thấp nhất</div>';
+                results.forEach(function (r) {
+                    var pressures = net.junctions.map(function (j) { return r.result.heads[j.id] - j.elevation; });
+                    var minP = Math.min.apply(null, pressures);
+                    var pct = Math.max(3, Math.min(100, (minP / 70) * 100));
+                    var color = minP < 10 ? '#FF6B4A' : (minP < 20 ? '#FFB238' : '#0891A8');
+                    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:0.8rem;">' +
+                        '<span style="width:118px;flex:none;color:var(--ink-soft);">' + r.sc.name + '</span>' +
+                        '<div style="flex:1;background:var(--line);border-radius:4px;height:10px;overflow:hidden;"><div style="width:' + pct + '%;height:100%;background:' + color + ';"></div></div>' +
+                        '<span style="width:52px;text-align:right;font-family:var(--font-mono);">' + fmtQty(minP, 'pressure') + '</span></div>';
+                });
+
+                document.getElementById('compareResults').innerHTML = html;
+                document.getElementById('compareExportBtns').innerHTML =
+                    '<button class="btn" id="btnExportCompareExcel">Xuất Excel (.xlsx)</button>' +
+                    '<button class="btn btn-flow" id="btnExportComparePdf">In báo cáo / Lưu PDF</button>';
+                document.getElementById('btnExportCompareExcel').addEventListener('click', function () {
+                    exportCompareExcel(results, net);
+                });
+                document.getElementById('btnExportComparePdf').addEventListener('click', function () {
+                    openCompareReport(results, net, wallMs);
+                });
+            }
+
+            function renderSimResults(res, sc, demand, ms) {
+                var statusEl = document.getElementById('simStatus');
+                var cls = res.converged ? 'sim-status-ok' : 'sim-status-warn';
+                var msg = res.converged
+                    ? 'Hội tụ sau ' + res.iterations + ' vòng lặp · sai số ' + res.residual.toExponential(2) + ' m³/s · ' + ms.toFixed(0) + ' ms'
+                    : 'CHƯA hội tụ sau ' + res.iterations + ' vòng lặp (sai số ' + res.residual.toExponential(2) + ') — kết quả có thể chưa chính xác.';
+                statusEl.innerHTML = '<div class="' + cls + '">' + msg + '</div>';
+
+                var pressures = state.network.junctions.map(function (j) { return { id: j.id, elevation: j.elevation, head: res.heads[j.id], pressure: res.heads[j.id] - j.elevation, demand: j.baseDemand }; });
+                var minP = Math.min.apply(null, pressures.map(function (p) { return p.pressure; }));
+                var maxP = Math.max.apply(null, pressures.map(function (p) { return p.pressure; }));
+                var totalDemand = 0; Object.keys(demand).forEach(function (k) { totalDemand += demand[k]; }); totalDemand *= 1000;
+
+                var velocities = res.links.filter(function (l) { return l.kind === 'pipe' && !l.closed; }).map(function (l) {
+                    var pipe = state.network.pipes.find(function (p) { return p.id === l.id; });
+                    var D = pipe.diameter / 1000;
+                    return { id: l.id, v: Math.abs(res.flows[l.id]) / (Math.PI / 4 * D * D) };
+                });
+                var maxV = velocities.length ? Math.max.apply(null, velocities.map(function (v) { return v.v; })) : 0;
+
+                var html = '<div class="sim-cards">';
+                html += simCard('Áp lực thấp nhất', fmtQty(minP, 'pressure'), minP < 10);
+                html += simCard('Áp lực cao nhất', fmtQty(maxP, 'pressure'), false);
+                html += simCard('Tổng lưu lượng cấp', fmtQty(totalDemand, 'flow'), false);
+                html += simCard('Vận tốc lớn nhất', fmtQty(maxV, 'velocity', 2), maxV > 2.5);
+                html += '</div>';
+
+                html += '<div class="sim-section-title">Áp lực tại nút (thấp → cao)</div>';
+                pressures.sort(function (a, b) { return a.pressure - b.pressure; });
+                html += '<div class="sim-table-wrap"><table class="sim-table"><thead><tr><th>Nút</th><th>Cao độ</th><th>Cột nước</th><th>Áp lực</th><th>Nhu cầu</th></tr></thead><tbody>';
+                pressures.forEach(function (p) {
+                    html += '<tr class="' + (p.pressure < 10 ? 'low-pressure' : '') + '"><td>' + p.id + '</td><td>' + fmtQty(p.elevation, 'length') + '</td><td>' + fmtQty(p.head, 'length') + '</td><td>' + fmtQty(p.pressure, 'pressure') + '</td><td>' + fmtQty(p.demand, 'flow', 2) + '</td></tr>';
+                });
+                html += '</tbody></table></div>';
+
+                var highV = velocities.filter(function (v) { return v.v > 2.5; }).sort(function (a, b) { return b.v - a.v; });
+                if (highV.length) {
+                    html += '<div class="sim-section-title">Ống vượt vận tốc khuyến nghị (&gt;2.5 m/s)</div>';
+                    html += '<div class="sim-table-wrap"><table class="sim-table"><thead><tr><th>Ống</th><th>Vận tốc</th></tr></thead><tbody>';
+                    highV.forEach(function (v) { html += '<tr class="low-pressure"><td>' + v.id + '</td><td>' + fmtQty(v.v, 'velocity', 2) + '</td></tr>'; });
+                    html += '</tbody></table></div>';
+                }
+
+                document.getElementById('simResults').innerHTML = html;
+                document.getElementById('simExportBtns').innerHTML =
+                    '<button class="btn" id="btnExportSimExcel">Xuất Excel (.xlsx)</button>' +
+                    '<button class="btn btn-flow" id="btnExportSimPdf">In báo cáo / Lưu PDF</button>';
+                document.getElementById('btnExportSimExcel').addEventListener('click', function () {
+                    exportSimExcel(sc, state.network, res, demand);
+                });
+                document.getElementById('btnExportSimPdf').addEventListener('click', function () {
+                    openSimReport(sc, state.network, res, demand);
+                });
+            }
+            function simCard(label, value, warn) {
+                return '<div class="sim-card"><div class="sc-label">' + label + '</div><div class="sc-value' + (warn ? ' warn' : '') + '">' + value + '</div></div>';
+            }
+
+            function colorMapBySimResult(res) {
+                state.network.junctions.forEach(function (j) {
+                    var pressure = res.heads[j.id] - j.elevation;
+                    var color = pressure < 10 ? '#FF6B4A' : (pressure < 20 ? '#FFB238' : '#0891A8');
+                    if (state.markers[j.id]) {
+                        state.markers[j.id].setStyle({ fillColor: color });
+                        state.markers[j.id].setPopupContent(nodePopupHTML('junction', j, res));
+                    }
+                });
+                state.network.reservoirs.forEach(function (r) {
+                    if (state.markers[r.id]) state.markers[r.id].setPopupContent(nodePopupHTML('reservoir', r, res));
+                });
+                state.network.tanks.forEach(function (t) {
+                    if (state.markers[t.id]) state.markers[t.id].setPopupContent(nodePopupHTML('tank', t, res));
+                });
+                state.network.pipes.forEach(function (p) {
+                    if (!state.links[p.id]) return;
+                    var D = p.diameter / 1000;
+                    var v = Math.abs(res.flows[p.id] || 0) / (Math.PI / 4 * D * D);
+                    var color = v > 2.5 ? '#FF6B4A' : (v > 1.5 ? '#FFB238' : '#0891A8');
+                    state.links[p.id].setStyle({ color: color });
+                    state.links[p.id].setPopupContent(linkPopupHTML('pipe', p, res));
+                });
+                state.network.pumps.forEach(function (pu) {
+                    if (state.links[pu.id]) state.links[pu.id].setPopupContent(linkPopupHTML('pump', pu, res));
+                });
+                state.network.valves.forEach(function (v) {
+                    if (state.links[v.id]) state.links[v.id].setPopupContent(linkPopupHTML('valve', v, res));
+                });
+                showMapLegend();
+            }
+            function showMapLegend() { document.getElementById('mapLegend').style.display = 'block'; }
+            function hideMapLegend() { document.getElementById('mapLegend').style.display = 'none'; }
+
+            /* ---------- Layer toggle control ---------- */
+            (function initLayerToggle() {
+                var el = document.getElementById('mapLayers');
+                el.innerHTML = Object.keys(LAYER_LABELS).map(function (k) {
+                    return '<label><input type="checkbox" checked data-layer="' + k + '">' + LAYER_LABELS[k] + '</label>';
+                }).join('');
+                el.addEventListener('change', function (e) {
+                    var k = e.target.dataset.layer;
+                    if (!k) return;
+                    if (e.target.checked) map.addLayer(layerGroups[k]); else map.removeLayer(layerGroups[k]);
+                });
+            })();
+
+            /* ---------- Init ---------- */
+            renderPropertyPanel();
+            refreshCounts();
+            initScenarioData();
+            renderRunHistory();
+        })();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ==========================================
+            // 1. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+
+            // ==========================================
+            // 2. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';       // path = "/"
+                if (segments[0] === 'index') return 'home';      // phòng trường hợp lạ
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+
+            // ==========================================
+            // 3. CHUYỂN ĐỔI NGÔN NGỮ (TIẾNG VIỆT / ENGLISH)
+            // ==========================================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) {
+                        el.textContent = text;
+                    }
+                });
+
+                const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.setAttribute('src', activeOption.getAttribute('data-flag'));
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+
+            // ==========================================
+            // 4. ĐỒNG BỘ MÀU FOOTER THEO NAVBAR (SÁNG/TỐI)
+            // ==========================================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop = '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+        });
+    </script>
+</body>
+<!-- Mirrored from coderthemes.com/hyper/layouts/layouts-horizontal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:52 GMT -->
+
+</html>

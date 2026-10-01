@@ -1,0 +1,9 @@
+WaterMapCore v0.5.8 - Topology Rule Engine
+
+- Split topology validation rules by geometry relationship.
+- Line -> Line: any endpoint to segment (default), each endpoint to segment, any endpoint to endpoint, each endpoint to endpoint, geometry intersection.
+- Point -> Line: point to segment.
+- Line -> Point: any endpoint to point (default), each endpoint to point.
+- Point -> Point: point to point.
+- For service pipe -> main pipe, default now checks the nearest of the two source endpoints and returns one error per source feature only when BOTH endpoints are outside tolerance.
+- UI labels changed from Source/Target to Layer to check / Layer it must snap to.

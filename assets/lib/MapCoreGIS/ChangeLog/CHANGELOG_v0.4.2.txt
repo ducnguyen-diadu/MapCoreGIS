@@ -1,0 +1,8 @@
+WaterMapCore v0.4.2
+
+- Feature context menu unified for map and attribute table; reverse direction only appears for Line layers with direction enabled.
+- Direction overlay uses a non-interactive pane and cannot intercept mouse selection.
+- Layer panel order now matches visual z-order: top row renders above lower rows.
+- Import UI: standalone file picker accepts .shp only; ZIP picker accepts .zip only; Folder option hidden.
+- Feature Info/Attribute panel Edit/Delete buttons restored and auto-start edit session when required.
+- Direction opacity changed to a 0..1 range slider with live value.

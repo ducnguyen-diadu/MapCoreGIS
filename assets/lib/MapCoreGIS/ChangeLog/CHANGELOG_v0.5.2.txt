@@ -1,0 +1,23 @@
+WaterMapCore v0.5.2 - Topology Checker / Snap Editor split
+
+1. Tách 2 module độc lập:
+   - tools/topology-validator.js: chỉ kiểm tra + báo lỗi, tuyệt đối không sửa geometry.
+   - tools/topology-snap-editor.js: chỉ chỉnh vertex/endpoint + snapping.
+
+2. Topology Checker:
+   - Line -> Line mặc định kiểm tra endpoint nguồn -> segment đích.
+   - Có thể chọn endpoint -> endpoint.
+   - Point -> Line kiểm tra point -> segment.
+   - Kết quả lưu cả sourcePoint + nearestPoint.
+   - Click dòng lỗi: vẽ đường đo tạm từ probe nguồn tới nearest point đích và hiện đúng distance.
+   - UI nhắc rõ trường hợp service pipe -> main pipe: service là Source, main là Target.
+
+3. Topology Edit / Snap Tool:
+   - Toolbar có nút nam châm riêng.
+   - Chọn layer cần chỉnh + layer target + snap distance theo px.
+   - Click feature nguồn -> hiện vertex qua Leaflet-Geoman.
+   - Kéo vertex/endpoint gần target -> Geoman snapping tự hút vào target.
+   - Hit-layer không tham gia snap.
+   - Thay đổi geometry cập nhật project, dirty-state và undo.
+
+4. Module checker và editor không gọi chéo logic sửa/validate để giảm regression.

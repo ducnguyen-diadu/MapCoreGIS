@@ -1,0 +1,6 @@
+WaterMapCore v0.5.1 - Zoom configuration fix
+
+- Map now reads map.minZoom, map.maxZoom and map.maxNativeZoom from user config.
+- OSM tile layer uses maxNativeZoom + maxZoom so vector GIS can zoom beyond native tile level.
+- Removed hard-coded fitBounds maxZoom limits in home/focus helpers.
+- Default: minZoom=2, maxZoom=24, maxNativeZoom=19.

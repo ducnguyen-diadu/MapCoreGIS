@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commercial GIS Software — Nền tảng mô phỏng thủy lực mạng cấp nước</title>
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+    <!-- Google Fonts: Nhập phông Nunito bao gồm cả kiểu nghiêng (Italic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="nav fixed-top w-100" id="siteNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a href="#top" class="navbar-brand d-flex align-items-center gap-2 text-dark text-decoration-none">
+                <span class="logo-lg">
+                    <img src="assets/images/logo.webp" alt="logo">
+                </span>
+                Commercial GIS Software
+            </a>
+
+            <nav class="d-none d-md-flex gap-4">
+                <a href="#features" class="text-decoration-none text-secondary fw-medium">Tính năng</a>
+                <a href="#workflow" class="text-decoration-none text-secondary fw-medium">Quy trình</a>
+                <a href="#analysis" class="text-decoration-none text-secondary fw-medium">Phân tích</a>
+                <a href="#gis" class="text-decoration-none text-secondary fw-medium">Bản đồ GIS</a>
+                <a href="#pricing" class="text-decoration-none text-secondary fw-medium">Bảng giá</a>
+                <a href="tintuc.html" class="text-decoration-none text-secondary fw-medium">Tin tức</a>
+            </nav>
+
+            <div class="d-flex align-items-center gap-2">
+                <a href="#" class="btn btn-outline-secondary border-1 d-none d-lg-block" data-bs-toggle="modal"
+                    data-bs-target="#authModal">Đăng nhập</a>
+                <a href="EPANET_builder.html" class="btn btn-dark text-white">Dùng thử miễn phí</a>
+            </div>
+        </div>
+    </header>
+    <main id="top">
+        <!-- HERO -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center gy-5">
+                    <div class="col-lg-6 reveal in">
+                        <div class="eyebrow">Nền tảng SaaS mô phỏng thủy lực</div>
+                        <h1 class="hero-title display-4 fw-bold mb-4">Mô phỏng mạng cấp nước với <br /><em>độ chính xác
+                                từng điểm nút</em></h1>
+                        <p class="lead text-secondary mb-4">Commercial GIS Software kết hợp lõi tính toán EPANET với bản
+                            đồ
+                            Leaflet
+                            tương tác, giúp kỹ sư cấp nước nhập shapefile, chạy mô phỏng áp lực — lưu lượng — chất lượng
+                            nước và ra quyết định vận hành chỉ trong vài phút.</p>
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <a href="EPANET_builder.html" class="btn btn-flow px-4 py-2 rounded-3 fw-semibold">Bắt đầu
+                                dùng thử 14
+                                ngày</a>
+                            <a href="#analysis" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-semibold">Xem
+                                bảng phân tích mẫu</a>
+                        </div>
+                        <a href="EPANET_builder.html" class="text-decoration-none fw-semibold d-inline-block mb-4"
+                            style="color: var(--flow-deep);">→ Thử ngay Trình dựng mạng lưới tương tác — không cần đăng
+                            ký</a>
+                        <div class="row border-top pt-4">
+                            <div class="col-4">
+                                <div class="fs-2 fw-bold text-dark font-display">50K+</div>
+                                <div class="small text-secondary">Nút mạng / mô phỏng</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="fs-2 fw-bold text-dark font-display">&lt;2s</div>
+                                <div class="small text-secondary">Giải hệ phương trình</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="fs-2 fw-bold text-dark font-display">2.2</div>
+                                <div class="small text-secondary">Chuẩn tương thích EPANET</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 reveal in position-relative">
+                        <div class="card border-0 shadow-lg rounded-4 overflow-hidden"
+                            style="background: var(--panel);">
+                            <div
+                                class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-3 pb-0">
+                                <span class="font-mono text-uppercase text-secondary small"
+                                    style="letter-spacing: 1px;">network_hue_district04.inp</span>
+                                <div class="d-flex gap-1">
+                                    <span class="rounded-circle bg-secondary opacity-25"
+                                        style="width:8px; height:8px;"></span>
+                                    <span class="rounded-circle bg-secondary opacity-25"
+                                        style="width:8px; height:8px;"></span>
+                                    <span class="rounded-circle bg-secondary opacity-25"
+                                        style="width:8px; height:8px;"></span>
+                                </div>
+                            </div>
+                            <div class="card-body p-0 position-relative">
+                                <div class="hv-badge position-absolute top-0 end-0 m-3 bg-white border rounded-pill px-3 py-1 fw-bold font-mono"
+                                    style="font-size: 0.75rem; color: var(--flow-deep); z-index: 10;">
+                                    <span class="dot"></span> Đang mô phỏng — t = 06:00
+                                </div>
+                                <div class="hv-canvas w-100" style="height: 400px;">
+                                    <svg viewBox="0 0 460 400" preserveAspectRatio="xMidYMid meet" class="w-100 h-100">
+                                        <path class="pipe" d="M40 90 L150 60 L270 80 L390 50" />
+                                        <path class="pipe-flow" d="M40 90 L150 60 L270 80 L390 50" />
+                                        <path class="pipe" d="M40 90 L60 200 L100 300" />
+                                        <path class="pipe-flow" d="M40 90 L60 200 L100 300" />
+                                        <path class="pipe" d="M150 60 L160 170 L100 300" />
+                                        <path class="pipe-flow" d="M150 60 L160 170 L100 300" />
+                                        <path class="pipe" d="M270 80 L250 190 L180 260 L100 300" />
+                                        <path class="pipe-flow" d="M270 80 L250 190 L180 260 L100 300" />
+                                        <path class="pipe" d="M270 80 L320 200 L280 320" />
+                                        <path class="pipe-flow" d="M270 80 L320 200 L280 320" />
+                                        <path class="pipe" d="M390 50 L380 160 L320 200" />
+                                        <path class="pipe-flow" d="M390 50 L380 160 L320 200" />
+                                        <path class="pipe" d="M180 260 L280 320" />
+                                        <path class="pipe-flow" d="M180 260 L280 320" />
+                                        <circle class="node node-pulse" cx="40" cy="90" r="7" fill="#0891A8" />
+                                        <circle class="node node-pulse" cx="150" cy="60" r="6" fill="#0891A8"
+                                            style="animation-delay:.3s" />
+                                        <circle class="node node-pulse" cx="270" cy="80" r="6" fill="#FFB238"
+                                            style="animation-delay:.6s" />
+                                        <circle class="node node-pulse" cx="390" cy="50" r="6" fill="#0891A8"
+                                            style="animation-delay:.9s" />
+                                        <circle class="node node-pulse" cx="60" cy="200" r="6" fill="#FFB238"
+                                            style="animation-delay:.2s" />
+                                        <circle class="node node-pulse" cx="100" cy="300" r="8" fill="#FF6B4A"
+                                            style="animation-delay:.5s" />
+                                        <circle class="node node-pulse" cx="160" cy="170" r="6" fill="#0891A8"
+                                            style="animation-delay:.8s" />
+                                        <circle class="node node-pulse" cx="250" cy="190" r="6" fill="#FFB238"
+                                            style="animation-delay:.1s" />
+                                        <circle class="node node-pulse" cx="180" cy="260" r="6" fill="#FF6B4A"
+                                            style="animation-delay:.4s" />
+                                        <circle class="node node-pulse" cx="320" cy="200" r="6" fill="#0891A8"
+                                            style="animation-delay:.7s" />
+                                        <circle class="node node-pulse" cx="380" cy="160" r="6" fill="#0891A8"
+                                            style="animation-delay:1s" />
+                                        <circle class="node node-pulse" cx="280" cy="320" r="7" fill="#FF6B4A"
+                                            style="animation-delay:.15s" />
+                                    </svg>
+                                </div>
+                                <div class="position-absolute bottom-0 start-0 m-3 bg-white bg-opacity-75 border rounded-3 p-3 shadow-sm font-mono"
+                                    style="backdrop-filter: blur(4px); min-width: 200px;">
+                                    <div class="text-uppercase text-secondary mb-2"
+                                        style="font-size: 0.65rem; letter-spacing: 1px;">Nút J-104 — Trạm bơm B</div>
+                                    <div class="d-flex justify-content-between mb-1" style="font-size: 0.85rem;"><span
+                                            class="text-secondary">Áp lực</span><span class="fw-bold"
+                                            id="rPressure">18.4 m</span></div>
+                                    <div class="d-flex justify-content-between mb-1" style="font-size: 0.85rem;"><span
+                                            class="text-secondary">Lưu lượng</span><span class="fw-bold" id="rFlow">42.1
+                                            L/s</span></div>
+                                    <div class="d-flex justify-content-between" style="font-size: 0.85rem;"><span
+                                            class="text-secondary">Clo dư</span><span class="fw-bold text-danger"
+                                            id="rChlorine">0.18 mg/L</span></div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white border-top-0 d-flex gap-3 py-3 font-mono text-secondary"
+                                style="font-size: 0.75rem;">
+                                <span class="d-flex align-items-center gap-2"><span class="rounded-1"
+                                        style="width:10px; height:10px; background:#0891A8"></span>Áp lực ổn định</span>
+                                <span class="d-flex align-items-center gap-2"><span class="rounded-1"
+                                        style="width:10px; height:10px; background:#FFB238"></span>Cảnh báo</span>
+                                <span class="d-flex align-items-center gap-2"><span class="rounded-1"
+                                        style="width:10px; height:10px; background:#FF6B4A"></span>Áp lực thấp</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- FEATURES -->
+        <section id="features" class="py-5 my-5">
+            <div class="container">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-8">
+                        <div class="eyebrow">Tính năng cốt lõi</div>
+                        <h2 class="display-6 fw-bold mb-3">Mọi công cụ kỹ sư cấp nước cần, trong một nền tảng</h2>
+                        <p class="lead text-secondary">Từ lõi giải thủy lực đến trực quan hoá bản đồ — Software Water
+                            GIS được
+                            xây dựng riêng cho bài toán mạng lưới cấp nước đô thị.</p>
+                    </div>
+                </div>
+                <div class="row g-4 border rounded-4 overflow-hidden bg-light reveal">
+                    <div class="col-md-4 p-0">
+                        <div class="card h-100 border-0 rounded-0 p-4 transition-all hover-bg-light">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5l3.5 2" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Lõi tính toán EPANET</h3>
+                            <p class="text-secondary small mb-0">Giải hệ phương trình thủy lực và chất lượng nước theo
+                                chuẩn EPANET 2.2, hỗ trợ mô phỏng mở rộng theo thời gian (EPS) và nhiều kịch bản vận
+                                hành song song.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0 border-start border-end">
+                        <div class="card h-100 border-0 rounded-0 p-4">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z" />
+                                    <path d="M9 4v14M15 6v14" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Nhập dữ liệu Shapefile</h3>
+                            <p class="text-secondary small mb-0">Kéo thả bộ file .shp/.dbf/.shx của mạng ống, nút, van,
+                                trạm bơm — hệ thống tự động ánh xạ thuộc tính và dựng lại mô hình thủy lực tương ứng.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0">
+                        <div class="card h-100 border-0 rounded-0 p-4">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" />
+                                    <circle cx="12" cy="10" r="2.4" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Bản đồ Leaflet tương tác</h3>
+                            <p class="text-secondary small mb-0">Hiển thị toàn bộ mạng lưới trên nền OpenStreetMap hoặc
+                                ảnh vệ tinh, cho phép zoom theo tuyến ống, đo khoảng cách và khoanh vùng phân tích trực
+                                tiếp.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0 border-top">
+                        <div class="card h-100 border-0 rounded-0 p-4">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <path d="M4 19V9M11 19V4M18 19v-7" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Phân tích áp lực & lưu lượng</h3>
+                            <p class="text-secondary small mb-0">Bản đồ nhiệt áp lực theo thời gian thực và biểu đồ lưu
+                                lượng cho từng tuyến ống, giúp phát hiện nhanh điểm áp lực thấp hoặc quá tải.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0 border-start border-end border-top">
+                        <div class="card h-100 border-0 rounded-0 p-4">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <path d="M12 3c2.5 3.5 5 6.7 5 10a5 5 0 01-10 0c0-3.3 2.5-6.5 5-10z" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Chất lượng nước</h3>
+                            <p class="text-secondary small mb-0">Mô phỏng nồng độ Clo dư, thời gian lưu nước và truy vết
+                                nguồn gốc nước tại từng điểm tiêu thụ trong mạng lưới.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-0 border-top">
+                        <div class="card h-100 border-0 rounded-0 p-4">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center mb-4"
+                                style="width: 48px; height: 48px; background: var(--flow-tint); color: var(--flow-deep);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.6">
+                                    <path d="M6 4h9l5 5v11H6z" />
+                                    <path d="M14 4v5h5M9 13h6M9 17h6" />
+                                </svg>
+                            </div>
+                            <h3 class="fs-5">Báo cáo & cộng tác</h3>
+                            <p class="text-secondary small mb-0">Xuất báo cáo PDF/Excel theo mẫu, chia sẻ dự án với đội
+                                kỹ thuật và phân quyền truy cập theo vai trò từng thành viên.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- WORKFLOW -->
+        <section id="workflow" class="workflow-bg py-5">
+            <div class="container py-5">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-8">
+                        <div class="eyebrow" style="color: #7FD4E0;">Quy trình sử dụng</div>
+                        <h2 class="display-6 fw-bold mb-3 text-white">Từ dữ liệu GIS đến báo cáo vận hành trong 4 bước
+                        </h2>
+                        <p class="lead" style="color: #AEBFD4;">Quy trình được thiết kế bám sát công việc thực tế của kỹ
+                            sư cấp nước, không yêu cầu kiến thức lập trình.</p>
+                    </div>
+                </div>
+                <div class="row position-relative reveal">
+                    <div class="col-md-3 mb-4 mb-md-0 position-relative z-1">
+                        <div class="wf-num font-mono text-info fw-bold mb-4 fs-5">01</div>
+                        <h3 class="fs-5 text-white">Nhập dữ liệu GIS</h3>
+                        <p class="small" style="color: #AEBFD4;">Tải lên shapefile mạng lưới ống, nút, trạm bơm và bể
+                            chứa — hoặc vẽ trực tiếp trên bản đồ Leaflet.</p>
+                    </div>
+                    <div class="col-md-3 mb-4 mb-md-0 position-relative z-1">
+                        <div class="wf-num font-mono text-info fw-bold mb-4 fs-5">02</div>
+                        <h3 class="fs-5 text-white">Thiết lập thông số</h3>
+                        <p class="small" style="color: #AEBFD4;">Gán đường kính, hệ số nhám, nhu cầu dùng nước và mẫu
+                            tiêu thụ theo từng khung giờ trong ngày.</p>
+                    </div>
+                    <div class="col-md-3 mb-4 mb-md-0 position-relative z-1">
+                        <div class="wf-num font-mono text-info fw-bold mb-4 fs-5">03</div>
+                        <h3 class="fs-5 text-white">Chạy mô phỏng EPANET</h3>
+                        <p class="small" style="color: #AEBFD4;">Giải hệ phương trình thủy lực và chất lượng nước trên
+                            nền lõi EPANET, hỗ trợ nhiều kịch bản cùng lúc.</p>
+                    </div>
+                    <div class="col-md-3 position-relative z-1">
+                        <div class="wf-num font-mono text-info fw-bold mb-4 fs-5">04</div>
+                        <h3 class="fs-5 text-white">Phân tích kết quả</h3>
+                        <p class="small" style="color: #AEBFD4;">Xem bản đồ áp lực, biểu đồ lưu lượng và nhận cảnh báo
+                            tự động tại các điểm áp lực thấp bất thường.</p>
+                    </div>
+                    <div class="position-absolute top-0 start-0 w-100 mt-4 pt-1 d-none d-md-block z-0"
+                        style="height:1px; background: repeating-linear-gradient(90deg, #28466B 0 8px, transparent 8px 16px); width: 85% !important; left: 5% !important;">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ANALYSIS -->
+        <section id="analysis" class="py-5 my-5">
+            <div class="container">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-8">
+                        <div class="eyebrow">Bảng phân tích</div>
+                        <h2 class="display-6 fw-bold mb-3">Đọc hiểu mạng lưới của bạn trong một màn hình duy nhất</h2>
+                        <p class="lead text-secondary">Bảng điều khiển tổng hợp áp lực, lưu lượng và chất lượng nước —
+                            cập nhật ngay sau mỗi lần chạy mô phỏng.</p>
+                    </div>
+                </div>
+                <div class="card shadow-lg border-0 rounded-4 p-2 reveal" style="background: var(--panel);">
+                    <div class="row g-2">
+                        <!-- CỘT TRÁI -->
+                        <div class="col-12 col-lg-7">
+                            <div class="card h-100 bg-light border-0 rounded-3 p-3 p-md-4">
+                                <div class="d-flex justify-content-between align-items-center font-mono text-uppercase text-secondary small mb-3"
+                                    style="letter-spacing: 1px; font-size: 0.7rem;">
+                                    <span>Bản đồ nhiệt áp lực</span>
+                                    <span class="text-nowrap">06:00 — hôm nay</span>
+                                </div>
+                                <div class="rounded-3 overflow-hidden position-relative mb-3"
+                                    style="height: 300px; background: #EEF4F3;">
+                                    <svg viewBox="0 0 400 172" class="w-100 h-100" preserveAspectRatio="none">
+                                        <defs>
+                                            <radialGradient id="g1" cx="30%" cy="35%" r="60%">
+                                                <stop offset="0%" stop-color="#0891A8" stop-opacity="0.55" />
+                                                <stop offset="100%" stop-color="#0891A8" stop-opacity="0" />
+                                            </radialGradient>
+                                            <radialGradient id="g2" cx="70%" cy="55%" r="55%">
+                                                <stop offset="0%" stop-color="#FFB238" stop-opacity="0.55" />
+                                                <stop offset="100%" stop-color="#FFB238" stop-opacity="0" />
+                                            </radialGradient>
+                                            <radialGradient id="g3" cx="82%" cy="20%" r="40%">
+                                                <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.6" />
+                                                <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0" />
+                                            </radialGradient>
+                                        </defs>
+                                        <rect width="400" height="172" fill="#EEF4F3" />
+                                        <rect width="400" height="172" fill="url(#g1)" />
+                                        <rect width="400" height="172" fill="url(#g2)" />
+                                        <rect width="400" height="172" fill="url(#g3)" />
+                                        <path d="M20 40 L120 30 L200 60 L300 40 L380 20" stroke="#B9CBCE"
+                                            stroke-width="2" fill="none" />
+                                        <path d="M20 40 L40 120 L120 150" stroke="#B9CBCE" stroke-width="2"
+                                            fill="none" />
+                                        <path d="M120 30 L140 100 L120 150" stroke="#B9CBCE" stroke-width="2"
+                                            fill="none" />
+                                        <path d="M200 60 L220 130 L120 150" stroke="#B9CBCE" stroke-width="2"
+                                            fill="none" />
+                                        <path d="M300 40 L320 110 L220 130" stroke="#B9CBCE" stroke-width="2"
+                                            fill="none" />
+                                        <circle cx="300" cy="40" r="4" fill="#FF6B4A" />
+                                        <circle cx="380" cy="20" r="4" fill="#FF6B4A" />
+                                        <circle cx="20" cy="40" r="4" fill="#0891A8" />
+                                        <circle cx="120" cy="150" r="4" fill="#0891A8" />
+                                    </svg>
+                                </div>
+                                <div class="d-flex rounded-pill overflow-hidden mb-2" style="height: 8px;">
+                                    <span class="flex-fill" style="background:#0891A8"></span>
+                                    <span class="flex-fill" style="background:#4FB6B7"></span>
+                                    <span class="flex-fill" style="background:#FFB238"></span>
+                                    <span class="flex-fill" style="background:#FF6B4A"></span>
+                                </div>
+                                <div class="d-flex justify-content-between font-mono text-secondary small"
+                                    style="font-size: 0.7rem;">
+                                    <span>≥ 25 m</span>
+                                    <span>18 m</span>
+                                    <span>10 m</span>
+                                    <span>≤ 5 m</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CỘT PHẢI -->
+                        <div class="col-12 col-lg-5">
+                            <div class="d-flex flex-column gap-2 h-100">
+                                <!-- FLOW CARD -->
+                                <div class="card flex-fill bg-light border-0 rounded-3 p-3 p-md-4">
+                                    <div class="d-flex justify-content-between align-items-center font-mono text-uppercase text-secondary small mb-3"
+                                        style="letter-spacing: 1px; font-size: 0.7rem;">
+                                        <span class="text-truncate me-2">Lưu lượng theo tuyến ống P-22</span>
+                                        <span class="text-nowrap">L/s</span>
+                                    </div>
+                                    <div class="d-flex align-items-end gap-1" style="height: 120px;">
+                                        <div class="bar flex-fill" style="height:38%"></div>
+                                        <div class="bar flex-fill" style="height:52%"></div>
+                                        <div class="bar flex-fill" style="height:44%"></div>
+                                        <div class="bar flex-fill" style="height:68%"></div>
+                                        <div class="bar flex-fill" style="height:90%"></div>
+                                        <div class="bar flex-fill" style="height:76%"></div>
+                                        <div class="bar flex-fill" style="height:58%"></div>
+                                        <div class="bar flex-fill" style="height:41%"></div>
+                                        <div class="bar flex-fill" style="height:35%"></div>
+                                        <div class="bar flex-fill" style="height:63%"></div>
+                                        <div class="bar flex-fill" style="height:71%"></div>
+                                        <div class="bar flex-fill" style="height:48%"></div>
+                                    </div>
+                                </div>
+                                <!-- WATER QUALITY -->
+                                <div class="card flex-fill bg-light border-0 rounded-3 p-3 p-md-4">
+                                    <div class="d-flex justify-content-between align-items-center font-mono text-uppercase text-secondary small mb-3"
+                                        style="letter-spacing: 1px; font-size: 0.7rem;">
+                                        <span>Chất lượng nước</span>
+                                        <span class="text-nowrap">Điểm cuối mạng</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 pb-2 mb-2"
+                                        style="font-size: 0.85rem;">
+                                        <span class="text-secondary">Clo dư — J-118</span>
+                                        <span class="font-mono fw-medium text-nowrap"
+                                            style="color: var(--flow-deep);">0.42 mg/L</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 pb-2 mb-2"
+                                        style="font-size: 0.85rem;">
+                                        <span class="text-secondary">Clo dư — J-204</span>
+                                        <span class="font-mono fw-medium text-danger text-nowrap">0.09 mg/L</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 pb-2 mb-2"
+                                        style="font-size: 0.85rem;">
+                                        <span class="text-secondary">Thời gian lưu nước</span>
+                                        <span class="font-mono fw-medium text-nowrap"
+                                            style="color: var(--flow-deep);">6.2 giờ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center"
+                                        style="font-size: 0.85rem;">
+                                        <span class="text-secondary">Nguồn nước chiếm ưu thế</span>
+                                        <span class="font-mono fw-medium text-nowrap ms-2"
+                                            style="color: var(--flow-deep);">Nhà máy B — 82%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- GIS -->
+        <section id="gis" class="py-5" style="background: var(--flow-tint);">
+            <div class="container py-5">
+                <div class="row align-items-center gy-5">
+                    <div class="col-lg-6 reveal pe-lg-5">
+                        <div class="eyebrow">Tích hợp bản đồ GIS</div>
+                        <h2 class="display-6 fw-bold mb-4">Shapefile của bạn, hiển thị sống động trên Leaflet</h2>
+                        <p class="lead text-secondary mb-4 fs-6">Không cần chuyển đổi định dạng thủ công. Software Water
+                            GIS đọc
+                            trực tiếp shapefile mạng lưới cấp nước và dựng bản đồ tương tác chỉ trong vài giây.</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex align-items-start gap-3 mb-3">
+                                <span
+                                    class="bg-primary text-white rounded p-1 d-flex align-items-center justify-content-center mt-1"
+                                    style="width:20px; height:20px; font-size:12px;">✓</span>
+                                <span>Tự động nhận diện lớp ống, nút, van và trạm bơm từ thuộc tính shapefile.</span>
+                            </li>
+                            <li class="d-flex align-items-start gap-3 mb-3">
+                                <span
+                                    class="bg-primary text-white rounded p-1 d-flex align-items-center justify-content-center mt-1"
+                                    style="width:20px; height:20px; font-size:12px;">✓</span>
+                                <span>Chuyển đổi hệ tọa độ VN-2000 sang WGS-84 để hiển thị chính xác trên nền bản
+                                    đồ.</span>
+                            </li>
+                            <li class="d-flex align-items-start gap-3 mb-3">
+                                <span
+                                    class="bg-primary text-white rounded p-1 d-flex align-items-center justify-content-center mt-1"
+                                    style="width:20px; height:20px; font-size:12px;">✓</span>
+                                <span>Bật/tắt từng lớp dữ liệu, đo khoảng cách tuyến ống và khoanh vùng phân tích trực
+                                    tiếp.</span>
+                            </li>
+                        </ul>
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            <span class="badge border bg-white text-secondary font-mono px-3 py-2">.shp</span>
+                            <span class="badge border bg-white text-secondary font-mono px-3 py-2">.dbf</span>
+                            <span class="badge border bg-white text-secondary font-mono px-3 py-2">.shx</span>
+                            <span class="badge border bg-white text-secondary font-mono px-3 py-2">.prj</span>
+                        </div>
+                        <a href="EPANET_builder.html" class="btn btn-flow px-4 py-2 fw-semibold">Mở trình dựng mạng
+                            lưới trực tiếp</a>
+                    </div>
+                    <div class="col-lg-6 reveal">
+                        <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+                            <div
+                                class="card-header bg-white border-bottom p-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <span class="font-mono text-secondary text-uppercase small"
+                                    style="font-size: 0.75rem;">Lớp bản đồ</span>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <span
+                                        class="badge bg-dark text-white rounded-pill fw-normal px-3 py-2 font-mono">Ống</span>
+                                    <span
+                                        class="badge border text-secondary rounded-pill fw-normal px-3 py-2 font-mono">Nút</span>
+                                    <span
+                                        class="badge border text-secondary rounded-pill fw-normal px-3 py-2 font-mono">Van</span>
+                                    <span
+                                        class="badge border text-secondary rounded-pill fw-normal px-3 py-2 font-mono">Trạm
+                                        bơm</span>
+                                </div>
+                            </div>
+                            <div class="card-body p-0 position-relative"
+                                style="height: 340px; background: radial-gradient(260px 180px at 30% 30%, #EAF3F2, transparent 60%), #F3F7F6;">
+                                <svg viewBox="0 0 460 340" width="100%" height="100%">
+                                    <path d="M40 60 L140 40 L240 70 L360 50 L420 100" stroke="#0891A8"
+                                        stroke-width="2.5" fill="none" />
+                                    <path d="M40 60 L60 160 L100 260 L160 300" stroke="#0891A8" stroke-width="2.5"
+                                        fill="none" />
+                                    <path d="M140 40 L150 150 L160 300" stroke="#0891A8" stroke-width="2.5"
+                                        fill="none" />
+                                    <path d="M240 70 L230 180 L160 300" stroke="#0891A8" stroke-width="2.5"
+                                        fill="none" />
+                                    <path d="M360 50 L340 170 L260 260 L160 300" stroke="#0891A8" stroke-width="2.5"
+                                        fill="none" />
+                                    <path d="M420 100 L380 220 L260 260" stroke="#0891A8" stroke-width="2.5"
+                                        fill="none" />
+                                    <circle cx="40" cy="60" r="5" fill="#0B1F3A" />
+                                    <circle cx="140" cy="40" r="5" fill="#0B1F3A" />
+                                    <circle cx="240" cy="70" r="5" fill="#0B1F3A" />
+                                    <circle cx="360" cy="50" r="5" fill="#0B1F3A" />
+                                    <circle cx="420" cy="100" r="5" fill="#0B1F3A" />
+                                    <circle cx="160" cy="300" r="6" fill="#FF6B4A" />
+                                    <rect x="95" y="255" width="10" height="10" fill="#FFB238"
+                                        transform="rotate(45 100 260)" />
+                                    <rect x="335" y="165" width="10" height="10" fill="#FFB238"
+                                        transform="rotate(45 340 170)" />
+                                </svg>
+                            </div>
+                            <div class="card-footer bg-white border-top p-3 d-flex justify-content-between font-mono text-secondary small"
+                                style="font-size: 0.75rem;">
+                                <span>21.0285° N, 105.8542° E</span>
+                                <span>Tỷ lệ 1 : 5,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- SECTION BẢNG GIÁ -->
+        <section id="pricing" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h6 class="text-primary text-uppercase fw-bold">Bảng giá</h6>
+                    <h2 class="fw-bold mb-3">Chọn gói phù hợp với quy mô mạng lưới</h2>
+                    <p class="text-muted">Tất cả các gói đều bao gồm lõi tính toán EPANET và bản đồ Leaflet tích hợp
+                        shapefile.</p>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <!-- Gói Cơ bản -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold">Miễn phí</h5>
+                                <p class="card-text text-muted small mb-3">Cho mạng lưới nhỏ và nhóm kỹ thuật đơn lẻ.
+                                </p>
+                                <h3 class="fw-bold text-dark mb-1">0đ<span class="fs-6 text-muted fw-normal">
+                                        /tháng</span></h3>
+                                <p class="text-primary fw-semibold small mb-4">Tối đa 500 nút mạng</p>
+
+                                <ul class="list-unstyled mb-4 flex-grow-1">
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>1 người dùng</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Mô phỏng áp lực &amp; lưu lượng</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Nhập shapefile cơ bản</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Xuất báo cáo PDF</span>
+                                    </li>
+                                </ul>
+                                <a href="EPANET_builder.html" class="btn btn-outline-primary w-100 mt-auto py-2">Dùng
+                                    thử miễn phí</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gói Chuyên nghiệp -->
+                    <div class="col">
+                        <div class="card h-100 shadow border-primary position-relative">
+                            <span
+                                class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-primary px-3 py-2 fs-6">
+                                Phổ biến nhất
+                            </span>
+
+                            <div class="card-body p-4 d-flex flex-column mt-2">
+                                <h5 class="card-title fw-bold">Chuyên nghiệp</h5>
+                                <p class="card-text text-muted small mb-3">Cho đội kỹ thuật cấp nước đô thị quy mô vừa.
+                                </p>
+                                <h3 class="fw-bold text-dark mb-1">4.900.000đ<span class="fs-6 text-muted fw-normal">
+                                        /tháng</span></h3>
+                                <p class="text-primary fw-semibold small mb-4">Tối đa 5.000 nút mạng</p>
+
+                                <ul class="list-unstyled mb-4 flex-grow-1">
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>5 người dùng</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Mô phỏng chất lượng nước</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>So sánh nhiều kịch bản vận hành</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Truy cập API</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Hỗ trợ kỹ thuật ưu tiên</span>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn btn-primary w-100 mt-auto py-2 text-white fw-semibold">Bắt đầu
+                                    dùng thử</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gói Doanh nghiệp -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold">Doanh nghiệp</h5>
+                                <p class="card-text text-muted small mb-3">Cho hệ thống cấp nước quy mô lớn, nhiều khu
+                                    vực.</p>
+                                <h3 class="fw-bold text-dark mb-1">Liên hệ</h3>
+                                <p class="text-primary fw-semibold small mb-4">Không giới hạn nút mạng</p>
+
+                                <ul class="list-unstyled mb-4 flex-grow-1">
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Người dùng không giới hạn</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Triển khai on-premise</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Tích hợp SCADA / GIS nội bộ</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <svg width="20" height="20" class="text-success me-2" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M5 12l4 4L19 6" />
+                                        </svg>
+                                        <span>Quản lý kỹ thuật riêng</span>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn btn-outline-primary w-100 mt-auto py-2">Liên hệ tư vấn</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION FAQ -->
+        <section id="faq" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center mb-5">
+                        <h2 class="fw-bold mb-3 text-primary">Câu hỏi thường gặp</h2>
+                        <p class="text-muted fs-5">Tìm hiểu thêm thông tin chi tiết về hệ thống của chúng tôi.</p>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="accordion accordion-flush border-bottom" id="accordionFAQ">
+
+                            <div class="accordion-item border-top">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                                        aria-controls="collapseOne">
+                                        Phần mềm này giúp ích gì cho công việc của tôi?
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Đây là nền tảng WebGIS tích hợp lõi mô phỏng thủy lực EPANET, giúp bạn quản lý,
+                                        theo dõi áp lực, lưu lượng và chạy các kịch bản mạng lưới cấp nước một cách trực
+                                        quan ngay trên trình duyệt mà không cần cài đặt phần mềm phức tạp.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                        aria-controls="collapseTwo">
+                                        Dữ liệu mạng lưới của tôi có được bảo mật không?
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Có. Dữ liệu của bạn được mã hóa và lưu trữ an toàn trên hệ thống máy chủ đám
+                                        mây. Đối với gói Doanh nghiệp, chúng tôi còn hỗ trợ triển khai on-premise (cài
+                                        đặt trên máy chủ nội bộ của công ty) để đảm bảo bảo mật tuyệt đối.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        Tôi có thể nhập các tệp mô hình hiện có vào hệ thống không?
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Hoàn toàn được. Hệ thống hỗ trợ nhập trực tiếp các tệp dữ liệu `.INP` của EPANET
+                                        và các tệp bản đồ `.SHP` (Shapefile) để bạn có thể tiếp tục công việc đang dang
+                                        dở một cách liền mạch.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
+                                        Phần mềm có hoạt động trên máy Mac hay thiết bị di động không?
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                    data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Có. Hệ thống hoạt động hoàn toàn trên nền tảng web. Bạn chỉ cần một trình duyệt
+                                        internet (như Chrome, Safari, Edge) là có thể truy cập hệ thống từ máy tính
+                                        Windows, macOS, Linux hay thậm chí là máy tính bảng.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false"
+                                        aria-controls="collapseFive">
+                                        Hệ thống có thể tích hợp với dữ liệu nội bộ (SCADA/GIS) không?
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                                    data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Có. Chúng tôi cung cấp khả năng tích hợp sâu thông qua API và các giao thức kết
+                                        nối công nghiệp. Bạn có thể đồng bộ dữ liệu thời gian thực từ hệ thống SCADA và
+                                        GIS sẵn có của đơn vị để giám sát trực tiếp trên bản đồ.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSix">
+                                    <button class="accordion-button collapsed fw-semibold py-4 fs-5" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false"
+                                        aria-controls="collapseSix">
+                                        Làm thế nào để tôi nhận được hỗ trợ kỹ thuật?
+                                    </button>
+                                </h2>
+                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                                    data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted pb-4">
+                                        Chúng tôi cung cấp nhiều kênh hỗ trợ. Tùy thuộc vào gói dịch vụ, bạn có thể liên
+                                        hệ qua email, số điện thoại hotline hoặc được cấp một đầu mối quản lý kỹ thuật
+                                        riêng để hỗ trợ giải quyết vấn đề ưu tiên nhất.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-5 my-5">
+            <div class="container">
+                <div class="cta-band p-5 text-center reveal">
+                    <h2 class="display-6 fw-bold text-white mb-3 position-relative z-1">Sẵn sàng số hóa mạng lưới cấp
+                        nước của bạn?</h2>
+                    <p class="lead mb-4 mx-auto position-relative z-1" style="color: #AEBFD4; max-width: 600px;">Nhập
+                        shapefile hiện có và xem kết quả mô phỏng thủy lực đầu tiên trong vòng 10 phút.</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap position-relative z-1">
+                        <a href="#" class="btn btn-flow px-4 py-2 rounded-3 fw-semibold">Dùng thử miễn phí 14 ngày</a>
+                        <a href="#" class="btn btn-outline-light px-4 py-2 rounded-3 fw-semibold">Đặt lịch demo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pt-5 pb-4 border-top bg-white">
+        <div class="container">
+            <div class="row mb-2 gy-4">
+                <div class="col-lg-4 pe-lg-5">
+                    <a href="#top" class="navbar-brand d-flex align-items-center gap-2 font-mono">
+                        <span class="logo-lg">
+                            <img src="assets/images/logo.webp" alt="logo">
+                        </span>
+                        Commercial GIS Software
+                    </a>
+                    <p class="font-mono text-secondary">Nền tảng SaaS mô phỏng thủy lực mạng cấp nước, tích hợp lõi
+                        EPANET
+                        và bản đồ Leaflet cho kỹ sư cấp nước.</p>
+                </div>
+                <div class="col-lg-8 pe-lg-5">
+                    <div class="row mb-2 gy-4">
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono  mb-3">
+                                Sản phẩm</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="#features" class="text-decoration-none text-secondary ">Tính năng</a></li>
+                                <li><a href="#workflow" class="text-decoration-none text-secondary ">Quy trình</a></li>
+                                <li><a href="#analysis" class="text-decoration-none text-secondary ">Phân tích</a></li>
+                                <li><a href="#pricing" class="text-decoration-none text-secondary ">Bảng giá</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono mb-3">
+                                Tài nguyên</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="tintuc.html" class="text-decoration-none text-secondary ">Tin tức</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Tài liệu hướng dẫn</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Thư viện mẫu .inp</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Ghi chú bản phát hành</a>
+                                </li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Trung tâm hỗ trợ</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h5 class="font-mono mb-3">
+                                Công ty</h5>
+                            <ul class="list-unstyled d-flex flex-column gap-2">
+                                <li><a href="#" class="text-decoration-none text-secondary ">Về Commercial GIS
+                                        Software</a>
+                                </li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Tuyển dụng</a></li>
+                                <li><a href="#" class="text-decoration-none text-secondary ">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 pt-4 border-top">
+                <p class="mb-0 text-secondary small">© 2026 Commercial GIS Software. Đã đăng ký bản quyền.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none text-secondary small">Điều khoản dịch vụ</a>
+                    <a href="#" class="text-decoration-none text-secondary small">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ===== AUTH MODAL (2 tab: Đăng nhập / Đăng ký) ===== -->
+    <div class="modal fade auth-modal" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content auth-card">
+
+                <button type="button" class="btn-close auth-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+
+                <div class="auth-body">
+                    <!-- Logo -->
+                    <div class="auth-logo">
+                        <img src="assets/images/logo.webp" alt="logo">
+                        <span>Commercial GIS Software</span>
+                    </div>
+
+                    <div class="tab-content" id="authTabContent">
+
+                        <!-- ============ TAB ĐĂNG NHẬP ============ -->
+                        <div class="tab-pane fade show active" id="pane-login" role="tabpanel"
+                            aria-labelledby="tab-login">
+                            <h5 class="auth-title">Đăng nhập tài khoản</h5>
+                            <p class="auth-sub">Chào mừng trở lại! Vui lòng đăng nhập để tiếp tục.</p>
+
+                            <div class="auth-oauth">
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                                        <path fill="#EA4335"
+                                            d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.8l7.8 6.1C12.3 13.7 17.6 9.5 24 9.5z" />
+                                        <path fill="#4285F4"
+                                            d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z" />
+                                        <path fill="#FBBC05"
+                                            d="M10.4 28.1c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.8-6.1C1 16.1 0 19.9 0 23.5s1 7.4 2.6 10.7l7.8-6.1z" />
+                                        <path fill="#34A853"
+                                            d="M24 47c6.2 0 11.5-2 15.4-5.6l-7.5-5.8c-2.1 1.4-4.8 2.2-7.9 2.2-6.4 0-11.7-4.2-13.6-10.1l-7.8 6.1C6.5 41.6 14.6 47 24 47z" />
+                                    </svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 23 23" width="16" height="16" aria-hidden="true">
+                                        <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                                        <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                                        <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                                        <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+                                    </svg>
+                                    <span>Microsoft</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-divider"><span>hoặc</span></div>
+
+                            <form id="loginForm" novalidate>
+                                <div class="auth-field">
+                                    <label class="auth-label" for="loginEmail">Địa chỉ email</label>
+                                    <input type="email" id="loginEmail" class="auth-input"
+                                        placeholder="Nhập địa chỉ email của bạn" required>
+                                </div>
+
+                                <div class="auth-field">
+                                    <div class="auth-label-row">
+                                        <label class="auth-label" for="loginPass">Mật khẩu</label>
+                                        <a href="#" class="auth-link-sm">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="auth-input-wrap">
+                                        <input type="password" id="loginPass" class="auth-input"
+                                            placeholder="Nhập mật khẩu" required>
+                                        <button type="button" class="auth-eye" data-toggle-pass="loginPass"
+                                            aria-label="Hiện mật khẩu">
+                                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
+                                                stroke="currentColor" stroke-width="1.8">
+                                                <path
+                                                    d="M1.8 12S5.4 5.4 12 5.4 22.2 12 22.2 12 18.6 18.6 12 18.6 1.8 12 1.8 12z" />
+                                                <circle cx="12" cy="12" r="3.1" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="auth-submit">Đăng nhập<span>&#9654;</span></button>
+                            </form>
+                        </div>
+
+                        <!-- ============ TAB ĐĂNG KÝ ============ -->
+                        <div class="tab-pane fade" id="pane-register" role="tabpanel" aria-labelledby="tab-register">
+                            <h5 class="auth-title">Tạo tài khoản của bạn</h5>
+                            <p class="auth-sub">Xin chào! Vui lòng điền thông tin để bắt đầu.</p>
+
+                            <div class="auth-oauth">
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                                        <path fill="#EA4335"
+                                            d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.8l7.8 6.1C12.3 13.7 17.6 9.5 24 9.5z" />
+                                        <path fill="#4285F4"
+                                            d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z" />
+                                        <path fill="#FBBC05"
+                                            d="M10.4 28.1c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.8-6.1C1 16.1 0 19.9 0 23.5s1 7.4 2.6 10.7l7.8-6.1z" />
+                                        <path fill="#34A853"
+                                            d="M24 47c6.2 0 11.5-2 15.4-5.6l-7.5-5.8c-2.1 1.4-4.8 2.2-7.9 2.2-6.4 0-11.7-4.2-13.6-10.1l-7.8 6.1C6.5 41.6 14.6 47 24 47z" />
+                                    </svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="auth-oauth-btn">
+                                    <svg viewBox="0 0 23 23" width="16" height="16" aria-hidden="true">
+                                        <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                                        <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                                        <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                                        <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+                                    </svg>
+                                    <span>Microsoft</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-divider"><span>hoặc</span></div>
+
+                            <form id="registerForm" novalidate>
+                                <div class="auth-row">
+                                    <div class="auth-field">
+                                        <div class="auth-label-row">
+                                            <label class="auth-label" for="regFirst">Họ</label>
+                                        </div>
+                                        <input type="text" id="regFirst" class="auth-input" placeholder="Họ">
+                                    </div>
+                                    <div class="auth-field">
+                                        <div class="auth-label-row">
+                                            <label class="auth-label" for="regLast">Tên</label>
+                                        </div>
+                                        <input type="text" id="regLast" class="auth-input" placeholder="Tên">
+                                    </div>
+                                </div>
+
+                                <div class="auth-field">
+                                    <label class="auth-label" for="regEmail">Địa chỉ email</label>
+                                    <input type="email" id="regEmail" class="auth-input"
+                                        placeholder="Nhập địa chỉ email của bạn" required>
+                                </div>
+
+                                <div class="auth-field">
+                                    <label class="auth-label" for="regPass">Mật khẩu</label>
+                                    <div class="auth-input-wrap">
+                                        <input type="password" id="regPass" class="auth-input"
+                                            placeholder="Nhập mật khẩu" required>
+                                        <button type="button" class="auth-eye" data-toggle-pass="regPass"
+                                            aria-label="Hiện mật khẩu">
+                                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
+                                                stroke="currentColor" stroke-width="1.8">
+                                                <path
+                                                    d="M1.8 12S5.4 5.4 12 5.4 22.2 12 22.2 12 18.6 18.6 12 18.6 1.8 12 1.8 12z" />
+                                                <circle cx="12" cy="12" r="3.1" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="auth-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label for="agreeTerms">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a
+                                            href="#">Chính sách bảo mật</a></label>
+                                </div>
+
+                                <button type="submit" class="auth-submit">Đăng ký <span>&#9654;</span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chân popup: nút chuyển 2 tab -->
+                <div class="auth-foot">
+                    <span class="auth-foot-item" data-pane="login">Chưa có tài khoản?
+                        <button type="button" class="auth-switch" id="tab-register" data-auth-tab="register">Đăng
+                            ký</button>
+                    </span>
+                    <span class="auth-foot-item d-none" data-pane="register">Đã có tài khoản?
+                        <button type="button" class="auth-switch" id="tab-login" data-auth-tab="login">Đăng
+                            nhập</button>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const nav = document.getElementById('siteNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 24) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            revealEls.forEach(el => io.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('in'));
+        }
+
+        const pEl = document.getElementById('rPressure');
+        const fEl = document.getElementById('rFlow');
+        const cEl = document.getElementById('rChlorine');
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReduced && pEl) {
+            setInterval(() => {
+                const p = (17.5 + Math.random() * 1.8).toFixed(1);
+                const f = (40 + Math.random() * 5).toFixed(1);
+                const c = (0.15 + Math.random() * 0.08).toFixed(2);
+                pEl.textContent = p + ' m';
+                fEl.textContent = f + ' L/s';
+                cEl.textContent = c + ' mg/L';
+            }, 2200);
+        }
+
+        /* ===== AUTH MODAL: chuyển tab + hiện/ẩn mật khẩu ===== */
+        function showAuthTab(name) {
+            document.querySelectorAll('#authTabContent .tab-pane').forEach(p => {
+                const on = p.id === 'pane-' + name;
+                p.classList.toggle('show', on);
+                p.classList.toggle('active', on);
+            });
+            document.querySelectorAll('.auth-foot-item').forEach(el => {
+                el.classList.toggle('d-none', el.dataset.pane !== name);
+            });
+        }
+
+        document.querySelectorAll('[data-auth-tab]').forEach(btn => {
+            btn.addEventListener('click', () => showAuthTab(btn.dataset.authTab));
+        });
+
+        document.querySelectorAll('[data-toggle-pass]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.togglePass);
+                const show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                btn.classList.toggle('is-on', show);
+            });
+        });
+
+        // Mỗi lần đóng popup thì quay về tab Đăng nhập
+        const authModalEl = document.getElementById('authModal');
+        if (authModalEl) {
+            authModalEl.addEventListener('hidden.bs.modal', () => showAuthTab('login'));
+        }
+    </script>
+</body>
+
+</html>

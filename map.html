@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en" data-sidenav-size="fullscreen">
+
+<head>
+    <meta charset="utf-8">
+    <title>Bản đồ Mạng lưới Cấp nước | SoftwareWaterGIS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Water GIS Map" name="description">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Leaflet CSS 1.9.4 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css">
+
+    <!-- Custom CSS -->
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+    <style>
+        /* CSS tuỳ chỉnh cho Map và Bảng điều khiển */
+        .map-container {
+            position: relative;
+            height: calc(100vh - 140px);
+            width: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .gis-control-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-height: calc(100% - 30px);
+            overflow-y: auto;
+        }
+
+        /* Style cho Nhãn (Labels) trên bản đồ */
+        .leaflet-tooltip.gis-label {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            font-weight: bold;
+        }
+
+        /* Tùy chỉnh Scrollbar cho Popup Edit */
+        .prop-form::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .prop-form::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        /* =========================================================
+           EPANET-LIKE MAP UI
+           ========================================================= */
+        .epanet-toolbar-wrap {
+            width: 100%;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 12px;
+            background: #fff;
+            border-bottom: 1px solid #e4e7ec;
+            position: relative;
+            z-index: 10;
+        }
+
+        .map-container {
+            position: relative;
+            height: calc(100vh - 192px);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Nhóm nút điều khiển panel ở góc trên bên phải */
+        .epanet-panel-tools {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1200;
+            display: flex;
+            gap: 6px;
+            padding: 5px;
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid #dfe3e8;
+            border-radius: 7px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+        }
+
+        .epanet-panel-tools .panel-tool-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            border-radius: 5px;
+            background: #fff;
+            color: #344054;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: .15s ease;
+        }
+
+        .epanet-panel-tools .panel-tool-btn:hover,
+        .epanet-panel-tools .panel-tool-btn.active {
+            background: #eef4ff;
+            color: #6f3cff;
+        }
+
+        /* Các panel trượt */
+        .gis-control-panel,
+        .epanet-left-panel,
+        .epanet-bottom-panel {
+            position: absolute;
+            z-index: 1100;
+            background: rgba(255, 255, 255, .97);
+            border: 1px solid #dfe3e8;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, .16);
+            transition: transform .22s ease, opacity .18s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gis-control-panel {
+            top: 58px;
+            right: 12px;
+            width: 330px;
+            max-height: calc(100% - 70px);
+            overflow-y: auto;
+            padding: 15px;
+            border-radius: 8px;
+            transform: translateX(20px);
+        }
+
+        .gis-control-panel.open {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .epanet-left-panel {
+            top: 58px;
+            left: 12px;
+            width: 290px;
+            max-height: calc(100% - 70px);
+            overflow-y: auto;
+            padding: 14px;
+            border-radius: 8px;
+            transform: translateX(-20px);
+        }
+
+        .epanet-left-panel.open {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .epanet-bottom-panel {
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            min-height: 145px;
+            padding: 14px;
+            border-radius: 8px;
+            transform: translateY(20px);
+        }
+
+        .epanet-bottom-panel.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .epanet-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 9px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e7e9ed;
+        }
+
+        .epanet-panel-header h5 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .epanet-panel-close {
+            border: 0;
+            background: transparent;
+            color: #667085;
+            width: 28px;
+            height: 28px;
+            border-radius: 5px;
+        }
+
+        .epanet-panel-close:hover {
+            background: #f2f4f7;
+            color: #101828;
+        }
+
+
+        /* Tabs + bảng dữ liệu ở panel dưới */
+        .epanet-data-tabs {
+            display: flex;
+            gap: 2px;
+            overflow-x: auto;
+            border-bottom: 1px solid #dfe3e8;
+            margin-bottom: 8px;
+        }
+
+        .epanet-data-tab {
+            border: 0;
+            background: #f7f8fa;
+            color: #475467;
+            padding: 7px 11px;
+            font-size: 12px;
+            white-space: nowrap;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+        }
+
+        .epanet-data-tab:hover {
+            background: #eef2f6;
+        }
+
+        .epanet-data-tab.active {
+            background: #6f3cff;
+            color: #fff;
+        }
+
+        .epanet-data-tab span {
+            display: inline-flex;
+            min-width: 18px;
+            justify-content: center;
+            margin-left: 3px;
+            font-size: 10px;
+            opacity: .9;
+        }
+
+        .epanet-data-table-wrap {
+            height: 150px;
+            overflow: auto;
+            border: 1px solid #e4e7ec;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .epanet-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .epanet-data-table th {
+            position: sticky;
+            top: 0;
+            background: #f8fafc;
+            color: #344054;
+            font-weight: 700;
+            border-bottom: 1px solid #dfe3e8;
+            padding: 7px 9px;
+            text-align: left;
+            z-index: 1;
+        }
+
+        .epanet-data-table td {
+            border-bottom: 1px solid #f0f2f5;
+            padding: 6px 9px;
+            color: #475467;
+        }
+
+        .epanet-data-table tbody tr:hover {
+            background: #f8f9fb;
+        }
+
+        .epanet-data-table .row-id {
+            color: #175cd3;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .epanet-data-table-empty {
+            height: 100%;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #98a2b3;
+            font-size: 12px;
+        }
+
+        .network-stat {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 7px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f1f3;
+            font-size: 12px;
+        }
+
+        .network-stat strong {
+            font-weight: 700;
+        }
+
+        /* Chú giải */
+        .epanet-legend {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            z-index: 1150;
+            width: 220px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid #dfe3e8;
+            border-radius: 7px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .14);
+            display: none;
+        }
+
+        .epanet-legend.show {
+            display: block;
+        }
+
+        .epanet-legend-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 7px 0;
+            font-size: 12px;
+        }
+
+        .legend-line {
+            width: 28px;
+            height: 0;
+            border-top: 4px solid #3388ff;
+        }
+
+        .legend-line.new {
+            border-top-color: #f357a1;
+        }
+
+        .legend-node {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #ffcc00;
+            border: 1px solid #111;
+        }
+
+        .legend-arrow {
+            font-size: 17px;
+            line-height: 1;
+            width: 28px;
+            text-align: center;
+        }
+
+        /* Toolbar EPANET ở giữa phía trên */
+        .epanet-toolbar {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1200;
+            display: flex;
+            gap: 2px;
+            padding: 5px;
+            background: rgba(255, 255, 255, .97);
+            border: 1px solid #dfe3e8;
+            border-radius: 6px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .13);
+        }
+
+        .epanet-tool-btn {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 0;
+            background: #fff;
+            color: #20242a;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .epanet-tool-btn:hover {
+            background: #f1f3f5;
+        }
+
+        .epanet-tool-btn.active {
+            background: #a83df5;
+            color: #fff;
+        }
+
+        .epanet-tool-separator {
+            width: 1px;
+            margin: 5px 3px;
+            background: #e4e7ec;
+        }
+
+        /* Ẩn toolbar Leaflet Draw mặc định vì đã đưa công cụ lên toolbar EPANET */
+        .leaflet-control-container .leaflet-draw {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .epanet-toolbar-wrap {
+                justify-content: flex-start;
+                overflow-x: auto;
+            }
+
+            .epanet-toolbar {
+                width: max-content;
+                max-width: none;
+                flex-shrink: 0;
+            }
+
+            .map-container {
+                height: calc(100vh - 195px);
+            }
+
+            .gis-control-panel {
+                width: min(330px, calc(100% - 24px));
+            }
+
+            .epanet-left-panel {
+                width: min(290px, calc(100% - 24px));
+            }
+
+            .epanet-bottom-panel {
+                left: 8px;
+                right: 8px;
+            }
+
+            .epanet-panel-tools {
+                top: 58px;
+                right: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo logo-light">
+                        <span class="logo-lg">
+                            <img src="assets/images/logo.png" alt="logo">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="assets/images/logo-sm.png" alt="small logo">
+                        </span>
+                    </a>
+                    <a href="index.html" class="logo logo-dark">
+                        <span class="logo-lg">
+                            <img src="assets/images/logo-dark.png" alt="dark logo">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="assets/images/logo-dark-sm.png" alt="small logo">
+                        </span>
+                    </a>
+                    <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+                        <li>
+                            <a href="index.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="map.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-map fs-4"></i> Bản đồ
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img src="assets/images/flags/us.jpg" alt="user-image" class="me-0 me-sm-1" height="12">
+                            <span class="align-middle d-none d-lg-inline-block">English</span> <i
+                                class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <i class="ri-notification-3-line font-22"></i>
+                            <span class="noti-icon-badge"></span>
+                        </a>
+                    </li>
+                    <li class="d-none d-sm-inline-block">
+                        <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
+                            <i class="ri-settings-3-line font-22"></i>
+                        </a>
+                    </li>
+                    <li class="d-none d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
+                            role="button" aria-haspopup="false" aria-expanded="false">
+                            <span class="account-user-avatar">
+                                <img src="assets/images/users/avatar-1.jpg" alt="user-image" width="32"
+                                    class="rounded-circle">
+                            </span>
+                            <span class="d-lg-flex flex-column gap-1 d-none">
+                                <h5 class="my-0">Dominic Keller</h5>
+                                <h6 class="my-0 fw-normal">Founder</h6>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- ========== Topbar End ========== -->
+
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo-dark-sm.png" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h6 class="my-0 text-center text-uppercase fw-normal" style="font-size: 10px;line-height: 2">
+                        SoftwareWaterGIS</h6>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li><a href="index.html"><span>Trang chủ</span></a></li>
+                <li><a href="map.html"><span>Bản đồ</span></a></li>
+            </ul>
+        </aside>
+        <!-- ========== Mobile Menu End ========== -->
+
+        <!-- Nội dung chính -->
+        <div class="content-page">
+            <div class="epanet-map-toolbar">
+                <div class="epanet-toolbar-wrap">
+                    <!-- Thanh công cụ kiểu EPANET -->
+                    <div class="epanet-toolbar" id="epanetToolbar" title="Công cụ mô hình mạng">
+                        <button type="button" class="epanet-tool-btn active" id="toolSelect"
+                            title="Chọn / xem thuộc tính">
+                            <i class="mdi mdi-cursor-default"></i>
+                        </button>
+                        <button type="button" class="epanet-tool-btn" id="toolJunction" title="Thêm nút Junction">
+                            <i class="mdi mdi-circle-outline"></i>
+                        </button>
+                        <button type="button" class="epanet-tool-btn" id="toolPipe" title="Vẽ ống Pipe">
+                            <i class="mdi mdi-vector-line"></i>
+                        </button>
+                        <button type="button" class="epanet-tool-btn" id="toolValve" title="Thêm van">
+                            <i class="mdi mdi-valve"></i>
+                        </button>
+                        <button type="button" class="epanet-tool-btn" id="toolPump" title="Thêm bơm">
+                            <i class="mdi mdi-pump"></i>
+                        </button>
+                        <span class="epanet-tool-separator"></span>
+                        <button type="button" class="epanet-tool-btn" id="toolDelete" title="Xoá đối tượng">
+                            <i class="mdi mdi-delete-outline"></i>
+                        </button>
+                        <button type="button" class="epanet-tool-btn" id="toolFit" title="Hiển thị toàn mạng">
+                            <i class="mdi mdi-fit-to-screen-outline"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="epanet-panel-tools">
+                    <button type="button" class="panel-tool-btn" id="btnLeftPanel" title="Mở panel bên trái">
+                        <i class="mdi mdi-dock-left"></i>
+                    </button>
+                    <button type="button" class="panel-tool-btn" id="btnRightPanel" title="Mở panel bên phải">
+                        <i class="mdi mdi-dock-right"></i>
+                    </button>
+                    <button type="button" class="panel-tool-btn" id="btnBottomPanel" title="Mở panel phía dưới">
+                        <i class="mdi mdi-dock-bottom"></i>
+                    </button>
+                    <button type="button" class="panel-tool-btn" id="btnLegend" title="Chú giải bản đồ">
+                        <i class="mdi mdi-map-legend"></i>
+                    </button>
+                </div>
+
+            </div>
+            <div class="content">
+
+                <div class="map-container">
+                    <!-- Bản đồ Leaflet -->
+                    <div id="map"></div>
+                    <!-- Các nút mở panel: trái / phải / dưới / chú giải -->
+
+
+                    <!-- Panel bên trái -->
+                    <div class="epanet-left-panel" id="leftPanel">
+                        <div class="epanet-panel-header">
+                            <h5><i class="mdi mdi-file-tree-outline me-1"></i> Mô hình mạng</h5>
+                            <button class="epanet-panel-close" type="button" data-close-panel="leftPanel">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">Lớp dữ liệu</label>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="togglePipes" checked>
+                                <label class="form-check-label font-12" for="togglePipes">Ống (Pipes)</label>
+                            </div>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="toggleJunctions" checked>
+                                <label class="form-check-label font-12" for="toggleJunctions">Nút (Junctions)</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="toggleFlowArrows" checked>
+                                <label class="form-check-label font-12" for="toggleFlowArrows">Chiều dòng chảy</label>
+                            </div>
+                        </div>
+                        <div class="border-top pt-2">
+                            <div class="network-stat"><span>Số ống</span><strong id="statPipes">0</strong></div>
+                            <div class="network-stat"><span>Số nút</span><strong id="statJunctions">0</strong></div>
+                            <div class="network-stat"><span>Chế độ</span><strong>EPANET GIS</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- Chú giải -->
+                    <div class="epanet-legend" id="epanetLegend">
+                        <div class="epanet-legend-title"><i class="mdi mdi-map-legend me-1"></i> Chú giải</div>
+                        <div class="legend-row"><span class="legend-line"></span><span>Ống mạng lưới</span></div>
+                        <div class="legend-row"><span class="legend-line new"></span><span>Ống mới vẽ</span></div>
+                        <div class="legend-row"><span class="legend-node"></span><span>Nút / Junction</span></div>
+                        <div class="legend-row"><span class="legend-arrow">➜</span><span>Chiều dòng chảy</span></div>
+                    </div>
+
+                    <!-- Panel phía dưới: danh sách dữ liệu theo từng lớp -->
+                    <div class="epanet-bottom-panel" id="bottomPanel">
+                        <div class="epanet-panel-header">
+                            <h5><i class="mdi mdi-table-multiple me-1"></i> Dữ liệu các lớp mạng lưới</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span id="bottomRowCount" class="text-muted font-11">0 đối tượng</span>
+                                <button class="epanet-panel-close" type="button" data-close-panel="bottomPanel">
+                                    <i class="mdi mdi-close"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="epanet-data-tabs" id="layerDataTabs">
+                            <button type="button" class="epanet-data-tab active" data-layer-tab="pipes">
+                                <i class="mdi mdi-vector-line me-1"></i> Pipes <span id="tabCountPipes">0</span>
+                            </button>
+                            <button type="button" class="epanet-data-tab" data-layer-tab="junctions">
+                                <i class="mdi mdi-circle-outline me-1"></i> Junctions <span
+                                    id="tabCountJunctions">0</span>
+                            </button>
+                            <button type="button" class="epanet-data-tab" data-layer-tab="pumps">
+                                <i class="mdi mdi-pump me-1"></i> Pumps <span id="tabCountPumps">0</span>
+                            </button>
+                            <button type="button" class="epanet-data-tab" data-layer-tab="tanks">
+                                <i class="mdi mdi-water-tank me-1"></i> Tanks / Reservoirs <span
+                                    id="tabCountTanks">0</span>
+                            </button>
+                            <button type="button" class="epanet-data-tab" data-layer-tab="valves">
+                                <i class="mdi mdi-valve me-1"></i> Valves <span id="tabCountValves">0</span>
+                            </button>
+                        </div>
+
+                        <div class="epanet-data-table-wrap">
+                            <div id="layerDataTable" class="epanet-data-table-empty">
+                                Chưa có dữ liệu. Hãy tải Shapefile hoặc thêm đối tượng trên bản đồ.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bảng điều khiển tính năng GIS / EPANET -->
+                    <div class="gis-control-panel" id="rightPanel">
+                        <div class="epanet-panel-header">
+                            <h5><i class="mdi mdi-settings-outline me-1"></i> Cấu hình mạng lưới</h5>
+                            <button class="epanet-panel-close" type="button" data-close-panel="rightPanel">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+
+                        <!-- 0. Tải lên Shapefile -->
+                        <div class="mb-3 border-bottom pb-3">
+                            <label class="form-label font-13 fw-semibold text-primary">Tải lên dữ liệu Mạng lưới
+                                (.zip)</label>
+                            <input type="file" id="uploadShapefile" class="form-control form-control-sm"
+                                accept=".zip" />
+                            <small class="text-muted font-11">Upload file .zip chứa junctions1, pipes, pumps,
+                                tanks_reservoirs, valves...</small>
+                        </div>
+
+                        <!-- Tính năng MỚI: TÌM KIẾM -->
+                        <div class="mb-3 border-bottom pb-3">
+                            <label class="form-label font-13 fw-semibold">Tìm kiếm Đối tượng (ID)</label>
+                            <div class="input-group">
+                                <input type="text" id="searchInput" class="form-control form-control-sm"
+                                    placeholder="Nhập ID (VD: P1, J1)...">
+                                <button class="btn btn-sm btn-primary" id="btnSearch"><i
+                                        class="mdi mdi-magnify"></i></button>
+                            </div>
+                            <small id="searchResult" class="text-danger font-11 d-none mt-1">Không tìm thấy kết quả phù
+                                hợp.</small>
+                        </div>
+
+                        <!-- 1. Cấu hình Icon Junction -->
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">1. Ký hiệu Nút (Junction)</label>
+                            <select class="form-select form-select-sm" id="junctionSymbol">
+                                <option value="circle">Hình tròn (Mặc định)</option>
+                                <option value="square">Hình vuông</option>
+                                <option value="triangle">Hình tam giác</option>
+                            </select>
+                        </div>
+
+                        <!-- 2. Thematic Mapping cho Ống -->
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">2. Hiển thị Ống theo thuộc tính</label>
+                            <select class="form-select form-select-sm" id="pipeStyle">
+                                <option value="default">Mặc định</option>
+                                <option value="diameter">Đường kính (Độ dày)</option>
+                                <option value="material">Vật liệu (Màu sắc)</option>
+                                <option value="pressure">Áp lực (Gradient màu)</option>
+                                <option value="flow">Lưu lượng (Độ dày & Màu)</option>
+                            </select>
+                        </div>
+
+                        <!-- 4. Gán nhu cầu nước -->
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">4. Nhu cầu nước (Đồng hồ)</label>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary w-100" id="btnManualDemand"><i
+                                        class="mdi mdi-cursor-default-click"></i> Gán thủ công</button>
+                                <button class="btn btn-sm btn-outline-success w-100" id="btnImportDemand"><i
+                                        class="mdi mdi-file-excel"></i> Import Excel</button>
+                            </div>
+                        </div>
+
+                        <!-- 5. Bật tắt và Cấu hình Nhãn (Labels) -->
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">5. Hiển thị Nhãn (Labels)</label>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="toggleLabels" checked>
+                                <label class="form-check-label" for="toggleLabels">Hiển thị nhãn trên bản đồ</label>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label class="font-12">Kích thước chữ</label>
+                                    <select class="form-select form-select-sm" id="labelSize">
+                                        <option value="10px">10px</option>
+                                        <option value="12px" selected>12px</option>
+                                        <option value="14px">14px</option>
+                                        <option value="16px">16px</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="font-12">Màu chữ</label>
+                                    <input type="color"
+                                        class="form-control form-control-sm form-control-color w-100 p-1"
+                                        id="labelColor" value="#000000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. Chiều dòng chảy -->
+                        <div class="mb-3">
+                            <label class="form-label font-13 fw-semibold">6. Mô phỏng Thuỷ lực</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="toggleFlowDir" checked>
+                                <label class="form-check-label" for="toggleFlowDir">Mũi tên chiều dòng chảy</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END wrapper -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <script>document.write(new Date().getFullYear())</script> © SoftwareWaterGIS
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/vendor.min.js"></script>
+    <script src="assets/js/app.js"></script>
+
+    <!-- JS Thư viện GIS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js"></script>
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
+    <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ==========================================
+            // KHỞI TẠO BẢN ĐỒ VÀ DỮ LIỆU CHUNG
+            // ==========================================
+            var map = L.map('map').setView([16.4637, 107.5909], 14); // Mặc định Huế
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var junctionsLayer = L.featureGroup().addTo(map);
+            var pipesLayer = L.featureGroup().addTo(map);
+            var flowArrowsLayer = L.featureGroup().addTo(map);
+
+            // Dữ liệu GeoJSON được tách theo từng lớp để hiển thị ở panel dưới.
+            var geojsonData = {
+                pipes: [],
+                junctions: [],
+                pumps: [],
+                tanks: [],
+                valves: []
+            };
+
+            var activeDataLayer = 'pipes';
+
+            // ==========================================
+            // HÀM TẠO HTML POPUP (CHỈNH SỬA THUỘC TÍNH)
+            // ==========================================
+            function bindEditablePopup(layer, feature, titlePrefix) {
+                let props = feature.properties || {};
+                let elementId = props.ID || props.Id || props.id || "Unknown";
+
+                let html = `<div style="min-width: 240px;">
+                    <h6 class="border-bottom pb-2 mb-2 text-primary fw-bold">Thuộc tính ${titlePrefix} ${elementId}</h6>
+                    <div class="prop-form" style="max-height: 220px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;">`;
+
+                for (let key in props) {
+                    // Không cho phép sửa field ID gốc để tránh mất tham chiếu khi tìm kiếm, nhưng vẫn hiển thị
+                    let isReadonly = (key.toLowerCase() === 'id') ? 'readonly' : '';
+                    html += `<div class="mb-2 row g-1 align-items-center">
+                                <div class="col-5 text-truncate" title="${key}"><small class="fw-semibold text-secondary">${key}</small></div>
+                                <div class="col-7"><input type="text" class="form-control form-control-sm prop-input" name="${key}" value="${props[key]}" ${isReadonly}></div>
+                             </div>`;
+                }
+                html += `</div><button type="button" class="btn btn-sm btn-success w-100 mt-2 fw-bold btn-save-prop"><i class="mdi mdi-content-save"></i> Lưu thay đổi</button></div>`;
+
+                layer.bindPopup(html);
+
+                // Lắng nghe sự kiện lưu thay đổi
+                layer.on('popupopen', function (e) {
+                    let saveBtn = e.popup.getElement().querySelector('.btn-save-prop');
+                    saveBtn.onclick = function () {
+                        let inputs = e.popup.getElement().querySelectorAll('.prop-input');
+                        inputs.forEach(input => {
+                            let val = input.value;
+                            // Kiểm tra ép kiểu số, nếu không phải số thì giữ dạng chuỗi
+                            feature.properties[input.name] = (isNaN(Number(val)) || val.trim() === "") ? val : Number(val);
+                        });
+                        map.closePopup();
+                        // Render lại để biểu đồ và style cập nhật thuộc tính mới (Vd: Thay đổi DIAMETER)
+                        renderPipes();
+                        renderJunctions();
+                        updateLayerDataTabs();
+                    };
+                });
+            }
+
+            // ==========================================
+            // HÀM RENDER DỮ LIỆU TỪ GEOJSON
+            // ==========================================
+            function renderPipes() {
+                pipesLayer.clearLayers();
+                flowArrowsLayer.clearLayers();
+                let styleType = document.getElementById('pipeStyle').value;
+                let showFlow = document.getElementById('toggleFlowDir').checked;
+
+                geojsonData.pipes.forEach(feature => {
+                    let props = feature.properties || {};
+                    let weight = 3;
+                    let color = '#3388ff';
+
+                    // Đọc thuộc tính để Render Thematic Mapping
+                    let diameter = props.DIAMETER || props.Diameter || props.diameter || 100;
+                    let flow = props.FLOW || props.Flow || props.flow || 0;
+
+                    if (styleType === 'diameter') weight = diameter > 150 ? 6 : 3;
+                    if (styleType === 'flow') {
+                        weight = flow > 20 ? 5 : 2;
+                        color = flow > 20 ? 'red' : 'orange';
+                    }
+
+                    // Render đường ống (Sử dụng eachLayer để lấy đúng đối tượng Leaflet layer)
+                    let pLineGroup = L.geoJSON(feature, { style: { color: color, weight: weight } });
+
+                    pLineGroup.eachLayer(function (layer) {
+                        layer.feature = feature; // Gắn data feature vào layer để tìm kiếm
+                        let pipeId = props.ID || props.Id || props.id || "Unknown";
+
+                        layer.bindTooltip(`Ống ${pipeId}`, { permanent: true, direction: 'center', className: 'gis-label' });
+
+                        // Kích hoạt chức năng chỉnh sửa
+                        bindEditablePopup(layer, feature, 'Ống');
+
+                        if (showFlow) {
+                            L.polylineDecorator(layer, {
+                                patterns: [{ offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 12, polygon: false, pathOptions: { stroke: true, weight: 2, color: '#000' } }) }]
+                            }).addTo(flowArrowsLayer);
+                        }
+                        layer.addTo(pipesLayer);
+                    });
+                });
+                updateLabels();
+            }
+
+            function renderJunctions() {
+                junctionsLayer.clearLayers();
+                let symbolType = document.getElementById('junctionSymbol').value;
+
+                geojsonData.junctions.forEach(feature => {
+                    let props = feature.properties || {};
+                    let nodeId = props.ID || props.Id || props.id || "Node";
+
+                    let pNodeGroup = L.geoJSON(feature, {
+                        pointToLayer: function (geoJsonPoint, latlng) {
+                            let marker;
+                            if (symbolType === 'square') {
+                                let squareIcon = L.divIcon({ html: '<div style="width:12px;height:12px;background:red;border:1px solid #000;"></div>', className: '' });
+                                marker = L.marker(latlng, { icon: squareIcon });
+                            } else if (symbolType === 'triangle') {
+                                let triIcon = L.divIcon({ html: '<div style="width: 0;height: 0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-bottom: 16px solid purple;"></div>', className: '' });
+                                marker = L.marker(latlng, { icon: triIcon });
+                            } else {
+                                marker = L.circleMarker(latlng, { radius: 5, color: '#000', fillColor: '#ffcc00', fillOpacity: 1 });
+                            }
+                            return marker;
+                        }
+                    });
+
+                    pNodeGroup.eachLayer(function (layer) {
+                        layer.feature = feature;
+                        layer.bindTooltip(nodeId, { permanent: true, direction: 'top', className: 'gis-label', offset: [0, -10] });
+                        bindEditablePopup(layer, feature, 'Nút');
+                        layer.addTo(junctionsLayer);
+                    });
+                });
+                updateLabels();
+            }
+
+            // ==========================================
+            // HÀM TIỆN ÍCH GIS (LABELS & SEARCH)
+            // ==========================================
+            function getLabelStyle() {
+                let size = document.getElementById('labelSize').value;
+                let color = document.getElementById('labelColor').value;
+                let display = document.getElementById('toggleLabels').checked ? 'block' : 'none';
+                return `font-size: ${size}; color: ${color}; display: ${display};`;
+            }
+
+            function updateLabels() {
+                let style = getLabelStyle();
+                document.querySelectorAll('.gis-label').forEach(el => {
+                    el.style.cssText = style;
+                });
+            }
+
+            // Xử lý Tìm Kiếm 
+            document.getElementById('btnSearch').addEventListener('click', function () {
+                let keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+                let resultMsg = document.getElementById('searchResult');
+                resultMsg.classList.add('d-none');
+
+                if (!keyword) return;
+
+                let foundLayer = null;
+
+                // Tìm trong Ống
+                pipesLayer.eachLayer(function (layer) {
+                    let props = layer.feature.properties || {};
+                    let id = (props.ID || props.Id || props.id || "").toString().toLowerCase();
+                    if (id === keyword || id.includes(keyword)) foundLayer = layer;
+                });
+
+                // Tìm trong Nút
+                if (!foundLayer) {
+                    junctionsLayer.eachLayer(function (layer) {
+                        let props = layer.feature.properties || {};
+                        let id = (props.ID || props.Id || props.id || "").toString().toLowerCase();
+                        if (id === keyword || id.includes(keyword)) foundLayer = layer;
+                    });
+                }
+
+                if (foundLayer) {
+                    // Zoom và Mở bảng thông tin
+                    if (foundLayer.getBounds) {
+                        map.fitBounds(foundLayer.getBounds(), { maxZoom: 18 });
+                    } else if (foundLayer.getLatLng) {
+                        map.flyTo(foundLayer.getLatLng(), 18);
+                    }
+                    setTimeout(() => { foundLayer.openPopup(); }, 500); // Chờ map fly xong rồi bật popup
+                } else {
+                    resultMsg.classList.remove('d-none');
+                }
+            });
+
+            // Mở rộng tìm kiếm khi bấm phím Enter
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('btnSearch').click();
+                }
+            });
+
+            // ==========================================
+            // XỬ LÝ UPLOAD SHAPEFILE (ZIP)
+            // ==========================================
+            document.getElementById('uploadShapefile').addEventListener('change', function (e) {
+                var file = e.target.files[0];
+                if (!file) return;
+
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var buffer = event.target.result;
+                    shp(buffer).then(function (geojsonArray) {
+                        geojsonData = {
+                            pipes: [],
+                            junctions: [],
+                            pumps: [],
+                            tanks: [],
+                            valves: []
+                        };
+
+                        let layers = Array.isArray(geojsonArray) ? geojsonArray : [geojsonArray];
+
+                        layers.forEach(function (layerData) {
+                            let fileName = (layerData.fileName || "").toLowerCase();
+                            let features = layerData.features || [];
+
+                            if (fileName.includes("pipes")) {
+                                geojsonData.pipes = geojsonData.pipes.concat(features);
+                            } else if (fileName.includes("junction")) {
+                                geojsonData.junctions = geojsonData.junctions.concat(features);
+                            } else if (fileName.includes("pump")) {
+                                geojsonData.pumps = geojsonData.pumps.concat(features);
+                            } else if (fileName.includes("tank") || fileName.includes("reservoir")) {
+                                geojsonData.tanks = geojsonData.tanks.concat(features);
+                            } else if (fileName.includes("valve")) {
+                                geojsonData.valves = geojsonData.valves.concat(features);
+                            }
+                        });
+
+                        // Giữ các lớp điểm EPANET hiện có trên bản đồ.
+                        geojsonData.junctions = geojsonData.junctions
+                            .concat(geojsonData.pumps)
+                            .concat(geojsonData.tanks)
+                            .concat(geojsonData.valves);
+
+                        renderPipes();
+                        renderJunctions();
+                        updateNetworkStats();
+                        updateLayerDataTabs();
+
+                        if (pipesLayer.getBounds().isValid()) {
+                            map.fitBounds(pipesLayer.getBounds());
+                        }
+                    }).catch(function (error) {
+                        console.error("Lỗi đọc file Shapefile: ", error);
+                        alert("Không thể đọc file Shapefile. Vui lòng đảm bảo bạn tải lên file .zip hợp lệ.");
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            });
+
+            // ==========================================
+            // CÔNG CỤ VẼ BỔ SUNG MẠNG LƯỚI
+            // ==========================================
+            var drawControl = new L.Control.Draw({
+                draw: {
+                    polyline: { shapeOptions: { color: '#f357a1', weight: 4 }, title: 'Vẽ tuyến ống mới' },
+                    polygon: false, rectangle: false, circle: false, circlemarker: false,
+                    marker: { title: 'Thêm Nút/Bơm/Van' }
+                },
+                edit: { featureGroup: junctionsLayer }
+            });
+            map.addControl(drawControl);
+
+            // Đưa công cụ vẽ lên toolbar kiểu EPANET phía trên bản đồ.
+            // Leaflet Draw vẫn được dùng làm engine xử lý hình học.
+            var drawMarkerHandler = new L.Draw.Marker(map, drawControl.options.draw.marker);
+            var drawPipeHandler = new L.Draw.Polyline(map, drawControl.options.draw.polyline);
+
+            function setActiveTool(buttonId) {
+                document.querySelectorAll('.epanet-tool-btn').forEach(function (btn) {
+                    btn.classList.remove('active');
+                });
+                var btn = document.getElementById(buttonId);
+                if (btn) btn.classList.add('active');
+            }
+
+            function stopDrawing() {
+                if (drawMarkerHandler.enabled()) drawMarkerHandler.disable();
+                if (drawPipeHandler.enabled()) drawPipeHandler.disable();
+                setActiveTool('toolSelect');
+            }
+
+            document.getElementById('toolSelect').addEventListener('click', stopDrawing);
+
+            document.getElementById('toolJunction').addEventListener('click', function () {
+                stopDrawing();
+                setActiveTool('toolJunction');
+                drawMarkerHandler.enable();
+            });
+
+            document.getElementById('toolPipe').addEventListener('click', function () {
+                stopDrawing();
+                setActiveTool('toolPipe');
+                drawPipeHandler.enable();
+            });
+
+            document.getElementById('toolValve').addEventListener('click', function () {
+                alert('Chế độ Van: hiện tại dùng công cụ thêm nút. Có thể gán loại đối tượng = VALVE trong thuộc tính.');
+            });
+
+            document.getElementById('toolPump').addEventListener('click', function () {
+                alert('Chế độ Bơm: hiện tại dùng công cụ thêm nút. Có thể gán loại đối tượng = PUMP trong thuộc tính.');
+            });
+
+            document.getElementById('toolDelete').addEventListener('click', function () {
+                stopDrawing();
+                alert('Chọn đối tượng trên bản đồ để xem thuộc tính. Chức năng xoá có thể mở rộng bằng Leaflet Draw Edit.');
+            });
+
+            document.getElementById('toolFit').addEventListener('click', function () {
+                var bounds = L.featureGroup([pipesLayer, junctionsLayer]).getBounds();
+                if (bounds.isValid()) map.fitBounds(bounds, { padding: [30, 30] });
+            });
+
+            map.on(L.Draw.Event.CREATED, function (e) {
+                var type = e.layerType, layer = e.layer;
+                // Khởi tạo một đối tượng Feature rỗng cho các điểm vẽ tay mới
+                layer.feature = { type: "Feature", properties: { ID: "NEW_" + Math.floor(Math.random() * 1000) } };
+
+                if (type === 'marker') {
+                    bindEditablePopup(layer, layer.feature, 'Nút Mới');
+                    junctionsLayer.addLayer(layer);
+                    geojsonData.junctions.push(layer.feature);
+                    updateNetworkStats();
+                    updateLayerDataTabs();
+                } else if (type === 'polyline') {
+                    bindEditablePopup(layer, layer.feature, 'Ống Mới');
+                    pipesLayer.addLayer(layer);
+                    geojsonData.pipes.push(layer.feature);
+                    updateNetworkStats();
+                    updateLayerDataTabs();
+                }
+            });
+
+            // ==========================================
+            // EVENT LISTENERS BẢNG ĐIỀU KHIỂN
+            // ==========================================
+            document.getElementById('junctionSymbol').addEventListener('change', renderJunctions);
+            document.getElementById('pipeStyle').addEventListener('change', renderPipes);
+            document.getElementById('toggleFlowDir').addEventListener('change', renderPipes);
+            document.getElementById('toggleLabels').addEventListener('change', updateLabels);
+            document.getElementById('labelSize').addEventListener('change', updateLabels);
+            document.getElementById('labelColor').addEventListener('input', updateLabels);
+
+            document.getElementById('btnManualDemand').addEventListener('click', function () {
+                alert('Chế độ: Click vào Nút (Junction) trên bản đồ để gán đồng hồ / nhu cầu nước khách hàng.');
+            });
+            document.getElementById('btnImportDemand').addEventListener('click', function () {
+                alert('Mở hộp thoại Upload File Excel cấu hình nhu cầu nước cho các Node.');
+            });
+
+            // ==========================================
+            // GIAO DIỆN & UI UX THÔNG THƯỜNG
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show'); overlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+                function closeMobileMenu() {
+                    panel.classList.remove('show'); overlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+            }
+
+            // ==========================================
+            // PANEL TRÁI / PHẢI / DƯỚI + CHÚ GIẢI
+            // ==========================================
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
+            const bottomPanel = document.getElementById('bottomPanel');
+            const legend = document.getElementById('epanetLegend');
+
+            function togglePanel(panel, buttonId) {
+                const willOpen = !panel.classList.contains('open');
+                panel.classList.toggle('open', willOpen);
+                const button = document.getElementById(buttonId);
+                if (button) button.classList.toggle('active', willOpen);
+                setTimeout(function () { map.invalidateSize(); }, 240);
+            }
+
+            document.getElementById('btnLeftPanel').addEventListener('click', function () {
+                togglePanel(leftPanel, 'btnLeftPanel');
+            });
+
+            document.getElementById('btnRightPanel').addEventListener('click', function () {
+                togglePanel(rightPanel, 'btnRightPanel');
+            });
+
+            document.getElementById('btnBottomPanel').addEventListener('click', function () {
+                togglePanel(bottomPanel, 'btnBottomPanel');
+            });
+
+            document.getElementById('btnLegend').addEventListener('click', function () {
+                legend.classList.toggle('show');
+                this.classList.toggle('active', legend.classList.contains('show'));
+            });
+
+            document.querySelectorAll('[data-close-panel]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const panel = document.getElementById(this.dataset.closePanel);
+                    if (panel) panel.classList.remove('open');
+                    const mapping = {
+                        leftPanel: 'btnLeftPanel',
+                        rightPanel: 'btnRightPanel',
+                        bottomPanel: 'btnBottomPanel'
+                    };
+                    const button = document.getElementById(mapping[this.dataset.closePanel]);
+                    if (button) button.classList.remove('active');
+                    setTimeout(function () { map.invalidateSize(); }, 240);
+                });
+            });
+
+
+            // Chuyển tab dữ liệu theo từng lớp.
+            document.querySelectorAll('.epanet-data-tab').forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    document.querySelectorAll('.epanet-data-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    renderLayerDataTable(this.dataset.layerTab);
+                });
+            });
+
+            // Bật/tắt nhanh các lớp
+            document.getElementById('togglePipes').addEventListener('change', function () {
+                if (this.checked) map.addLayer(pipesLayer);
+                else map.removeLayer(pipesLayer);
+            });
+
+            document.getElementById('toggleJunctions').addEventListener('change', function () {
+                if (this.checked) map.addLayer(junctionsLayer);
+                else map.removeLayer(junctionsLayer);
+            });
+
+            document.getElementById('toggleFlowArrows').addEventListener('change', function () {
+                document.getElementById('toggleFlowDir').checked = this.checked;
+                renderPipes();
+            });
+
+
+            // ==========================================
+            // BẢNG DỮ LIỆU THEO TỪNG LỚP Ở PANEL DƯỚI
+            // ==========================================
+            function getFeatureId(feature, index) {
+                const props = feature && feature.properties ? feature.properties : {};
+                return props.ID ?? props.Id ?? props.id ?? `${activeDataLayer.toUpperCase()}_${index + 1}`;
+            }
+
+            function escapeHtml(value) {
+                return String(value ?? '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            function renderLayerDataTable(layerName) {
+                activeDataLayer = layerName;
+                const features = geojsonData[layerName] || [];
+                const container = document.getElementById('layerDataTable');
+                const count = features.length;
+
+                document.getElementById('bottomRowCount').textContent = `${count} đối tượng`;
+
+                if (!count) {
+                    container.className = 'epanet-data-table-empty';
+                    container.innerHTML = 'Lớp này chưa có dữ liệu.';
+                    return;
+                }
+
+                const keySet = new Set();
+                features.forEach(feature => {
+                    Object.keys(feature.properties || {}).forEach(key => keySet.add(key));
+                });
+
+                let keys = Array.from(keySet);
+                const idKey = keys.find(k => k.toLowerCase() === 'id');
+                if (idKey) {
+                    keys = [idKey].concat(keys.filter(k => k !== idKey));
+                }
+
+                // Giới hạn số cột để bảng vẫn dễ đọc; các thuộc tính còn lại vẫn có trong popup.
+                keys = keys.slice(0, 8);
+
+                let html = '<table class="epanet-data-table"><thead><tr>';
+                html += '<th>#</th>';
+                keys.forEach(key => html += `<th>${escapeHtml(key)}</th>`);
+                html += '</tr></thead><tbody>';
+
+                features.forEach((feature, index) => {
+                    const props = feature.properties || {};
+                    html += `<tr data-layer="${escapeHtml(layerName)}" data-index="${index}">`;
+                    html += `<td>${index + 1}</td>`;
+
+                    keys.forEach(key => {
+                        const value = props[key] ?? '';
+                        const isId = idKey && key === idKey;
+                        html += `<td class="${isId ? 'row-id' : ''}" title="${escapeHtml(value)}">${escapeHtml(value)}</td>`;
+                    });
+
+                    html += '</tr>';
+                });
+
+                html += '</tbody></table>';
+                container.className = '';
+                container.innerHTML = html;
+
+                container.querySelectorAll('tbody tr').forEach(row => {
+                    row.addEventListener('dblclick', function () {
+                        const index = Number(this.dataset.index);
+                        const feature = geojsonData[this.dataset.layer][index];
+                        if (!feature) return;
+
+                        const id = getFeatureId(feature, index).toString().toLowerCase();
+                        let foundLayer = null;
+
+                        const searchLayer = function (group) {
+                            group.eachLayer(function (layer) {
+                                const props = layer.feature?.properties || {};
+                                const layerId = (props.ID || props.Id || props.id || '').toString().toLowerCase();
+                                if (!foundLayer && layerId === id) foundLayer = layer;
+                            });
+                        };
+
+                        searchLayer(pipesLayer);
+                        searchLayer(junctionsLayer);
+
+                        if (foundLayer) {
+                            if (foundLayer.getLatLng) {
+                                map.flyTo(foundLayer.getLatLng(), Math.max(map.getZoom(), 17));
+                            } else if (foundLayer.getBounds && foundLayer.getBounds().isValid()) {
+                                map.fitBounds(foundLayer.getBounds(), { maxZoom: 18 });
+                            }
+                            setTimeout(() => foundLayer.openPopup(), 300);
+                        }
+                    });
+                });
+            }
+
+            function updateLayerDataTabs() {
+                ['pipes', 'junctions', 'pumps', 'tanks', 'valves'].forEach(function (layerName) {
+                    const countEl = document.getElementById('tabCount' + layerName.charAt(0).toUpperCase() + layerName.slice(1));
+                    if (countEl) countEl.textContent = (geojsonData[layerName] || []).length;
+                });
+
+                renderLayerDataTable(activeDataLayer);
+            }
+
+            // Cập nhật thống kê mạng lưới
+            function updateNetworkStats() {
+                document.getElementById('statPipes').textContent = geojsonData.pipes.length;
+                document.getElementById('statJunctions').textContent = geojsonData.junctions.length;
+            }
+
+            // Ghi nhận đối tượng được chọn
+            map.on('popupopen', function (e) {
+                var layer = e.popup._source;
+                var feature = layer && layer.feature;
+                if (feature) {
+                    var props = feature.properties || {};
+                    document.getElementById('selectedObject').textContent =
+                        (props.ID || props.Id || props.id || 'Không xác định');
+                    document.getElementById('resultStatus').textContent = 'Đang xem thuộc tính';
+                }
+            });
+
+            // Cập nhật thống kê sau mỗi lần render / upload
+            const originalRenderPipes = renderPipes;
+            const originalRenderJunctions = renderJunctions;
+
+            function renderPipesWithStats() {
+                originalRenderPipes();
+                updateNetworkStats();
+            }
+
+            function renderJunctionsWithStats() {
+                originalRenderJunctions();
+                updateNetworkStats();
+            }
+
+            // Các handler phía trên đã giữ reference cũ; cập nhật thống kê ngay khi dữ liệu thay đổi.
+            updateNetworkStats();
+
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';
+                if (segments[0] === 'index') return 'home';
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            document.querySelectorAll("#mainMenu a, #mobileMenu a").forEach(link => {
+                const href = link.getAttribute("href");
+                if (href && href !== "#" && getControllerName(href) === currentController) {
+                    link.classList.add("active", "fw-bold");
+                    link.classList.remove("fw-semibold");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

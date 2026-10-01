@@ -1,0 +1,11 @@
+WaterMapCore v0.6.2 — Spatial multi-layer + keyboard modes
+
+Focused changes only:
+- Space (hold) = temporary Pan. Releasing Space returns to the previous mouse mode.
+- M = Select mode.
+- V = Spatial Update mode (requires active edit session).
+- Spatial Update rectangle selection scans ALL visible layers and may select many vertices/features at once.
+- Selected vertices from different layers move together in one drag.
+- Dragging a segment/vertex that is already part of a multi-selection keeps and moves the whole selection.
+- Shift + rectangle adds spatial vertices; Ctrl + rectangle toggles them.
+- No changes to Topology Checker, Create/Add New, Style, Recent or import/export logic.

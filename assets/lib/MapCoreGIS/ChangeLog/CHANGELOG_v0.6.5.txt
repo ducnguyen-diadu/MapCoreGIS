@@ -1,0 +1,9 @@
+WaterMapCore v0.6.5 — Branch Aggregate Junction
+
+- Reworked Aggregate Junction generator around hydraulic branch topology.
+- Service/branch line endpoints are joined into a graph using the configured topology tolerance.
+- Meters are associated with the service network and traced through that network to the root where the branch connects to a main pipe.
+- One connected dead-end branch (for example AB1..AB11) now generates one Junction at AB1, with demand equal to the sum of downstream meters.
+- No Junction is generated per customer meter.
+- Networks touching the main at multiple roots are traced to the nearest root along the service network and reported in Preview.
+- Rebuild behavior remains: an existing generated layer can be deleted and regenerated from scratch; original Junction layers are protected.

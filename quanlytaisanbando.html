@@ -1,0 +1,435 @@
+<html lang="en" data-sidenav-size="fullscreen">
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Quản lý mạng lưới</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #map {
+            height: calc(100vh - 130px);
+        }
+
+        .leaflet-sidebar {
+            z-index: 401;
+        }
+
+        .leaflet-top,
+        .leaflet-bottom {
+            z-index: 400;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="quanlytaisan.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                                    Tổng quan </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisanbando.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisandanhmuc.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục"
+                                    data-en="Category"> Danh
+                                    mục </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="quanlytaisanthongke.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                                    data-en="Statistical report">
+                                    Thống kê báo cáo </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h5 class="my-0 text-center text-uppercase " style="line-height: 2">
+                        Software Water GIS</h5>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="quanlytaisan.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                            Tổng quan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanbando.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisandanhmuc.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục" data-en="Category">
+                            Danh
+                            mục </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanthongke.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                            data-en="Statistical report">
+                            Thống kê báo cáo </span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside>
+        <!-- ========== Topbar End ========== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid" style="position: relative; z-index: 1;">
+
+                    <!-- Khung chứa bản đồ Leaflet -->
+                    <div class="row">
+                        <div id="map"></div>
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+        <!-- End Page content -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+
+    <!-- Dashboard App js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ==========================================
+            // 1. KHỞI TẠO BẢN ĐỒ LEAFLET
+            // ==========================================
+            // Thiết lập tọa độ trung tâm mặc định (ví dụ: Tọa độ Việt Nam hoặc khu vực dự án) và mức phóng to (zoom)
+            const map = L.map('map').setView([16.047079, 108.206230], 13);
+
+            // Thêm lớp nền bản đồ từ OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+
+
+
+            // ==========================================
+            // 2. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+
+            // ==========================================
+            // 3. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';
+                if (segments[0] === 'index') return 'home';
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+
+            // ==========================================
+            // 4. CHUYỂN ĐỔI NGÔN NGỮ (TIẾNG VIỆT / ENGLISH)
+            // ==========================================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) {
+                        el.textContent = text;
+                    }
+                });
+
+                const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.setAttribute('src', activeOption.getAttribute('data-flag'));
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+
+            // ==========================================
+            // 5. ĐỒNG BỘ MÀU FOOTER THEO NAVBAR (SÁNG/TỐI)
+            // ==========================================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop = '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+        });
+    </script>
+</body>
+
+</html>

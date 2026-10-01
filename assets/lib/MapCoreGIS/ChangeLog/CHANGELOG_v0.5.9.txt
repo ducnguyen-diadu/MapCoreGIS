@@ -1,0 +1,8 @@
+WaterMapCore v0.5.9 - Topology checker correctness fix
+
+- Fix Line→Line any-endpoint rule: evaluate both source endpoints against the whole target layer and use the true minimum distance.
+- A service pipe passes when at least one endpoint is within tolerance; the other endpoint is not reported as an error.
+- Replace Leaflet zoom/project based distance calculation with CRS-independent WGS84 local metric point-to-segment math.
+- Add 1 mm numerical epsilon for SHP/WGS84 serialization noise.
+- Topology result table now prefers DBF Id/ID/asset_id instead of internal feature index.
+- Validated against uploaded w_service_pipes Id=10001 and w_main_pipes Id=10001: connecting endpoint distance is effectively 0 m, therefore PASS at 0.50 m tolerance.

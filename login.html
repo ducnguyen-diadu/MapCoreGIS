@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="light" data-layout-mode="fluid" data-menu-color="light" data-topbar-color="light"
+    data-layout-position="fixed" data-sidenav-size="default">
+
+<head>
+    <meta charset="utf-8">
+    <title>Đăng nhập - Software Water GIS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Hệ thống quản lý mạng lưới cấp nước - GIS, SCADA, NRW" name="description">
+    <meta content="DIADU Co., Ltd" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="authentication-bg pb-0">
+
+    <div class="auth-fluid">
+        <!--Auth fluid left content -->
+        <div class="auth-fluid-form-box">
+            <div class="card-body d-flex flex-column h-100 gap-3">
+
+                <!-- Logo + Ngôn ngữ / Chế độ sáng-tối -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div class="auth-brand text-center text-lg-start">
+                        <a href="index.html"
+                            class="d-inline-flex align-items-center gap-2 text-body text-decoration-none">
+                            <img src="assets/images/logo.webp" alt="Software Water GIS" height="32">
+                            <span class="fw-bold fs-4 d-none d-sm-inline">Software Water GIS</span>
+                        </a>
+                    </div>
+
+                    <div class="auth-brand text-center text-lg-end">
+                        <!-- Ngôn ngữ & Chế độ sáng/tối -->
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none d-flex align-items-center"
+                                    data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                                    aria-expanded="false">
+                                    <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="lang"
+                                        class="me-1" height="12">
+                                    <span id="langToggleLabel" class="align-middle">Tiếng Việt</span>
+                                    <i class="mdi mdi-chevron-down align-middle"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                        data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                        <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1"
+                                            height="12">
+                                        <span>Tiếng Việt</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                        data-flag="assets/images/flags/us.jpg" data-label="English">
+                                        <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                        <span>English</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối"
+                                style="cursor: pointer;">
+                                <i class="ri-moon-line font-22"></i>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-auto">
+                    <!-- title-->
+                    <h4 class="mt-0" data-vi="Đăng nhập" data-en="Sign in">Đăng nhập</h4>
+                    <p class="text-muted mb-4" data-vi="Nhập tên đăng nhập và mật khẩu để truy cập hệ thống."
+                        data-en="Enter your username and password to access the system.">
+                        Nhập tên đăng nhập và mật khẩu để truy cập hệ thống.</p>
+
+                    <!-- form -->
+                    <form action="#">
+                        <div class="mb-3">
+                            <label for="username" class="form-label" data-vi="Tên đăng nhập" data-en="Username">Tên đăng
+                                nhập</label>
+                            <input class="form-control" type="text" id="username" required=""
+                                data-vi-placeholder="Nhập tên đăng nhập" data-en-placeholder="Enter your username"
+                                placeholder="Nhập tên đăng nhập">
+                        </div>
+                        <div class="mb-3">
+                            <a href="javascript:void(0);" class="text-muted float-end"><small data-vi="Quên mật khẩu?"
+                                    data-en="Forgot password?">Quên mật khẩu?</small></a>
+                            <label for="password" class="form-label" data-vi="Mật khẩu" data-en="Password">Mật
+                                khẩu</label>
+                            <input class="form-control" type="password" required="" id="password"
+                                data-vi-placeholder="Nhập mật khẩu" data-en-placeholder="Enter your password"
+                                placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                                <label class="form-check-label" for="checkbox-signin" data-vi="Ghi nhớ đăng nhập"
+                                    data-en="Remember me">Ghi nhớ đăng nhập</label>
+                            </div>
+                        </div>
+                        <div class="d-grid mb-0 text-center">
+                            <button class="btn btn-primary" type="button" onclick="window.location.href='index.html'">
+                                <i class="mdi mdi-login"></i>
+                                <span data-vi="Đăng nhập" data-en="Sign in">Đăng nhập</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- end form-->
+                </div>
+
+                <!-- Footer-->
+                <footer class="footer footer-alt">
+                    <p class="text-muted mb-0" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                        data-en="Developed by: DIADU Co., Ltd">Phát triển bởi: DIADU Co., Ltd</p>
+                </footer>
+
+            </div> <!-- end .card-body -->
+        </div>
+        <!-- end auth-fluid-form-box-->
+
+        <!-- Auth fluid right content -->
+        <div class="auth-fluid-right text-center">
+            <div class="auth-user-testimonial">
+                <h2 class="mb-3" data-vi="Hệ thống GIS ngành nước" data-en="Water Sector GIS System">
+                    Hệ thống GIS ngành nước</h2>
+                <!-- <p class="lead"><i class="mdi mdi-format-quote-open"></i>
+                    <span data-vi="Giám sát SCADA, quản lý tài sản và phân tích GIS trong một nền tảng duy nhất."
+                        data-en="SCADA monitoring, asset management, and GIS analysis in a single platform.">
+                        Giám sát SCADA, quản lý tài sản và phân tích GIS trong một nền tảng duy nhất.</span>
+                    <i class="mdi mdi-format-quote-close"></i>
+                </p> -->
+                <p data-vi="- Software Water GIS -" data-en="- Software Water GIS -">
+                    - Software Water GIS -
+                </p>
+            </div> <!-- end auth-user-testimonial-->
+        </div>
+        <!-- end Auth fluid right content -->
+    </div>
+    <!-- end auth-fluid-->
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ngôn ngữ Tiếng Việt / English (dùng chung khóa lưu trữ với trang chủ)
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+            const placeholders = document.querySelectorAll('[data-vi-placeholder][data-en-placeholder]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) el.textContent = text;
+                });
+
+                placeholders.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en-placeholder' : 'data-vi-placeholder');
+                    if (text !== null) el.setAttribute('placeholder', text);
+                });
+
+                const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.setAttribute('src', activeOption.getAttribute('data-flag'));
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            applyLanguage(localStorage.getItem(LANG_STORAGE_KEY) || 'vi');
+        });
+    </script>
+
+</body>
+<!-- Mirrored from coderthemes.com/hyper/layouts/pages-login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:48 GMT -->
+
+</html>

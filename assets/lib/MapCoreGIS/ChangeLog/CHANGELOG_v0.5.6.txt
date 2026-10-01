@@ -1,0 +1,10 @@
+WaterMapCore v0.5.6 - CRS-safe Snap Editor
+
+- Rebuilt Topology Snap Editor coordinate pipeline.
+- Internal persistent geometry is always GeoJSON WGS84 [lng, lat].
+- Leaflet/WebMercator EPSG:3857 is used only for snapping calculations and display.
+- Disabled Geoman's built-in snap commit; Geoman is now used only for vertex handles.
+- Vertex path is resolved at drag start; mouse-up writes the exact snapped WGS84 coordinate directly into feature.geometry.
+- No leaf.toGeoJSON() read-back during save/finish, avoiding stale marker coordinate overwrite and lng/lat confusion.
+- Topology checker now uses the same Leaflet projection for nearest-point calculations as the Snap Editor.
+- Added core.debugCRS() for console diagnostics.

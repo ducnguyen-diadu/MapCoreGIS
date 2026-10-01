@@ -1,0 +1,13 @@
+WaterMapCore v0.6.0 - Spatial Update
+
+Added a separate ArcGIS Desktop-inspired spatial editing module: src/tools/spatial-update.js.
+
+- Move Feature mode: drag Point/Line/Polygon as one whole geometry. Shape is preserved.
+- Edit Vertices mode: click a feature to expose its vertices, then drag one vertex independently.
+- Vertex box activation: drag a selection rectangle on the map to activate vertices caught by the box.
+- Start/middle/end vertices are visually distinguished for line geometry.
+- Changes participate in the existing Edit Session, dirty state, Undo/Redo, Save and Cancel workflow.
+- Spatial Update is a dedicated button on the floating Edit Toolbar.
+- Save/Cancel Edit Session automatically exits Spatial Update mode.
+
+The implementation is isolated in its own module; existing Select and Topology Checker behavior was not redesigned.

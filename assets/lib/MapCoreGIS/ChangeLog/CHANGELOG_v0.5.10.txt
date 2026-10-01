@@ -1,0 +1,7 @@
+WaterMapCore v0.5.10 - Add New Snap Target Click Fix
+
+- Fix Add New/Create Mode: clicking directly on a configured snap target now starts/continues drawing.
+- Works with Point targets (junction), Line targets (service/main pipe), and polygon borders.
+- Click is forwarded to Leaflet-Geoman at the exact snapped coordinate instead of being swallowed by the target feature.
+- Point create preview also follows the nearest configured snap candidate.
+- Keeps Topology Checker and Topology Snap Editor separate; no changes to their logic.

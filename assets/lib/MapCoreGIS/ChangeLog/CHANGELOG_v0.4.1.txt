@@ -1,0 +1,10 @@
+WaterMapCore v0.4.1
+- Fix getActiveLayer regression in Fields.
+- Layer drag/drop reorder + persisted order.
+- Fields-first style workflow with DISTINCT values.
+- Add New from layer context with snapping setup and geometry-style preview.
+- Remove global Draw group from Edit Toolbar.
+- Reverse selected line direction from layer context; geometry + EPANET swap preserved.
+- Clustering auto spider layout at max zoom.
+- Flash rewritten as overlay so it works with styled features and clustered/point geometries.
+- Folder import preview remains one .shp per layer; ZIP picker only .zip.

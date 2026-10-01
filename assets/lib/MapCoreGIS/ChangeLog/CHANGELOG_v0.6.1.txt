@@ -1,0 +1,16 @@
+WaterMapCore v0.6.1 - Arc-style Spatial Update mode
+
+Focused change only: Spatial Update interaction.
+
+- Spatial Update is now one mouse mode, alongside Pan and Select.
+- Main toolbar adds explicit Pan and Spatial Update buttons.
+- Line with 2 vertices: dragging its only segment moves the whole line.
+- Line with 3+ vertices: dragging a segment moves only the 2 vertices forming that segment.
+- Clicking very close to a vertex moves only that vertex.
+- Drag rectangle on empty map selects vertices inside the box.
+- Drag any selected vertex handle to move the whole selected vertex group.
+- If all vertices of a feature are selected, the whole feature moves.
+- Pan / Select / Spatial Update are mutually exclusive mouse modes.
+- Spatial Update still requires Begin Edit and participates in Undo/Redo/Save/Cancel.
+
+No changes to Topology Checker, Topology Snap Editor, Style Engine, Recent, Import/Export or i18n architecture.

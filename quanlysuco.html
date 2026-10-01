@@ -1,0 +1,839 @@
+<html lang="en" data-sidenav-size="fullscreen">
+<!-- Mirrored from coderthemes.com/hyper/layouts/layouts-horizontal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:52 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .asset-detail-section {
+            display: none;
+        }
+
+        .asset-detail-section.active {
+            display: block;
+        }
+
+        .asset-table {
+            min-width: 900px;
+        }
+
+        @media (max-width: 575.98px) {
+            .asset-table {
+                min-width: 760px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="thatthoatcongviec.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                                    Tổng quan </span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#"  class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary dropdown-toggle" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                                <i class="mdi mdi-format-list-bulleted fs-4"></i> 
+                                <span data-vi="Công việc" data-en="Category">Công việc</span>
+                            </a>
+                            <ul class="dropdown-menu shadow-sm">
+                                <li>
+                                    <a class="dropdown-item" href="quanlysuco.html">
+                                        <span data-vi="Tiếp nhận sự cố" data-en="Incident Management">Quản lý sự cố</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        <span data-vi="Quản lý đội hiện trường" data-en="Field Team Manager">Quản lý đội hiện trường</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span data-vi="Quản lý công việc" data-en="Task management">Quản lý công việc</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                                    data-en="Statistical report">
+                                    Thống kê báo cáo </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng
+                                Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h5 class="my-0 text-center text-uppercase " style="line-height: 2">
+                        Software Water GIS</h5>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="quanlytaisan.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-home fs-4"></i> <span data-vi="Tổng quan" data-en="Overview">
+                            Tổng quan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanbando.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-map fs-4"></i> <span data-vi="Bản đồ" data-en="Map"> Bản đồ
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisandanhmuc.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-format-list-bulleted fs-4"></i> <span data-vi="Danh mục" data-en="Category">
+                            Danh
+                            mục </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="quanlytaisanthongke.html"
+                        class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                        <i class="mdi mdi-chart-bar fs-4"></i> <span data-vi="Thống kê báo cáo"
+                            data-en="Statistical report">
+                            Thống kê báo cáo </span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside>
+        <!-- ========== Topbar End ========== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid" style="position: relative; z-index: 1;">
+
+                    <!-- Tiêu đề và Công cụ -->
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-sm-4">
+                            <h4 class="page-title mb-0">Quản lý & Tiếp nhận sự cố</h4>
+                        </div>
+                        <div class="col-sm-8 text-sm-end mt-2 mt-sm-0 d-flex justify-content-sm-end gap-2">
+                            <input type="date" class="form-control form-control-sm w-auto d-inline-block" />
+                            <!-- <select class="form-select form-select-sm w-auto d-inline-block">
+                                <option value="all">Tất cả nguồn báo</option>
+                                <option value="scada">SCADA / IoT</option>
+                                <option value="tongdai">Tổng đài CSKH</option>
+                                <option value="app">Mobile App</option>
+                            </select> -->
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalTiepNhanSuCo">
+                                <i class="mdi mdi-plus-circle me-1"></i> Ghi nhận sự cố mới
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Thống kê vòng đời sự cố (Lifecycle) -->
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="card border-info border bg-info-subtle mb-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="text-uppercase text-info mb-1" style="font-size: 0.75rem;">Mới tiếp nhận</h6>
+                                    <h3 class="mb-0 fw-bold text-info">12</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-warning border bg-warning-subtle mb-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="text-uppercase text-warning mb-1" style="font-size: 0.75rem;">Đang xác minh / Chờ phân công</h6>
+                                    <h3 class="mb-0 fw-bold text-warning">5</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-primary border bg-primary-subtle mb-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="text-uppercase text-primary mb-1" style="font-size: 0.75rem;">Đang xử lý</h6>
+                                    <h3 class="mb-0 fw-bold text-primary">8</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-danger border bg-danger-subtle mb-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="text-uppercase text-danger mb-1" style="font-size: 0.75rem;">Vi phạm SLA (Quá hạn)</h6>
+                                    <h3 class="mb-0 fw-bold text-danger">2</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bảng danh sách sự cố -->
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-sm table-nowrap mb-0">
+                                    <thead class="bg-light bg-opacity-50 thead-sm">
+                                        <tr>
+                                            <th>Mã sự cố</th>
+                                            <th>Thời gian</th>
+                                            <th>Nguồn / Người báo</th>
+                                            <th>Loại sự cố</th>
+                                            <th>Địa điểm</th>
+                                            <th>Mức độ</th>
+                                            <th>Trạng thái</th>
+                                            <th class="text-center">Bản đồ</th>
+                                            <th class="text-center">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Row 1 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-001</span></td>
+                                            <td>16/09/2026 14:30</td>
+                                            <td><span class="badge bg-secondary">SCADA</span><br><small class="text-muted">Tự động</small></td>
+                                            <td>Áp lực yếu / Mất nước</td>
+                                            <td>Van PRV-102, DMA-05 (Quận 5)</td>
+                                            <td><span class="badge bg-danger">Khẩn cấp</span></td>
+                                            <td><span class="badge bg-info-subtle text-info">Mới tiếp nhận</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 2 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-002</span></td>
+                                            <td>16/09/2026 10:15</td>
+                                            <td><span class="badge bg-success">Tổng đài</span><br><small class="text-muted">Nguyễn Văn A</small></td>
+                                            <td>Bể ống nước</td>
+                                            <td>123 Lê Lợi, Phường Bến Nghé, Quận 1</td>
+                                            <td><span class="badge bg-warning text-dark">Cao</span></td>
+                                            <td><span class="badge bg-warning-subtle text-warning">Chờ phân công</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 3 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-003</span></td>
+                                            <td>15/09/2026 08:00</td>
+                                            <td><span class="badge bg-primary">Mobile App</span><br><small class="text-muted">Trần Thị B</small></td>
+                                            <td>Nước đục / Đổi màu</td>
+                                            <td>Hẻm 45, Đường 3/2, Quận 10</td>
+                                            <td><span class="badge bg-info">Trung bình</span></td>
+                                            <td><span class="badge bg-primary-subtle text-primary">Đang xử lý</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 4 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-004</span></td>
+                                            <td>16/09/2026 15:10</td>
+                                            <td><span class="badge bg-info text-dark">Zalo OA</span><br><small class="text-muted">Lê Hữu C</small></td>
+                                            <td>Rò rỉ nước</td>
+                                            <td>89 Nguyễn Đình Chiểu, Phường 6, Quận 3</td>
+                                            <td><span class="badge bg-success">Thấp</span></td>
+                                            <td><span class="badge bg-info-subtle text-info">Mới tiếp nhận</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 5 (SLA Violated) -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-005</span></td>
+                                            <td>14/09/2026 09:30</td>
+                                            <td><span class="badge bg-secondary">SCADA</span><br><small class="text-muted">Tự động</small></td>
+                                            <td>Rò rỉ nước</td>
+                                            <td>Trạm bơm Tăng áp Bình Chánh</td>
+                                            <td><span class="badge bg-warning text-dark">Cao</span></td>
+                                            <td><span class="badge bg-danger-subtle text-danger">Vi phạm SLA</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 6 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-006</span></td>
+                                            <td>16/09/2026 16:05</td>
+                                            <td><span class="badge bg-dark">Nhân viên</span><br><small class="text-muted">Tổ tuần tra 02</small></td>
+                                            <td>Hỏng van / Thiết bị</td>
+                                            <td>Ngã tư Hàng Xanh, Bình Thạnh</td>
+                                            <td><span class="badge bg-danger">Khẩn cấp</span></td>
+                                            <td><span class="badge bg-info-subtle text-info">Mới tiếp nhận</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 7 -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-007</span></td>
+                                            <td>15/09/2026 14:20</td>
+                                            <td><span class="badge bg-success">Tổng đài</span><br><small class="text-muted">Phạm Thị D</small></td>
+                                            <td>Hỏng van / Thiết bị</td>
+                                            <td>Khu Công Nghiệp Tân Bình</td>
+                                            <td><span class="badge bg-warning text-dark">Cao</span></td>
+                                            <td><span class="badge bg-primary-subtle text-primary">Đang xử lý</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Row 8 (SLA Violated) -->
+                                        <tr>
+                                            <td><span class="fw-bold text-primary">#SC-2609-008</span></td>
+                                            <td>12/09/2026 11:00</td>
+                                            <td><span class="badge bg-primary">Mobile App</span><br><small class="text-muted">Trương Văn E</small></td>
+                                            <td>Bể ống nước</td>
+                                            <td>Chung cư Phú Thọ, Phường 15, Quận 11</td>
+                                            <td><span class="badge bg-danger">Khẩn cấp</span></td>
+                                            <td><span class="badge bg-danger-subtle text-danger">Vi phạm SLA</span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-outline-secondary" title="Định vị trên bản đồ"><i class="mdi mdi-map-marker-radius text-danger"></i></button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                                    <i class="mdi mdi-eye-outline"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+        <!-- End Page content -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- MODAL: Ghi nhận thông tin sự cố mới -->
+                    <div class="modal fade" id="modalTiepNhanSuCo" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Ghi nhận thông tin sự cố</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row g-3">
+                                        <!-- Thông tin cơ bản -->
+                                        <div class="col-md-4">
+                                            <label class="form-label">Nguồn báo cáo</label>
+                                            <select class="form-select">
+                                                <option>Người dân</option>
+                                                <option>Tổng đài</option>
+                                                <option>Mobile App</option>
+                                                <option>Website</option>
+                                                <option>SCADA / IoT</option>
+                                                <option>Camera AI</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Loại sự cố</label>
+                                            <select class="form-select">
+                                                <option>Bể ống nước</option>
+                                                <option>Rò rỉ nước</option>
+                                                <option>Hỏng van / Thiết bị</option>
+                                                <option>Nước đục / Đổi màu</option>
+                                                <option>Áp lực yếu / Mất nước</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Mức độ ưu tiên</label>
+                                            <select class="form-select">
+                                                <option value="khancap">Khẩn cấp</option>
+                                                <option value="cao">Cao</option>
+                                                <option value="trungbinh" selected>Trung bình</option>
+                                                <option value="thap">Thấp</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">Ngày giờ phát sinh</label>
+                                            <input type="datetime-local" class="form-control" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Người báo cáo / SĐT</label>
+                                            <input type="text" class="form-control" placeholder="Tên và Số điện thoại liên hệ" />
+                                        </div>
+
+                                        <!-- Vị trí & GIS -->
+                                        <div class="col-12 border-top pt-2 mt-3">
+                                            <h6 class="text-primary mb-2"><i class="mdi mdi-map-marker"></i> Địa điểm & Tọa độ GIS</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="form-label">Địa chỉ chi tiết</label>
+                                            <input type="text" class="form-control" placeholder="Số nhà, Tên đường, Phường, Quận..." />
+                                        </div>
+                                        <div class="col-md-4 d-flex align-items-end">
+                                            <!-- Nút kích hoạt bản đồ mini để ghim tọa độ -->
+                                            <button class="btn btn-outline-secondary w-100"><i class="mdi mdi-crosshairs-gps me-1"></i> Chọn trên bản đồ</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Tọa độ X (Kinh độ)</label>
+                                            <input type="text" class="form-control bg-light" readonly placeholder="Tự động điền" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Tọa độ Y (Vĩ độ)</label>
+                                            <input type="text" class="form-control bg-light" readonly placeholder="Tự động điền" />
+                                        </div>
+
+                                        <!-- Nội dung & Đính kèm -->
+                                        <div class="col-12 border-top pt-2 mt-3">
+                                            <label class="form-label">Nội dung mô tả</label>
+                                            <textarea class="form-control" rows="3" placeholder="Mô tả chi tiết tình trạng sự cố..."></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Hình ảnh / Video đính kèm</label>
+                                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy bỏ</button>
+                                    <button type="button" class="btn btn-primary">Lưu & Chuyển xác minh</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+
+    <!-- Dashboard App js -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+            // ==============================
+            // 2. LANGUAGE
+            // ==============================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) el.textContent = text;
+                });
+
+                document.querySelectorAll('[data-placeholder-vi][data-placeholder-en]').forEach(el => {
+                    el.placeholder = el.getAttribute(
+                        lang === 'en' ? 'data-placeholder-en' : 'data-placeholder-vi'
+                    );
+                });
+
+                document.querySelectorAll('option[data-vi][data-en]').forEach(el => {
+                    el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                });
+
+                const activeOption = document.querySelector(
+                    `.language-option[data-lang="${lang}"]`
+                );
+
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.src = activeOption.getAttribute('data-flag');
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+
+                updateConditionChart(lang);
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            // ==============================
+            // 3. CONDITION CHART
+            // ==============================
+            let conditionChart = null;
+
+            function chartTextColor() {
+                return getComputedStyle(document.documentElement)
+                    .getPropertyValue('--bs-body-color').trim() || '#6c757d';
+            }
+
+            function updateConditionChart(lang) {
+                if (!conditionChart) return;
+
+                conditionChart.updateOptions({
+                    labels: lang === 'en'
+                        ? ['Good', 'Warning', 'Damaged', 'Other']
+                        : ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                    chart: { foreColor: chartTextColor() },
+                    legend: { labels: { colors: chartTextColor() } } // Cập nhật màu ghi chú khi đổi ngôn ngữ/theme
+                });
+            }
+
+            if (window.ApexCharts) {
+                const chartEl = document.querySelector('#assetConditionChart');
+
+                if (chartEl) {
+                    conditionChart = new ApexCharts(chartEl, {
+                        series: [82, 9, 5, 4],
+                        labels: ['Tốt', 'Cảnh báo', 'Hỏng', 'Khác'],
+                        chart: {
+                            type: 'donut',
+                            height: 250,
+                            toolbar: { show: false },
+                            foreColor: chartTextColor()
+                        },
+                        plotOptions: {
+                            pie: {
+                                donut: {
+                                    size: '70%',
+                                    labels: {
+                                        show: true,
+                                        total: {
+                                            show: true,
+                                            label: 'Tổng',
+                                            formatter: function () {
+                                                return '100%';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        dataLabels: { enabled: false },
+                        // THAY ĐỔI Ở ĐÂY: Hiển thị ghi chú và đặt ở bên phải
+                        legend: {
+                            show: true,
+                            position: 'right', // Đặt vị trí bên phải
+                            offsetY: 0,        // Căn chỉnh chiều dọc (tùy chọn)
+                            labels: {
+                                colors: chartTextColor() // Màu chữ theo theme
+                            }
+                        },
+                        stroke: { width: 2 },
+                        tooltip: {
+                            y: {
+                                formatter: value => value + '%'
+                            }
+                        }
+                    });
+
+                    conditionChart.render();
+                }
+            }
+
+            // ==========================================
+            // 1. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+            // ==========================================
+            // 3. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';
+                if (segments[0] === 'index') return 'home';
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+            // ==============================
+            // 4. FOOTER / THEME
+            // ==============================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop =
+                    '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+
+                if (conditionChart) {
+                    conditionChart.updateOptions({
+                        chart: { foreColor: chartTextColor() }
+                    });
+                }
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+            // ==============================
+            // 5. INIT
+            // ==============================
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+        });
+    
+        
+    </script>
+
+</body>
+
+</html>

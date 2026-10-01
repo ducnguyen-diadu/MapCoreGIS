@@ -1,0 +1,6 @@
+WaterMapCore v0.5.5 - Snap authoritative commit fix
+
+- Exact snapped geometry is now authoritative after mouse-up.
+- Prevents later Geoman pm:edit/pm:update/disable events from restoring the pre-snap endpoint.
+- On finish/save, exact snapped geometry is written back before re-render.
+- Topology checker remains separate from snap editor.

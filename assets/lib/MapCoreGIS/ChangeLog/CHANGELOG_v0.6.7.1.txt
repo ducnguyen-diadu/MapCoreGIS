@@ -1,0 +1,6 @@
+WaterMapCore v0.6.7.1
+
+- Rebuilt Topology Repair i18n.
+- Added topologyRepair Vietnamese messages directly into the core bundle as a fallback.
+- Updated external plugins/i18n/vi.js and en.js are still included.
+- Prevents raw labels such as topologyRepair.resultsTitle when the host is using an older/cached locale file.

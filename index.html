@@ -1,0 +1,592 @@
+<html lang="en" data-sidenav-size="fullscreen">
+
+<head>
+    <meta charset="utf-8">
+    <title>Software Water GIS - Tổng quan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="DiaDu" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo.ico">
+
+    <!-- Plugin css -->
+    <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Theme Config Js -->
+    <script src="assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style">
+
+    <!-- Icons css -->
+    <link href="assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+
+    <link href="client.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+                    <a href="index.html" class="logo-lg">
+                        <img src="assets/images/logo.webp" alt="logo">
+                    </a>
+                    <span class="d-lg-flex flex-column gap-1 d-none">
+                        <h4 class="text-center">
+                            Software Water GIS
+                        </h4>
+                    </span>
+                    <!-- <ul class="list-unstyled d-none d-lg-flex mb-0 ms-2 gap-3 align-items-center font-15" id="mainMenu">
+
+                        <li>
+                            <a href="index.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-home fs-4"></i> Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="map.html"
+                                class="text-body fw-semibold d-flex align-items-center gap-1 hover-primary">
+                                <i class="mdi mdi-map fs-4"></i> Bản đồ
+                            </a>
+                        </li>
+
+                    </ul> -->
+                    <!-- <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu"
+                        aria-controls="mobileSidePanel" aria-expanded="false">
+                        <i class="mdi mdi-menu"></i>
+                    </button> -->
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img id="langToggleFlag" src="assets/images/flags/vietnam.jpg" alt="user-image"
+                                class="me-0 me-sm-1" height="12">
+                            <span id="langToggleLabel" class="align-middle d-none d-lg-inline-block">Tiếng Việt</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="vi"
+                                data-flag="assets/images/flags/vietnam.jpg" data-label="Tiếng Việt">
+                                <img src="assets/images/flags/vietnam.jpg" alt="Vietnamese" class="me-1" height="12">
+                                <span>Tiếng Việt</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item language-option" data-lang="en"
+                                data-flag="assets/images/flags/us.jpg" data-label="English">
+                                <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
+                                <span>English</span>
+                            </a>
+
+                        </div>
+                    </li>
+
+                    <li class=" d-sm-inline-block">
+                        <div class="nav-link" id="light-dark-mode" title="Chuyển đổi chế độ sáng/tối">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line font-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="d-flex align-items-center">
+                        <a href="login.html" class="btn btn-light d-flex align-items-center gap-1 text-body">
+                            <i class="mdi mdi-login-variant font-18"></i>
+                            <span class="d-none d-md-inline" data-vi="Đăng nhập" data-en="Sign in">
+                                Đăng nhập
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- ========== Topbar End ========== -->
+
+        <!-- <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div> -->
+
+        <!-- <aside class="mobile-side-panel" id="mobileSidePanel" aria-hidden="true">
+            <div class="mobile-side-panel-header">
+                <img src="assets/images/logo.webp" alt="logo">
+                <span class="d-lg-flex flex-column">
+                    <h6 class="my-0 text-center text-uppercase fw-normal" style="font-size: 10px;line-height: 2">
+                        Software Water GIS</h6>
+                </span>
+                <button type="button" class="mobile-side-panel-close" id="mobileMenuClose" aria-label="Đóng menu">
+                    <i class="mdi mdi-close"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-side-menu" id="mobileMenu">
+                <li>
+                    <a href="index.html">
+                        <i class=""></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="map.html">
+                        <i class=""></i>
+                        <span>Bản đồ</span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside> -->
+
+        <div class="content-page">
+            <div class="content">
+                <div class="page-bg-panel"></div>
+                <!-- Start Content-->
+                <div class="container-fluid" style="position: relative; z-index: 1;">
+
+                    <!-- Bọc toàn bộ nội dung vào một khối flex để căn giữa theo chiều dọc -->
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-9">
+                            <!-- start page title -->
+                            <div class="row justify-content-center mb-2 mt-4">
+                                <div class="col-12 text-center">
+                                    <h3 class="page-title text-uppercase fw-bold text-primary"
+                                        style="font-size: 26px; letter-spacing: 1px;" data-vi="Hệ thống GIS ngành nước"
+                                        data-en="Water Sector GIS System">
+                                        Hệ thống GIS ngành nước
+                                    </h3>
+                                    <!-- <p class="text-dark fw-semibold font-16"
+                                        data-vi="Vui lòng chọn một phân hệ chức năng bên dưới"
+                                        data-en="Please select a functional module below">Vui lòng chọn một phân
+                                        hệ
+                                        chức năng bên dưới</p> -->
+                                </div>
+                            </div>
+                            <!-- end page title -->
+                            <div class="row justify-content-center">
+                                <div class="col-xl-4 col-lg-5 col-md-6">
+                                    <a href="Admin/view/QuanLyNguoiDung.html"
+                                        class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-primaryy text-center module-fade-up"
+                                            style="animation-delay: 0.00s;">
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+                                                <img src="assets/images/admin.webp" alt="Quản lý Hệ thống"
+                                                    class="avatar-lg object-fit-cover">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="Quản lý Hệ thống"
+                                                    data-en="System Management">Quản lý Hệ thống</h4>
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Quản trị người dùng, phân quyền & cấu hình"
+                                                    data-en="User administration, roles & configuration">Quản trị người
+                                                    dùng, phân quyền &amp; cấu hình</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Thêm justify-content-center để căn giữa các thẻ, giúp hàng dưới cùng (3 thẻ) được cân đối -->
+                            <div class="row justify-content-center">
+
+                                <!-- Module 2 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <a href="quanlytaisan.html" class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-success text-center module-fade-up"
+                                            style="animation-delay: 0.08s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+                                                <img src="assets/images/taisan.webp"
+                                                    alt="Quản lý thông tin dữ liệu và tài sản"
+                                                    class="avatar-lg  object-fit-cover">
+
+                                                <h4 class="my-2 fw-bold text-dark"
+                                                    data-vi="Quản lý thông tin dữ liệu & tài sản"
+                                                    data-en="Data & Asset Management">
+                                                    Quản lý thông tin dữ liệu & tài sản
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Hồ sơ mạng lưới, danh mục thiết bị"
+                                                    data-en="Network records, equipment catalog">
+                                                    Hồ sơ mạng lưới, danh mục thiết bị
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <!-- Module 3 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6 ">
+                                    <a href="quanlymangluoi.html" class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-info text-center module-fade-up"
+                                            style="animation-delay: 0.16s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+                                                <img src="assets/images/mangluoi.webp" alt="Quản lý mạng lưới"
+                                                    class="avatar-lg  object-fit-cover ">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="Quản lý mạng lưới"
+                                                    data-en="Network Management">
+                                                    Quản lý mạng lưới
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Bản đồ không gian & công cụ WebGIS"
+                                                    data-en="Spatial maps & WebGIS tools">
+                                                    Bản đồ không gian &amp; công cụ WebGIS
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <!-- Module 4 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <a href="epanet.html" class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-warning text-center module-fade-up"
+                                            style="animation-delay: 0.24s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+
+                                                <img src="assets/images/epanet.webp" alt="EPANET"
+                                                    class="avatar-lg  object-fit-cover ">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="EPANET" data-en="EPANET">
+                                                    EPANET
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Mô phỏng & phân tích thủy lực mạng lưới"
+                                                    data-en="Network hydraulic simulation & analysis">
+                                                    Mô phỏng &amp; phân tích thủy lực mạng lưới
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- ================= HÀNG 3: 3 CHỨC NĂNG ================= -->
+                            <div class="row justify-content-center">
+
+                                <!-- Module 5 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6 ">
+                                    <a href="#" class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-danger text-center module-fade-up"
+                                            style="animation-delay: 0.32s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+                                                <img src="assets/images/customers.webp" alt="Khách hàng"
+                                                    class="avatar-lg  object-fit-cover ">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="Khách hàng"
+                                                    data-en="Customers">
+                                                    Khách hàng
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Quản lý điểm tiêu thụ, đồng hồ nước"
+                                                    data-en="Manage consumption points & water meters">
+                                                    Quản lý điểm tiêu thụ, đồng hồ nước
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <!-- Module 6 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6 ">
+                                    <a href="#" class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-secondary text-center module-fade-up"
+                                            style="animation-delay: 0.40s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+                                                <img src="assets/images/scada.webp" alt="SCADA/IoT"
+                                                    class="avatar-lg  object-fit-cover ">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="SCADA/IoT"
+                                                    data-en="SCADA/IoT">
+                                                    SCADA/IoT
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Giám sát áp lực, lưu lượng thời gian thực"
+                                                    data-en="Real-time pressure & flow monitoring">
+                                                    Giám sát áp lực, lưu lượng thời gian thực
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <!-- Module 7 -->
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <a href="thatthoatcongviec.html"
+                                        class="text-body text-decoration-none d-block h-100">
+                                        <div class="card tilebox-one shadow border-0 card-custom-hover hover-purple text-center module-fade-up"
+                                            style="animation-delay: 0.48s;">
+
+                                            <div
+                                                class="card-body d-flex flex-column justify-content-center align-items-center">
+
+
+                                                <img src="assets/images/thathoatphancong.webp"
+                                                    alt="Thất thoát và công việc" class="avatar-lg  object-fit-cover ">
+
+                                                <h4 class="my-2 fw-bold text-dark" data-vi="Thất Thoát & Công việc"
+                                                    data-en="NRW & Work Orders">
+                                                    Thất Thoát & Công việc
+                                                </h4>
+
+                                                <p class="mb-0 text-muted font-14"
+                                                    data-vi="Tính toán NRW & bảo trì sửa chữa"
+                                                    data-en="NRW calculation & maintenance">
+                                                    Tính toán NRW &amp; bảo trì sửa chữa
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div> <!-- end row -->
+                        </div>
+
+
+                    </div> <!-- end flex container -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer footer-theme-synced">
+                <div class="container-fluid" style="position: relative; z-index: 2;">
+                    <div class="row">
+                        <div class="col-md-6" data-vi="Phát triển bởi: DIADU Co., Ltd"
+                            data-en="Developed by: DIADU Co., Ltd">
+                            Phát triển bởi: DIADU Co., Ltd
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);" data-vi="Giới thiệu" data-en="About">Giới thiệu</a>
+                                <a href="javascript: void(0);" data-vi="Hỗ trợ" data-en="Support">Hỗ trợ</a>
+                                <a href="javascript: void(0);" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Daterangepicker js -->
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector Map js -->
+    <script src="assets/vendor/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/vendor/jsvectormap/world-merc.js"></script>
+    <script src="assets/vendor/jsvectormap/world.js"></script>
+    <!-- Dashboard App js -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ==========================================
+            // 1. XỬ LÝ ĐÓNG/MỞ MENU MOBILE
+            // ==========================================
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const panel = document.getElementById('mobileSidePanel');
+            const overlay = document.getElementById('mobileMenuOverlay');
+
+            if (toggle && close && panel && overlay) {
+                function openMobileMenu() {
+                    panel.classList.add('show');
+                    overlay.classList.add('show');
+                    panel.setAttribute('aria-hidden', 'false');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMobileMenu() {
+                    panel.classList.remove('show');
+                    overlay.classList.remove('show');
+                    panel.setAttribute('aria-hidden', 'true');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+
+                toggle.addEventListener('click', openMobileMenu);
+                close.addEventListener('click', closeMobileMenu);
+                overlay.addEventListener('click', closeMobileMenu);
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMobileMenu();
+                    }
+                });
+            }
+
+            // ==========================================
+            // 2. XỬ LÝ ACTIVE LINK KHI CHUYỂN TRANG
+            // ==========================================
+            function getControllerName(path) {
+                const clean = path.toLowerCase().split('?')[0].split('#')[0];
+                const segments = clean.split('/').filter(s => s.length > 0);
+                if (segments.length === 0) return 'home';       // path = "/"
+                if (segments[0] === 'index') return 'home';      // phòng trường hợp lạ
+                return segments[0];
+            }
+            const currentController = getControllerName(window.location.pathname);
+            const navLinks = document.querySelectorAll("#mainMenu a, #mobileMenu a");
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+
+                const linkController = getControllerName(href);
+
+                if (linkController === currentController) {
+                    link.classList.add("active");
+                    link.classList.remove("fw-semibold");
+                    link.classList.add("fw-bold");
+                }
+            });
+
+            // ==========================================
+            // 3. CHUYỂN ĐỔI NGÔN NGỮ (TIẾNG VIỆT / ENGLISH)
+            // ==========================================
+            const LANG_STORAGE_KEY = 'site-lang';
+            const langToggleFlag = document.getElementById('langToggleFlag');
+            const langToggleLabel = document.getElementById('langToggleLabel');
+            const langOptions = document.querySelectorAll('.language-option');
+            const translatable = document.querySelectorAll('[data-vi][data-en]');
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+
+                translatable.forEach(el => {
+                    const text = el.getAttribute(lang === 'en' ? 'data-en' : 'data-vi');
+                    if (text !== null) {
+                        el.textContent = text;
+                    }
+                });
+
+                const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+                if (activeOption && langToggleFlag && langToggleLabel) {
+                    langToggleFlag.setAttribute('src', activeOption.getAttribute('data-flag'));
+                    langToggleLabel.textContent = activeOption.getAttribute('data-label');
+                }
+
+                langOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+                });
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem(LANG_STORAGE_KEY, lang);
+                applyLanguage(lang);
+            }
+
+            langOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            const savedLang = localStorage.getItem(LANG_STORAGE_KEY) || 'vi';
+            applyLanguage(savedLang);
+
+            // ==========================================
+            // 4. ĐỒNG BỘ MÀU FOOTER THEO NAVBAR (SÁNG/TỐI)
+            // ==========================================
+            const navbarEl = document.querySelector('.navbar-custom');
+            const footerEl = document.querySelector('.footer-theme-synced');
+
+            function syncFooterTheme() {
+                if (!navbarEl || !footerEl) return;
+                const navStyle = window.getComputedStyle(navbarEl);
+                footerEl.style.backgroundColor = navStyle.backgroundColor;
+                footerEl.style.color = navStyle.color;
+                footerEl.style.borderTop = '1px solid ' + (navStyle.borderBottomColor || navStyle.color);
+            }
+
+            syncFooterTheme();
+
+            const themeToggleBtn = document.getElementById('light-dark-mode');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function () {
+                    setTimeout(syncFooterTheme, 0);
+                });
+            }
+
+            const themeObserver = new MutationObserver(syncFooterTheme);
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+        });
+    </script>
+</body>
+<!-- Mirrored from coderthemes.com/hyper/layouts/layouts-horizontal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Nov 2025 03:19:52 GMT -->
+
+</html>

@@ -1,0 +1,9 @@
+WaterMapCore v0.5.7 - Manual Snap Editor
+
+- Replaced Geoman vertex dragging inside Topology Snap Editor with a custom pointer-drag implementation.
+- Vertex handles are rendered by the snap module itself.
+- During drag, map panning is disabled.
+- Snap distance is evaluated in current screen pixels via latLngToLayerPoint.
+- The exact nearest point on the target segment is both the visual preview and the persisted WGS84 coordinate.
+- No geometry is read back from Geoman after drag/save.
+- GeoJSON remains authoritative and the source layer is re-rendered from persisted GeoJSON.

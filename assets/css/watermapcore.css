@@ -1,0 +1,677 @@
+/* ==========================================================================
+   WaterMapCore — component stylesheet
+   Visual language: a drafting table for water-network data. Teal/ink palette,
+   a faint blueprint grid on empty/loading surfaces, corner registration
+   ticks on panels, and a monospace face for counts/coordinates — details
+   pulled from surveying & engineering drawings rather than generic SaaS
+   chrome. Class names and DOM hooks (.hidden, [data-pos], etc.) are
+   unchanged from the original file, so no JS edits are required.
+   ========================================================================== */
+
+.ddc_meko-root {
+  /* ---- design tokens ---------------------------------------------------- */
+  --ddc-bg: #eef2f6;
+  --ddc-panel: #ffffff;
+  --ddc-panel-2: #f5f9fb;              /* table heads, hover rows, alt surfaces */
+  --ddc-text: #0f2238;
+  --ddc-ink-soft: #23384d;
+  --ddc-muted: #64758b;
+  --ddc-muted-2: #9aa8b6;
+  --ddc-line: #dce4ea;
+  --ddc-line-strong: #c3cfd8;
+
+  --ddc-accent: #0b8ea6;
+  --ddc-accent2: #086c80;
+  --ddc-accent-soft: #e4f5f8;
+  --ddc-accent-line: #bfe6ec;
+
+  --ddc-danger: #d9534f;
+  --ddc-danger-soft: #fbebea;
+
+  --ddc-warning-bg: #fff5dc;
+  --ddc-warning-text: #725219;
+
+  --ddc-radius-sm: 7px;
+  --ddc-radius-md: 10px;
+  --ddc-radius-lg: 14px;
+
+  --ddc-shadow-sm: 0 2px 8px rgba(15, 34, 56, .08);
+  --ddc-shadow-md: 0 10px 28px rgba(15, 34, 56, .13);
+  --ddc-shadow-lg: 0 22px 60px rgba(8, 20, 34, .28);
+
+  --ddc-toolbar-size: 46px;
+  --ddc-font: Inter, "Segoe UI", Arial, sans-serif;
+  --ddc-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  contain: layout paint style;
+  font-family: var(--ddc-font);
+  background: var(--ddc-bg);
+  color: var(--ddc-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ddc_meko-root * { box-sizing: border-box; }
+.ddc_meko-root button,
+.ddc_meko-root input,
+.ddc_meko-root select { font: inherit; color: inherit; }
+.ddc_meko-root button { -webkit-tap-highlight-color: transparent; }
+
+.ddc_meko-root :focus-visible {
+  outline: 2px solid var(--ddc-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ddc_meko-root * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* thin, unobtrusive scrollbars inside the component (webkit) */
+.ddc_meko-root .ddc_meko-panel-body::-webkit-scrollbar,
+.ddc_meko-root .ddc_meko-table-wrap::-webkit-scrollbar,
+.ddc_meko-root .ddc_meko-modal-body::-webkit-scrollbar,
+.ddc_meko-root .ddc_meko-toolbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.ddc_meko-root .ddc_meko-panel-body::-webkit-scrollbar-thumb,
+.ddc_meko-root .ddc_meko-table-wrap::-webkit-scrollbar-thumb,
+.ddc_meko-root .ddc_meko-modal-body::-webkit-scrollbar-thumb { background: var(--ddc-line-strong); border-radius: 8px; }
+.ddc_meko-root .ddc_meko-panel-body::-webkit-scrollbar-track,
+.ddc_meko-root .ddc_meko-table-wrap::-webkit-scrollbar-track,
+.ddc_meko-root .ddc_meko-modal-body::-webkit-scrollbar-track { background: transparent; }
+
+/* ==========================================================================
+   Map surface
+   ========================================================================== */
+
+.ddc_meko-map { position: absolute; inset: 0; background: #e4ecf0; }
+.ddc_meko-map .leaflet-container { width: 100%; height: 100%; font-family: var(--ddc-font); }
+.ddc_meko-map .leaflet-control-zoom a { color: var(--ddc-text); }
+
+/* ==========================================================================
+   Toolbar — a vertical instrument rail, grouped by function
+   ========================================================================== */
+
+.ddc_meko-toolbar {
+  position: absolute;
+  z-index: 700;
+  display: flex;
+  gap: 4px;
+  padding: 8px 6px;
+  background: rgba(255, 255, 255, .97);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ddc-line);
+  border-radius: 12px;
+  box-shadow: var(--ddc-shadow-md);
+  max-width: calc(100% - 16px);
+  max-height: calc(100% - 16px);
+  overflow: auto;
+}
+
+.ddc_meko-toolbar[data-pos="left"]   { left: 8px; top: 8px; bottom: 8px; flex-direction: column; }
+.ddc_meko-toolbar[data-pos="right"]  { right: 8px; top: 8px; bottom: 8px; flex-direction: column; }
+.ddc_meko-toolbar[data-pos="top"]    { left: 8px; top: 8px; right: 8px; flex-direction: row; }
+.ddc_meko-toolbar[data-pos="bottom"] { left: 8px; bottom: 8px; right: 8px; flex-direction: row; }
+
+.ddc_meko-tool {
+  position: relative;
+  width: var(--ddc-toolbar-size);
+  height: var(--ddc-toolbar-size);
+  flex: 0 0 auto;
+  border: 1px solid transparent;
+  border-radius: var(--ddc-radius-md);
+  background: transparent;
+  color: var(--ddc-ink-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  /* unify mixed unicode glyphs (incl. the color 💾 emoji) into one flat tone */
+  filter: grayscale(1);
+  transition: background-color .12s ease, color .12s ease, border-color .12s ease, transform .08s ease;
+}
+
+.ddc_meko-tool:hover {
+  background: var(--ddc-accent-soft);
+  border-color: var(--ddc-accent-line);
+  color: var(--ddc-accent2);
+}
+.ddc_meko-tool:active { transform: scale(.94); }
+
+.ddc_meko-tool.active,
+.ddc_meko-tool[aria-pressed="true"] {
+  background: var(--ddc-accent);
+  border-color: var(--ddc-accent);
+  color: #fff;
+  filter: none;
+}
+
+.ddc_meko-tool.danger:hover { background: var(--ddc-danger-soft); border-color: #f0c8c6; color: var(--ddc-danger); }
+
+/* functional groupings, matched to the fixed tool order defined in JS:
+   recent · import · save · export | layers · table | select |
+   draw-point · draw-line · draw-polygon | edit · delete | measure · extent | undo · redo */
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(5),
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(7),
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(8),
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(11),
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(13),
+.ddc_meko-toolbar[data-pos="left"] .ddc_meko-tool:nth-child(15),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(5),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(7),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(8),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(11),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(13),
+.ddc_meko-toolbar[data-pos="right"] .ddc_meko-tool:nth-child(15) {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--ddc-line);
+  border-radius: 0 0 var(--ddc-radius-md) var(--ddc-radius-md);
+}
+
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(5),
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(7),
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(8),
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(11),
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(13),
+.ddc_meko-toolbar[data-pos="top"] .ddc_meko-tool:nth-child(15),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(5),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(7),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(8),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(11),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(13),
+.ddc_meko-toolbar[data-pos="bottom"] .ddc_meko-tool:nth-child(15) {
+  margin-left: 9px;
+  padding-left: 9px;
+  border-left: 1px solid var(--ddc-line);
+  border-radius: 0 var(--ddc-radius-md) var(--ddc-radius-md) 0;
+}
+
+/* ==========================================================================
+   Panels — Layers / Properties
+   ========================================================================== */
+
+.ddc_meko-panel {
+  position: absolute;
+  z-index: 650;
+  background: var(--ddc-panel);
+  border: 1px solid var(--ddc-line);
+  border-radius: var(--ddc-radius-lg);
+  box-shadow: var(--ddc-shadow-md);
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  max-width: 46%;
+  max-height: calc(100% - 16px);
+  overflow: hidden;
+}
+
+.ddc_meko-panel[data-pos="left"]     { left: calc(var(--ddc-toolbar-size) + 40px); top: 8px; bottom: 8px; width: 300px; }
+.ddc_meko-panel[data-pos="right"]    { right: 8px; top: 8px; bottom: 8px; width: 340px; }
+.ddc_meko-panel[data-pos="top"]      { left: calc(var(--ddc-toolbar-size) + 20px); right: 8px; top: 8px; height: 260px; max-width: none; }
+.ddc_meko-panel[data-pos="bottom"]   { left: calc(var(--ddc-toolbar-size) + 32px); right: 8px; bottom: 8px; height: 280px; max-width: none; }
+.ddc_meko-panel[data-pos="floating"] { right: 8px; top: 8px; width: 340px; height: 420px; }
+.ddc_meko-panel.hidden { display: none; }
+
+.ddc_meko-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--ddc-line);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: .01em;
+  flex: 0 0 auto;
+  background: linear-gradient(180deg, #fff, var(--ddc-panel-2));
+}
+.ddc_meko-panel-head span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--ddc-accent);
+  vertical-align: 1px;
+}
+
+.ddc_meko-panel-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ddc-muted);
+  font-size: 18px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  line-height: 1;
+}
+.ddc_meko-panel-close:hover { background: var(--ddc-panel-2); color: var(--ddc-text); }
+
+.ddc_meko-panel-body { padding: 10px; overflow: auto; min-height: 0; font-size: 13px; }
+
+/* ==========================================================================
+   Layer list
+   ========================================================================== */
+
+.ddc_meko-panel-body:has(.ddc_meko-layer-row) { padding: 6px; }
+
+.ddc_meko-layer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px 9px 12px;
+  margin: 1px 0;
+  border-radius: var(--ddc-radius-sm);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid var(--ddc-line);
+  transition: background-color .12s ease, border-color .12s ease;
+}
+.ddc_meko-layer-row:last-of-type { border-bottom: none; }
+.ddc_meko-layer-row:hover { background: var(--ddc-panel-2); }
+.ddc_meko-layer-row.active { background: var(--ddc-accent-soft); border-left-color: var(--ddc-accent); }
+
+/* custom checkbox — flat square, accent fill, drawn entirely in CSS */
+.ddc_meko-layer-row input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  border: 1.5px solid var(--ddc-line-strong);
+  border-radius: 5px;
+  background: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .12s ease, border-color .12s ease;
+}
+.ddc_meko-layer-row input[type="checkbox"]:checked { background: var(--ddc-accent); border-color: var(--ddc-accent); }
+.ddc_meko-layer-row input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(42deg);
+}
+
+.ddc_meko-layer-name {
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ddc-ink-soft);
+}
+.ddc_meko-layer-row.active .ddc_meko-layer-name { color: var(--ddc-accent2); }
+
+.ddc_meko-badge {
+  flex: 0 0 auto;
+  min-width: 58px;
+  text-align: center;
+  font-size: 10px;
+  font-family: var(--ddc-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ddc-muted);
+  background: var(--ddc-panel-2);
+  border: 1px solid var(--ddc-line);
+  border-radius: 10px;
+  padding: 3px 7px;
+  white-space: nowrap;
+}
+.ddc_meko-layer-row.active .ddc_meko-badge { background: #fff; border-color: var(--ddc-accent-line); color: var(--ddc-accent2); }
+
+/* ==========================================================================
+   Buttons, fields, form rows — shared across panels & modals
+   ========================================================================== */
+
+.ddc_meko-btn {
+  border: 1px solid var(--ddc-line);
+  background: #fff;
+  color: var(--ddc-text);
+  padding: 7px 12px;
+  border-radius: var(--ddc-radius-sm);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: border-color .12s ease, background-color .12s ease, color .12s ease;
+}
+.ddc_meko-btn:hover { border-color: var(--ddc-accent); color: var(--ddc-accent2); }
+.ddc_meko-btn.primary { background: var(--ddc-accent); color: #fff; border-color: var(--ddc-accent); }
+.ddc_meko-btn.primary:hover { background: var(--ddc-accent2); border-color: var(--ddc-accent2); color: #fff; }
+.ddc_meko-btn.danger { color: var(--ddc-danger); border-color: #f0c8c6; }
+.ddc_meko-btn.danger:hover { background: var(--ddc-danger-soft); }
+
+.ddc_meko-btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+/* the Layers panel is structurally the first .ddc_meko-panel right after the
+   toolbar (see WaterMapCore._buildUI/_makePanel) — used here to scope its
+   action row to a tidy grid without adding any new class to the JS output */
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-panel-body > .ddc_meko-btnrow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding-top: 10px;
+  margin-top: 6px;
+  border-top: 1px solid var(--ddc-line);
+}
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-panel-body > .ddc_meko-btnrow .ddc_meko-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-btn[data-a="style"]::before  { content: "◐"; }
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-btn[data-a="fields"]::before { content: "▤"; }
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-btn[data-a="epanet"]::before { content: "⌁"; }
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-btn[data-a="zoom"]::before   { content: "⌖"; }
+.ddc_meko-toolbar + .ddc_meko-panel .ddc_meko-btn[data-a]::before { opacity: .8; }
+
+.ddc_meko-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.ddc_meko-field > span { font-size: 11.5px; font-weight: 600; color: var(--ddc-muted); }
+.ddc_meko-field input,
+.ddc_meko-field select {
+  width: 100%;
+  padding: 8px 9px;
+  border: 1px solid var(--ddc-line);
+  border-radius: var(--ddc-radius-sm);
+  background: #fff;
+  color: var(--ddc-text);
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+.ddc_meko-field input:focus,
+.ddc_meko-field select:focus {
+  border-color: var(--ddc-accent);
+  box-shadow: 0 0 0 3px var(--ddc-accent-soft);
+  outline: none;
+}
+.ddc_meko-field input:disabled { background: var(--ddc-panel-2); color: var(--ddc-muted-2); }
+.ddc_meko-field input[type="color"] { padding: 3px; height: 36px; cursor: pointer; }
+
+/* ==========================================================================
+   Modal & overlay — with the same faint blueprint grid used on startup
+   ========================================================================== */
+
+.ddc_meko-modal-wrap {
+  position: absolute;
+  z-index: 1200;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 28px),
+    rgba(9, 24, 39, .56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  overflow: hidden;
+}
+.ddc_meko-modal-wrap.hidden { display: none; }
+
+.ddc_meko-modal {
+  width: min(760px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: var(--ddc-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ddc-shadow-lg);
+}
+.ddc_meko-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--ddc-line);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.ddc_meko-modal-body { padding: 16px 18px; overflow: auto; min-height: 0; }
+.ddc_meko-modal-foot { padding: 12px 18px; border-top: 1px solid var(--ddc-line); display: flex; justify-content: flex-end; gap: 8px; background: var(--ddc-panel-2); }
+
+.ddc_meko-drop {
+  border: 1.5px dashed var(--ddc-line-strong);
+  border-radius: var(--ddc-radius-md);
+  padding: 26px 18px;
+  text-align: center;
+  background: var(--ddc-panel-2);
+  color: var(--ddc-muted);
+  font-size: 13px;
+}
+.ddc_meko-import-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+
+/* ==========================================================================
+   Tables — attribute table & field/EPANET config tables
+   ========================================================================== */
+
+.ddc_meko-table-wrap { overflow: auto; max-height: 100%; border: 1px solid var(--ddc-line); border-radius: var(--ddc-radius-sm); }
+.ddc_meko-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.ddc_meko-table th,
+.ddc_meko-table td { border-bottom: 1px solid var(--ddc-line); padding: 8px 10px; text-align: left; white-space: nowrap; }
+.ddc_meko-table th {
+  position: sticky;
+  top: 0;
+  background: var(--ddc-panel-2);
+  z-index: 1;
+  font-weight: 700;
+  color: var(--ddc-ink-soft);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.ddc_meko-table td { font-family: var(--ddc-mono); font-size: 11.5px; }
+.ddc_meko-table tbody tr:nth-child(even) { background: rgba(11, 142, 166, .025); }
+.ddc_meko-table tr:hover { background: var(--ddc-accent-soft); }
+.ddc_meko-table tr[data-id] { cursor: pointer; }
+
+.ddc_meko-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 9px;
+  font-size: 12px;
+  color: var(--ddc-muted);
+  font-family: var(--ddc-mono);
+}
+
+/* ==========================================================================
+   Context menu & toast
+   ========================================================================== */
+
+.ddc_meko-context {
+  position: absolute;
+  z-index: 1500;
+  min-width: 190px;
+  background: #fff;
+  border: 1px solid var(--ddc-line);
+  border-radius: var(--ddc-radius-md);
+  box-shadow: var(--ddc-shadow-lg);
+  padding: 5px;
+  overflow: hidden;
+}
+.ddc_meko-context.hidden { display: none; }
+.ddc_meko-context button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: var(--ddc-radius-sm);
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--ddc-text);
+}
+.ddc_meko-context button:hover { background: var(--ddc-accent-soft); color: var(--ddc-accent2); }
+
+.ddc_meko-toast {
+  position: absolute;
+  z-index: 1700;
+  right: 10px;
+  bottom: 10px;
+  max-width: 360px;
+  background: var(--ddc-text);
+  color: #fff;
+  padding: 10px 14px 10px 12px;
+  border-radius: var(--ddc-radius-md);
+  font-size: 12.5px;
+  box-shadow: var(--ddc-shadow-lg);
+  border-left: 3px solid var(--ddc-accent);
+}
+.ddc_meko-toast.hidden { display: none; }
+
+/* ==========================================================================
+   Recent-projects grid & cards
+   ========================================================================== */
+
+.ddc_meko-recent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.ddc_meko-card {
+  border: 1px solid var(--ddc-line);
+  border-radius: var(--ddc-radius-md);
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: border-color .12s ease, box-shadow .12s ease, transform .08s ease;
+}
+.ddc_meko-card:hover { border-color: var(--ddc-accent); box-shadow: var(--ddc-shadow-md); transform: translateY(-1px); }
+.ddc_meko-card-thumb {
+  height: 105px;
+  background-color: var(--ddc-panel-2);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(11,142,166,.08) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(90deg, rgba(11,142,166,.08) 0 1px, transparent 1px 14px);
+}
+.ddc_meko-card-body { padding: 10px; }
+.ddc_meko-card-title { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+.ddc_meko-card-meta { font-size: 11px; color: var(--ddc-muted); margin-top: 4px; line-height: 1.5; font-family: var(--ddc-mono); }
+.ddc_meko-card-menu {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .92);
+  cursor: pointer;
+  box-shadow: var(--ddc-shadow-sm);
+}
+.ddc_meko-card-menu:hover { background: #fff; }
+
+.ddc_meko-warning { padding: 10px 12px; border-radius: var(--ddc-radius-sm); background: var(--ddc-warning-bg); color: var(--ddc-warning-text); font-size: 12px; }
+.ddc_meko-empty { color: var(--ddc-muted); font-size: 12.5px; padding: 10px 2px; }
+
+.ddc_meko-flash { animation: ddc_meko_flash .35s linear 0s 6 alternate; }
+@keyframes ddc_meko_flash { from { opacity: 1; } to { opacity: .15; } }
+
+/* ==========================================================================
+   Feature quick-view rows (Properties panel: layer + key/value list)
+   These rows carry inline styles set by the JS; the overrides below need
+   !important to win over the element's own style="" attribute.
+   ========================================================================== */
+
+.ddc_meko-panel-body > b { font-size: 13.5px; color: var(--ddc-ink-soft); }
+
+.ddc_meko-panel-body > div[style*="display:flex"] {
+  border-radius: var(--ddc-radius-sm);
+  padding: 7px 6px !important;
+  border-bottom: 1px solid var(--ddc-line) !important;
+}
+.ddc_meko-panel-body > div[style*="display:flex"]:hover { background: var(--ddc-panel-2); }
+.ddc_meko-panel-body > div[style*="display:flex"] span:first-child {
+  color: var(--ddc-muted) !important;
+  font-weight: 600;
+  font-size: 11.5px;
+}
+.ddc_meko-panel-body > div[style*="display:flex"] span:last-child {
+  font-family: var(--ddc-mono);
+  font-size: 12px;
+}
+.ddc_meko-panel-body > div[style*="display:flex"] span:last-child:empty::after {
+  content: "—";
+  color: var(--ddc-muted-2);
+  font-family: var(--ddc-font);
+}
+
+/* ==========================================================================
+   Startup state
+   ========================================================================== */
+
+.ddc_meko-root.ddc_meko-startup .ddc_meko-map,
+.ddc_meko-root.ddc_meko-startup .ddc_meko-toolbar,
+.ddc_meko-root.ddc_meko-startup .ddc_meko-panel,
+.ddc_meko-root.ddc_meko-startup .ddc_meko-context,
+.ddc_meko-root.ddc_meko-startup .ddc_meko-toast { visibility: hidden; pointer-events: none; }
+
+.ddc_meko-root.ddc_meko-startup {
+  background:
+    repeating-linear-gradient(0deg,  rgba(11,142,166,.06) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, rgba(11,142,166,.06) 0 1px, transparent 1px 32px),
+    #edf2f4;
+}
+
+.ddc_meko-start-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--ddc-text);
+  display: flex;
+  align-items: center;
+}
+.ddc_meko-start-title::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: var(--ddc-accent);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  .ddc_meko-panel { max-width: 78%; }
+  .ddc_meko-panel[data-pos="right"] { width: 280px; }
+  .ddc_meko-panel[data-pos="left"]  { left: calc(var(--ddc-toolbar-size) + 16px); width: 250px; }
+  .ddc_meko-toolbar { padding: 6px 5px; gap: 3px; }
+  .ddc_meko-tool { width: 38px; height: 38px; font-size: 15px; }
+}
+
+/* ==========================================================================
+   Workspace / room — the map's mounting frame on the page
+   ========================================================================== */
+
+.workspace { padding: 8px; min-height: 0; }
+.room {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--ddc-radius-lg, 14px);
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e3e9ee;
+  box-shadow: 0 1px 0 rgba(15, 34, 56, .03);
+}

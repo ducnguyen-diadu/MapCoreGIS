@@ -1,0 +1,12 @@
+WaterMapCore v0.6.3 — Sample Demand Generator
+
+- Added toolbar tool: Σ Generate Sample Demand.
+- Targets layers that contain a numeric `demand` field.
+- Default model converts synthetic monthly water use (m3/month) to average L/s.
+- Uses meter `diameter` as a proxy when customer type is unavailable.
+- Uses deterministic seeded per-feature pseudo-random generation so the same seed reproduces the same values.
+- Uses a clipped log-normal distribution instead of uniform random values.
+- Preview shows min/P50/P90/average/max, total L/s, and synthetic monthly total before applying.
+- Can overwrite all demand values or only fill empty/zero values.
+- Optional enabled/status field can force disabled features to demand=0.
+- Apply supports Undo and marks the project dirty.

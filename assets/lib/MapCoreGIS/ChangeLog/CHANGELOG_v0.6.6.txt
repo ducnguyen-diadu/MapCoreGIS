@@ -1,0 +1,14 @@
+WaterMapCore v0.6.6
+
+Demand Allocation + Hydraulic Junction Generation
+
+- Replaced the v0.6.5 one-branch/one-Junction concept.
+- Builds noded branch topology with endpoint-to-segment T-junction support.
+- Keeps shape vertices as geometry only; hydraulic corridors are split at roots/branches/dead-ends.
+- Collapses short customer service spurs back onto their feeding distribution corridor.
+- Projects meter demand onto the hydraulic corridor and clusters meters by network chainage.
+- Default max 3 meters per Junction; balanced grouping means 4 meters become 2+2.
+- Spatial cluster limits: gap and maximum cluster length.
+- Junction position uses demand-weighted chainage along the pipe corridor.
+- Demand balance is checked in Preview: SUM(input demand) == SUM(generated Junction demand).
+- Existing generated layer can be rebuilt; original Junction layer is never overwritten.

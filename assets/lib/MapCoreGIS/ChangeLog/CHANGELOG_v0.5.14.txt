@@ -1,0 +1,9 @@
+WaterMapCore v0.5.14
+
+Focused fixes only:
+1. Topology Snap Tool allows source layer = target layer; the feature being edited is excluded from snap targets, so main->main can snap to other main features but never itself.
+2. Add New prioritizes Point/Junction over line vertex/segment when targets overlap.
+3. Add New forwards clicks on existing target objects directly into the Leaflet/Geoman draw flow using the authoritative snapped coordinate, so start/end on Junction/Point works even when the point lies on a Line.
+4. Edit Toolbox participates in the same floating-window z-index focus manager as Layer/Properties/Topology panels.
+
+No changes to Select, Topology Checker rules, Style, Recent, i18n, or project format.

@@ -1,0 +1,5 @@
+WaterMapCore v0.5.4 - Snap Finalize Fix
+- Recomputes exact nearest target coordinate on marker mouse-up.
+- No longer loses a valid visual snap when Geoman emits pm:unsnap before markerdragend.
+- Persists the exact snapped coordinate directly to feature GeoJSON before Save.
+- Re-render after editing uses the committed snapped geometry.

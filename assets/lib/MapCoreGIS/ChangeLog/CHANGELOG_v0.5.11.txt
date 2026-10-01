@@ -1,0 +1,6 @@
+WaterMapCore v0.5.11
+
+Focused fix only: Add New / Draw snap commit.
+- When the preview is visibly snapped, click/finish commits that exact snapped coordinate.
+- The final created GeoJSON is corrected before staging.
+- No topology checker, topology snap editor, selection, style, recent, layer order, or other module logic changed.

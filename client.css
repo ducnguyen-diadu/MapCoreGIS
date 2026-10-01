@@ -1,0 +1,252 @@
+﻿html,
+body,
+* {
+    font-family: 'Nunito', sans-serif !important;
+}
+.logo-lg img {
+    height: 35px;
+}
+/* Tùy chỉnh hiệu ứng cho Menu Ngang */
+.hover-primary {
+    transition: color 0.2s ease-in-out;
+}
+
+    .hover-primary:hover,
+    .hover-primary.active {
+        color: #116aee !important;
+        /* Màu primary của theme Hyper */
+    }
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+.mobile-menu-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: var(--ct-menu-item-color, #6c757d);
+    font-size: 28px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+}
+
+.mobile-menu-overlay {
+    display: none;
+}
+
+.mobile-side-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(300px, 82vw);
+    background: var(--ct-card-bg, #fff);
+    box-shadow: 8px 0 30px rgba(0, 0, 0, .15);
+    z-index: 10000;
+    transform: translateX(-105%);
+    transition: transform .25s ease;
+    overflow-y: auto;
+    padding: 20px 16px;
+}
+
+    .mobile-side-panel.show {
+        transform: translateX(0);
+    }
+
+.mobile-side-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--ct-border-color, #eef0f4);
+}
+
+    .mobile-side-panel-header img {
+        height: 35px;
+    }
+
+.mobile-side-panel-close {
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.mobile-side-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .mobile-side-menu li {
+        margin-bottom: 6px;
+    }
+
+    .mobile-side-menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        color: var(--ct-menu-item-color, #6c757d);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all .2s ease;
+    }
+
+        .mobile-side-menu a:hover,
+        .mobile-side-menu a.active {
+            color: #116aee;
+            background: rgba(17, 106, 238, .08);
+        }
+
+    .mobile-side-menu i {
+        font-size: 22px;
+    }
+
+@media (max-width: 991.98px) {
+    .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu-overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .35);
+        z-index: 9999;
+    }
+}
+
+[data-bs-theme="dark"] .mobile-side-panel {
+    background: #313a46;
+    color: #dee2e6;
+}
+
+
+/* --- Cấu hình cơ bản cho Card khi Hover --- */
+.card-custom-hover {
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-custom-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* --- Từng loại bóng (Shadow) tương ứng với màu icon --- */
+.hover-primaryy { border-bottom: 4px solid #727cf5 !important; }
+.hover-primaryy:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(114, 124, 245, 0.4) !important; }
+
+.hover-success { border-bottom: 4px solid #0acf97 !important; }
+.hover-success:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(10, 207, 151, 0.4) !important; }
+
+.hover-info { border-bottom: 4px solid #39afd1 !important; }
+.hover-info:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(57, 175, 209, 0.4) !important; }
+
+.hover-warning { border-bottom: 4px solid #ffbc00 !important; }
+.hover-warning:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(255, 188, 0, 0.4) !important; }
+
+.hover-danger { border-bottom: 4px solid #fa5c7c !important; }
+.hover-danger:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(250, 92, 124, 0.4) !important; }
+
+.hover-secondary { border-bottom: 4px solid #6c757d !important; }
+.hover-secondary:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(108, 117, 125, 0.4) !important; }
+
+.hover-purple { border-bottom: 4px solid #8e44ad !important; }
+.hover-purple:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 14px 28px rgba(142, 68, 173, 0.4) !important; }
+
+
+/* ============================================================
+   ANIMATION — Background panel (hiệu ứng nước trôi nhẹ)
+   ============================================================ */
+   /* body {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(16, 85, 153, 0.75)), 
+                url('assets/images/panel.webp') no-repeat center center fixed !important;
+    background-size: cover !important;
+    min-height: 100vh;
+} */
+.page-bg-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: url('/assets/images/panel.webp') no-repeat center bottom; */
+    background: rgba(0, 0, 0, 0.25);
+    background-size: cover;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ============================================================
+   ANIMATION — Module cards: fade + rise lên khi tải trang
+   ============================================================ */
+.module-fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: module-fade-up-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes module-fade-up-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .module-fade-up {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ============================================================
+   FOOTER — đồng bộ màu với navbar (light/dark), gán bằng JS
+   ============================================================ */
+.footer-theme-synced {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.footer-theme-synced .footer-links a {
+    color: inherit;
+    opacity: 0.85;
+    text-decoration: none;
+}
+
+    .footer-theme-synced .footer-links a:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+
+/* ============================================================
+   LANGUAGE SWITCHER — đánh dấu ngôn ngữ đang chọn
+   ============================================================ */
+.language-option.active {
+    background-color: rgba(17, 106, 238, 0.08);
+    font-weight: 700;
+}

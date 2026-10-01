@@ -1,0 +1,13 @@
+WaterMapCore v0.4.0
+- Modular source retained; web parent still consumes one dist bundle.
+- Added dirty-state and safe Recent project switching.
+- Added draggable/responsive floating Edit Toolbar.
+- Added box selection and unselect.
+- Added multi-layer Edit Session with cancel snapshot and state-driven buttons.
+- Added Shapefile append/merge by Key Field + advanced update-field selection.
+- Import groups sidecars under a single .shp layer representation.
+- Added attribute Style Engine with overlap/duplicate validation.
+- Added Point symbol-by-field.
+- Added digitized line direction arrows, reverse direction, EPANET node1/node2 sync.
+- Added Point clustering and spiderfy.
+- Preserved i18n vi/en architecture and existing public layout integration.
