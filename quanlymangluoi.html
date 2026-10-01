@@ -202,39 +202,40 @@
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="https://unpkg.com/shpjs@6.1.0/dist/shp.js"></script>
     <script src="https://unpkg.com/@mapbox/shp-write@0.4.3/shpwrite.js"></script>
-    
+
     <script src="assets/js/watermapcore.js"></script>
     <script src="assets/js/watermap-i18n.js"></script>
     <script src="assets/js/vi.js"></script>
     <script src="assets/js/en.js"></script>
     <script>
-        const core = new WaterMapCore('map', {
-            ui: { toolbar: 'left', layerPanel: 'left', attributePanel: 'right' },
-            storage: { guestRetentionDays: 7, isAuthenticated: () => false },
-            map: {
-                zoomControl: false,
-                minZoom: 2,
-                maxZoom: 35,
-                maxNativeZoom: 19
-            },
-            attributeTable: {
-                pageSize: 50,
-                mode: "bottom"
-            },
-            plugins: [
-                WaterMapI18n({
-                    defaultLocale: "vi",
-                    fallbackLocale: "vi",
-
-                    locales: {
-                        vi: WATERMAP_LANG_VI,
-                        en: WATERMAP_LANG_EN
-                    }
-                })
-            ]
-        });
-        window.core = core;
-        core.on('ready', () => console.log('WaterMapCore ready', WaterMapCore.VERSION));
+        WaterMapCoreReady.then(() => {
+            const core = new WaterMapCore('map', {
+                ui: {toolbar: 'left', layerPanel: 'left', attributePanel: 'right'},
+                storage: {guestRetentionDays: 7, isAuthenticated: () => false},
+                map: {
+                    zoomControl: false,
+                    minZoom: 2,
+                    maxZoom: 35,
+                    maxNativeZoom: 19
+                },
+                attributeTable: {
+                    pageSize: 50,
+                    mode: "bottom"
+                },
+                plugins: [
+                    WaterMapI18n({
+                        defaultLocale: "vi",
+                        fallbackLocale: "vi",
+                        locales: {
+                            vi: WATERMAP_LANG_VI,
+                            en: WATERMAP_LANG_EN
+                        }
+                    })
+                ]
+            });
+            window.core = core;
+            core.on('ready', () => console.log('WaterMapCore ready', WaterMapCore.VERSION));
+        }).catch(err => console.error('Load core lỗi:', err));
     </script>
 
 </body>

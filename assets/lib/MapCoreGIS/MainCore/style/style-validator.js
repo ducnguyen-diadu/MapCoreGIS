@@ -18,6 +18,7 @@ Object.assign(WaterMapCore.prototype, {
     return{ok:true};
   },
   _matchStyleGroup(rule,raw){
+    if(raw===null||raw===undefined||raw==='')return null;
     if(!rule||!Array.isArray(rule.groups))return null;
     if(rule.fieldType==='numeric'){
       const n=Number(raw);if(!Number.isFinite(n))return null;

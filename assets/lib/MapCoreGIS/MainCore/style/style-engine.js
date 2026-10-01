@@ -2,6 +2,7 @@
 Object.assign(WaterMapCore.prototype, {
   _resolveFeatureVisualStyle(layer,feature){
     const s=layer.style||{},r=s.rules||{};const out={color:s.color||'#0b8ea6',weight:s.weight||3,opacity:s.opacity??0.9,fillColor:s.fillColor||'#52b5c5',fillOpacity:s.fillOpacity??0.25,radius:s.radius||6,stroke:s.stroke||'#fff',symbol:s.symbol||'circle'};
+    if(s.renderer&&s.renderer.type&&s.renderer.type!=='single'&&s.renderer.field&&this._applyRenderer)return this._applyRenderer(layer,feature,s.renderer,out);
     const apply=(prop)=>{const rule=r[prop];if(!rule?.field)return;const g=this._matchStyleGroup?.(rule,feature.properties?.[rule.field]);if(g&&g.value!==undefined&&g.value!==null&&g.value!=='')out[prop]=prop==='weight'||prop==='opacity'||prop==='radius'?Number(g.value):g.value;};
     ['color','weight','opacity','radius','symbol'].forEach(apply);return out;
   },
