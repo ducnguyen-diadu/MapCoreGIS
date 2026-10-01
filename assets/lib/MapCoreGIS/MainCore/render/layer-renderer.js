@@ -66,7 +66,7 @@ Object.assign(WaterMapCore.prototype, {
   },
   _showSelected(layer, f) {
     const body = this.panels.attrs.querySelector('.ddc_meko-panel-body'); this.panels.attrs.classList.remove('hidden'); let h = '<b>' + esc(layer.name) + '</b><div style="height:8px"></div>';
-    Object.keys(f.properties || {}).forEach(k => h += '<div style="display:flex;gap:8px;padding:4px 0;border-bottom:1px solid #edf1f3"><span style="color:#6a7a8b;min-width:90px">' + esc(k) + '</span><span>' + esc(f.properties[k]) + '</span></div>');
+    h += this._featureAttrRowsHtml(layer, f);
     h += '<div class="ddc_meko-btnrow"><button class="ddc_meko-btn" data-a="edit">' + esc(this.t('common.edit')) + '</button><button class="ddc_meko-btn danger" data-a="del">' + esc(this.t('common.delete')) + '</button></div>';
     body.innerHTML = h; const eb = body.querySelector('[data-a=edit]'), db = body.querySelector('[data-a=del]'); if (eb) eb.onclick = () => { this._ensureEditSessionForFeatureAction?.(); this.editSelected(); }; if (db) db.onclick = () => { this._ensureEditSessionForFeatureAction?.(); this.deleteSelected(); };
   },

@@ -23,6 +23,7 @@
   'style/style-engine.js',
 
   'layers/layer-manager.js',
+  'layers/field-manager.js',
   'style/symbology.js', 
 
   'tools/edit-session.js',
